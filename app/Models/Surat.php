@@ -13,15 +13,8 @@ class Surat extends Model
         "file",
         "judul",
         "tahun_ajaran",
-        "user_id",
         "prodi_id",
     ] ;
-
-     // Define relationship to User (Dosen)
-     public function user()
-     {
-         return $this->belongsTo(User::class, 'user_id');
-     }
  
      // Define relationship to Prodi
      public function prodi()

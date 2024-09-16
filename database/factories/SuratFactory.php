@@ -22,8 +22,7 @@ class SuratFactory extends Factory
             'file' => fake()->word() . '.pdf',
             'judul' => fake()->sentence(),
             'tahun_ajaran' => '2023-2024',
-            'user_id' => \App\Models\User::factory(),
-            'prodi_id' => \App\Models\Prodi::factory(),
+            'prodi_id' => random_int(1,3),
         ];
     }
 }

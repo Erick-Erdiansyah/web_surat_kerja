@@ -42,9 +42,9 @@ watch(search, throttle(function (value) {
       <div class="max-w-9xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
           <table class="min-w-full divide-y divide-gray-200">
-            <tbody class="bg-white divide-y divide-gray-200">
+            <tbody class="bg-white divide-y divide-gray-200 ">
               <tr v-for="surat in surats.data" :key="surat.id">
-                <td class="px-6 py-4 whitespace-nowrap border border-black">
+                <td class="px-6 py-4 whitespace-nowrap">
                   <div class="flex items-center">
                     <div>
                       <div class="text-sm font-medium text-gray-900">
@@ -53,8 +53,16 @@ watch(search, throttle(function (value) {
                     </div>
                   </div>
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <Link :href="`/users/${surat.id}/edit`" class="text-indigo-900 hover:text-indigo-900">edit
+                <td class="py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <Link :href="`/users/${surat.id}/edit`" class="text-indigo-900 hover:text-indigo-900 hover:underline">Lihat
+                  </Link>
+                </td>
+                <td class="py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <Link :href="`/users/${surat.id}/edit`" class="text-indigo-900 hover:text-indigo-900 hover:underline">bookmark
+                  </Link>
+                </td>
+                <td class="pr-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <Link :href="`/users/${surat.id}/edit`" class="text-indigo-900 hover:text-indigo-900 hover:underline">edit
                   </Link>
                 </td>
               </tr>

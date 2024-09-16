@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Dosen;
 use App\Models\Prodi;
 use App\Models\Surat;
 use App\Models\User;
@@ -16,8 +17,9 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::factory(10)->create();
-        Prodi::factory(10)->create();
-        Surat::factory(100)->create();
+        Prodi::factory(3)->create();
+        Surat::factory(25)->create();
+        Dosen::factory(30)->create();
 
         // User::factory()->create([
         //     'name' => 'Test User',

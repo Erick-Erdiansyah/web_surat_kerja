@@ -17,13 +17,10 @@ class SuratController extends Controller
     public function index(Request $request)
     {
         return Inertia::render('Surat/Index', [
-            'surats' => Surat::with(['user', 'prodi']) // Eager load
+            'surats' => Surat::with(['prodi']) // Eager load
             ->when($request->input('search'), function ($query, $search) {
                 $query->whereHas('prodi', function($q) use ($search) {
                     $q->where('nama_prodi', 'like', "%{$search}%");
-                })
-                ->orWhereHas('user', function($q) use ($search) {
-                    $q->where('name', 'like', "%{$search}%");
                 })
                 ->orWhere('judul', 'like', "%{$search}%")
                 ->orWhere('tahun_ajaran', 'like', "%{$search}%");

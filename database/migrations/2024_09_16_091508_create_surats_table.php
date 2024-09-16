@@ -16,11 +16,8 @@ return new class extends Migration
             $table->string('file');
             $table->string('judul');
             $table->string('tahun_ajaran', 9);
-            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('prodi_id');
             $table->timestamps();
-            // Foreign key constraint ke user
-            $table->foreign('user_id')->references('id')->on('users')->noActionOnDelete()->noActionOnUpdate();
             // Foreign key constraint ke jurusan
             $table->foreign('prodi_id')->references('id')->on('prodis')->noActionOnDelete()->noActionOnUpdate();
         });
