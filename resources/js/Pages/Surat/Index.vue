@@ -5,6 +5,7 @@ import { ref, watch } from 'vue';
 import { throttle } from 'lodash';
 import Pagination from '@/Components/Pagination.vue';
 import { Link } from '@inertiajs/vue3';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 // let props = defineProps({
 //   surats: Object,
@@ -32,7 +33,9 @@ import { Link } from '@inertiajs/vue3';
           <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             SK Elektro
           </h2>
-          <Link href="/sk/create" class="text-blue-500 text-sm ml-3">tambah surat baru</Link>
+          <Link href="/sk/create" class="text-gray-800 hover:text-gray-600 ml-3 py-4 px-4">
+            <font-awesome-icon :icon="['fas', 'file-pen']" />
+          </Link>
           <!-- <Link v-if="can.createUser" href="/users/create" class="text-blue-500 text-sm ml-3">create new user</Link> -->
         </div>
         <!-- <input v-model="search" type="text" class="border px-2 rounded-lg" placeholder="search..."> -->
@@ -44,44 +47,42 @@ import { Link } from '@inertiajs/vue3';
       <div class="max-w-9xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
           <table class="min-w-full divide-y divide-gray-200">
-            <thead>
-              <tr>
-                <th>fuck</th>
-                <th>fuck</th>
-                <th>fuck</th>
-                <th>fuck</th>
-              </tr>
-            </thead>
             <tbody class="bg-white divide-y divide-gray-200 ">
               <!-- <tr v-for="surat in surats.data" :key="surat.id"> -->
-              <tr>
-                <td class="px-6 py-4 whitespace-pre-wrap w-85">
+              <tr class="hover:bg-slate-100">
+                <td class="px-6 py-4 whitespace-pre-wrap">
                   <div class="flex items-center">
                     <div>
                       <div class="">
                         <!-- {{ surat.judul }} -->
-                        <p class="font-medium text-gray-900">deskripsi Lorem ipsum dolor, sit amet consectetur adipisicing elit. Suscipit asperiores accusamus omnis officiis fuga deserunt saepe quidem voluptatibus velit. Sapiente.</p>
-                        <p class="text-xs text-gray-500">kategori</p>
+                        <p class="font-medium text-gray-900">deskripsi Lorem ipsum dolor, sit amet consectetur
+                          adipisicing
+                          elit. Suscipit asperiores accusamus omnis officiis fuga deserunt saepe quidem voluptatibus
+                          velit.
+                          Sapiente.</p>
+                        <p class="text-xs text-gray-500">kategori :</p>
                       </div>
                     </div>
                   </div>
                 </td>
-                <td class="whitespace-nowrap text-center text-sm font-medium items-center w-24">
+                <td class="w-10">
+                </td>
+                <td class="pr-2 whitespace-nowrap text-center text-sm font-medium items-center w-5">
                   <Link :href="`/sk/read`"
-                    class="text-indigo-900 hover:text-indigo-900 hover:bg-red-200 py-4 px-6 text-sm focus:outline-none leading-none bg-red-100 rounded">
-                  Lihat
+                    class="text-gray-900 hover:text-gray-700 hover:bg-slate-400 py-4 px-6 text-sm focus:outline-none leading-none bg-slate-200 rounded">
+                  <font-awesome-icon :icon="['far', 'eye']" />
                   </Link>
                 </td>
-                <td class="whitespace-nowrap text-center text-sm font-medium items-center w-24">
+                <td class="pr-2 whitespace-nowrap text-center text-sm font-medium items-center w-5">
                   <Link :href="`/sk/bookmark`"
-                    class="text-indigo-900 hover:text-indigo-900 hover:bg-red-200 py-4 px-6 text-sm focus:outline-none leading-none bg-red-100 rounded">
-                  bookmark
+                    class="text-gray-900 hover:text-gray-700 hover:bg-slate-400 py-4 px-6 text-sm focus:outline-none leading-none bg-slate-200 rounded">
+                  <font-awesome-icon :icon="['far', 'bookmark']" />
                   </Link>
                 </td>
-                <td class="whitespace-nowrap text-center text-sm font-medium items-center w-24">
+                <td class="pr-6 whitespace-nowrap text-center text-sm font-medium items-center w-5">
                   <Link :href="`/sk/update`"
-                    class="text-indigo-900 hover:text-indigo-900 hover:bg-red-200 py-4 px-6 text-sm focus:outline-none leading-none bg-red-100 rounded">
-                  edit
+                    class="text-gray-900 hover:text-gray-700 hover:bg-slate-400 py-4 px-6 text-sm focus:outline-none leading-none bg-slate-200 rounded">
+                  <font-awesome-icon :icon="['far', 'pen-to-square']" />
                   </Link>
                 </td>
               </tr>

@@ -56,11 +56,13 @@ watch(search, throttle(function (value) {
                   </div>
                 </td>
                 <td class="py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <Link :href="`/sk/read`" class="text-indigo-900 hover:text-indigo-900 hover:underline">Lihat
+                  <Link :href="`/sk/read`" class="text-indigo-900 hover:text-indigo-900 hover:underline">
+                    
                   </Link>
                 </td>
                 <td class="py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <Link :href="`/sk/bookmark`" class="text-indigo-900 hover:text-indigo-900 hover:underline">bookmark
+                  <Link :href="`/sk/bookmark`" class="text-indigo-900 hover:text-indigo-900 hover:underline">
+                    <font-awesome-icon :icon="['far', 'bookmark']" />
                   </Link>
                 </td>
                 <td class="pr-6 py-4 whitespace-nowrap text-right text-sm font-medium">

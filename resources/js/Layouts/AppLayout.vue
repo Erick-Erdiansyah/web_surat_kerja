@@ -43,7 +43,7 @@ const logout = () => {
                             <div class="shrink-0 flex items-center">
                                 <Link :href="route('dashboard')">
                                     <!-- <ApplicationMark class="block h-9 w-auto" /> -->
-                                     <h1>fuck</h1>
+                                     <h1>eho</h1>
                                 </Link>
                             </div>
 
