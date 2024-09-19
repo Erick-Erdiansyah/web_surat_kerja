@@ -17,7 +17,7 @@ return new class extends Migration
             $table->json('bookmarked')->nullable();
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->noActionOnDelete()->noActionOnUpdate();
+            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 

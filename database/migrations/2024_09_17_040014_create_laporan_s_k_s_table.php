@@ -16,15 +16,15 @@ return new class extends Migration
             $table->unsignedBigInteger('prodi_id');
             $table->unsignedBigInteger('kategori_id');
             $table->unsignedBigInteger('sub_kategori_id');
-            $table->unsignedBigInteger('nomor_surat');
+            $table->string('nomor_surat');
             $table->string('judul');
             $table->string('tahun_ajaran', 9);
             $table->string('file');
             $table->timestamps();
 
-            $table->foreign('prodi_id')->references(columns: 'id')->on('prodis')->noActionOnDelete()->noActionOnUpdate();
-            $table->foreign('kategori_id')->references('id')->on('kategoris')->noActionOnDelete()->noActionOnUpdate();
-            $table->foreign('sub_kategori_id')->references('id')->on('sub_kategoris')->noActionOnDelete()->noActionOnUpdate();
+            $table->foreign('prodi_id')->references(columns: 'id')->on('prodis')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('kategori_id')->references('id')->on('kategoris')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('sub_kategori_id')->references('id')->on('sub_kategoris')->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 

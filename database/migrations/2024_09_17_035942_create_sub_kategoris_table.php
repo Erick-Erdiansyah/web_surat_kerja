@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('sub_kategoris', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('kategori_id');
+            $table->string('nama');
             $table->timestamps();
 
-            $table->foreign('kategori_id')->references(columns: 'id')->on('kategoris')->noActionOnDelete()->noActionOnUpdate();
+            $table->foreign('kategori_id')->references(columns: 'id')->on('kategoris')->cascadeOnDelete()->cascadeOnUpdate();
 
         });
     }

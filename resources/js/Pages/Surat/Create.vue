@@ -1,79 +1,83 @@
-<script setup>
-import AppLayout from '@/Layouts/AppLayout.vue';
-import { router } from '@inertiajs/vue3';
-import { ref, watch } from 'vue';
-import { throttle } from 'lodash';
-import Pagination from '@/Components/Pagination.vue';
-import { Link } from '@inertiajs/vue3';
-
-let props = defineProps({
-  surats: Object,
-  filters: Object,
-  can: Object,
-})
-
-let search = ref(props.filters.search);
-
-watch(search, throttle(function (value) {
-  router.get('/surat', { search: value }, {
-    // Keeps the current pagination and state
-    preserveState: true,
-    replace: true
-  });
-}, 500));
-
-</script>
-
 <template>
-  <AppLayout title="Surat">
-    <template #header>
-      <div class="flex justify-between">
-        <div class="flex items-center">
-          <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            SK Elektro
-          </h2>
-          <!-- <Link v-if="can.createUser" href="/users/create" class="text-blue-500 text-sm ml-3">create new user</Link> -->
-        </div>
-        <input v-model="search" type="text" class="border px-2 rounded-lg" placeholder="search...">
+  <AppLayout title="Create">
+    <form @submit.prevent="submit" class="max-w-md mx-auto mt-8">
+      <div class="mb-6">
+        <!-- something here -->
+        <!-- <select name="kategori_from_id" id="kategori_from_id" v-model="input.from.kategori_from_id">
+          <option v-for="kategori in kategories" v-bind:key="'from-'+kategori.id" :value="kategori.id" value="">{{ kategori.name }}</option>
+        </select> -->
+        <select name="" id="" class="border border-gray-400 p-2 w-full rounded-lg">
+          <option value="">kategori 1</option>
+          <option value="">kategori 2</option>
+          <option value="">kategori 3</option>
+        </select>
       </div>
-    </template>
-
-    <div class="py-3">
-      <div class="max-w-9xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-          <table class="min-w-full divide-y divide-gray-200">
-            <tbody class="bg-white divide-y divide-gray-200 ">
-              <!-- <tr v-for="surat in surats.data" :key="surat.id"> -->
-              <tr>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="flex items-center">
-                    <div>
-                      <div class="text-sm font-medium text-gray-900">
-                        <!-- {{ surat.judul }} -->
-                          deskripsi
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td class="py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <Link :href="`/sk/read`" class="text-indigo-900 hover:text-indigo-900 hover:underline">Lihat
-                  </Link>
-                </td>
-                <td class="py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <Link :href="`/sk/bookmark`" class="text-indigo-900 hover:text-indigo-900 hover:underline">bookmark
-                  </Link>
-                </td>
-                <td class="pr-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <Link :href="`/sk/edit`" class="text-indigo-900 hover:text-indigo-900 hover:underline">edit
-                  </Link>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <!-- paginator -->
-        <!-- <Pagination :links="surats.links" /> -->
+      <div class="mb-6">
+        <!-- something here -->
+        <!-- <select name="kategori_from_id" id="kategori_from_id" v-model="input.from.kategori_from_id">
+          <option v-for="kategori in kategories" v-bind:key="'from-'+kategori.id" :value="kategori.id" value="">{{ kategori.name }}</option>
+        </select> -->
+        <select name="" id="" class="border border-gray-400 p-2 w-8/12 rounded-lg">
+          <option value="">sub 1</option>
+          <option value="">sub 2</option>
+          <option value="">sub 3</option>
+        </select>
+        <SubCategori />
       </div>
-    </div>
+      <div class="mb-6">
+        <label class="block mb-2 uppercase font-bold text-xs text-gray-700" for="nomorSurat">
+          nomor surat
+        </label>
+        <input v-model="form.nomorSurat" type="text" name="nomorSurat" id="nomorSurat"
+          class="border border-gray-400 p-2 w-full rounded-lg" required placeholder="nomor surat">
+        <div v-if="form.errors.nomorSurat" v-text="form.errors.nomorSurat" class="text-red-500 text-xs  mt-1"></div>
+      </div>
+      <div class="mb-6">
+        <label class="block mb-2 uppercase font-bold text-xs text-gray-700" for="judul">
+          judul surat
+        </label>
+        <input v-model="form.judul" type="text" name="judul" id="judul"
+          class="border border-gray-400 p-2 w-full rounded-lg" required placeholder="judul surat">
+        <div v-if="form.errors.judul" v-text="form.errors.judul" class="text-red-500 text-xs  mt-1"></div>
+      </div>
+      <div class="mb-6">
+        <label class="block mb-2 uppercase font-bold text-xs text-gray-700" for="tahunAjaran">
+          tahun ajaran
+        </label>
+        <input v-model="form.tahunAjaran" type="text" name="tahunAjaran" id="tahunAjaran"
+          class="border border-gray-400 p-2 w-full rounded-lg" required placeholder="tahun ajaran">
+        <div v-if="form.errors.tahunAjaran" v-text="form.errors.tahunAjaran" class="text-red-500 text-xs  mt-1"></div>
+      </div>
+      <div class="mb-6">
+        <label class="block mb-2 uppercase font-bold text-xs text-gray-700" for="file">
+          file
+        </label>
+        <input v-on:change="form.file" type="file" name="file" id="file"
+          class="border border-gray-400 p-2 w-full rounded-lg" required>
+        <div v-if="form.errors.file" v-text="form.errors.file" class="text-red-500 text-xs  mt-1"></div>
+      </div>
+      <div class="bm-6">
+        <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+          Tambah
+        </PrimaryButton>
+      </div>
+    </form>
   </AppLayout>
 </template>
+<script setup>
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import SubCategori from './Partials/SubCategori.vue';
+import AppLayout from '@/Layouts/AppLayout.vue';
+import { useForm } from '@inertiajs/vue3';
+
+let form = useForm({
+  name: '',
+  email: '',
+  password: ''
+})
+
+let submit = () => {
+  form.post('index')
+}
+
+</script>

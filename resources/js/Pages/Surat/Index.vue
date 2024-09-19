@@ -34,12 +34,12 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
             SK Elektro
           </h2>
           <Link href="/sk/create" class="text-gray-800 hover:text-gray-600 ml-3 py-4 px-4">
-            <font-awesome-icon :icon="['fas', 'file-pen']" />
+          <font-awesome-icon :icon="['fas', 'file-circle-plus']" />
           </Link>
           <!-- <Link v-if="can.createUser" href="/users/create" class="text-blue-500 text-sm ml-3">create new user</Link> -->
         </div>
         <!-- <input v-model="search" type="text" class="border px-2 rounded-lg" placeholder="search..."> -->
-        <input type="text" class="border px-2 rounded-lg" placeholder="search...">
+        <input type="text" class="border rounded-lg h-10 mt-1" placeholder="search...">
       </div>
     </template>
 
@@ -55,11 +55,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
                     <div>
                       <div class="">
                         <!-- {{ surat.judul }} -->
-                        <p class="font-medium text-gray-900">deskripsi Lorem ipsum dolor, sit amet consectetur
-                          adipisicing
-                          elit. Suscipit asperiores accusamus omnis officiis fuga deserunt saepe quidem voluptatibus
-                          velit.
-                          Sapiente.</p>
+                        <p class="font-medium text-gray-900">deskripsi atau judul dari suratnya</p>
                         <p class="text-xs text-gray-500">kategori :</p>
                       </div>
                     </div>
@@ -76,7 +72,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
                 <td class="pr-2 whitespace-nowrap text-center text-sm font-medium items-center w-5">
                   <Link :href="`/sk/bookmark`"
                     class="text-gray-900 hover:text-gray-700 hover:bg-slate-400 py-4 px-6 text-sm focus:outline-none leading-none bg-slate-200 rounded">
-                  <font-awesome-icon :icon="['far', 'bookmark']" />
+                  <font-awesome-icon :icon="['far', 'bookmark']"/>
                   </Link>
                 </td>
                 <td class="pr-6 whitespace-nowrap text-center text-sm font-medium items-center w-5">
