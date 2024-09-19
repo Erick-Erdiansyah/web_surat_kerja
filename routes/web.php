@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\SuratController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -22,5 +21,17 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
-    Route::get('/surat',[SuratController::class,'index'])->name('surat');
+    Route::get('/sk/index', function () {
+        return Inertia::render('Surat/Index');
+    })->name('index');
+    Route::get('/sk/read', function () {
+        return Inertia::render('Surat/Read');
+    })->name('ReadSK');
+    Route::get('/sk/create', function () {
+        return Inertia::render('Surat/Create');
+    })->name('CreateSK');
+    Route::get('/sk/update', function () {
+        return Inertia::render('Surat/Update');
+    })->name('UpdateSK');
+    // Route::get('/surat',[SuratController::class,'index'])->name('surat');
 });

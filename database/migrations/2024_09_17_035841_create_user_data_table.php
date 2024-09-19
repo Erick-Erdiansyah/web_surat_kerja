@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dosens', function (Blueprint $table) {
+        Schema::create('user_data', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('surat_id');
+            $table->json('bookmarked')->nullable();
             $table->timestamps();
-            // Foreign key constraint ke user
+
             $table->foreign('user_id')->references('id')->on('users')->noActionOnDelete()->noActionOnUpdate();
-            // Foreign key constraint ke jurusan
-            $table->foreign('surat_id')->references('surat_id')->on('surats')->noActionOnDelete()->noActionOnUpdate();
         });
     }
 
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dosens');
+        Schema::dropIfExists('user_data');
     }
 };

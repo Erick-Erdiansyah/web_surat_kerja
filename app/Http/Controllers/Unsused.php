@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Surat;
-use App\Http\Requests\StoreSuratRequest;
-use App\Http\Requests\UpdateSuratRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;

@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Dosen>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\LaporanSK>
  */
-class DosenFactory extends Factory
+class LaporanSKFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,8 +17,7 @@ class DosenFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => random_int(1,10),
-            'surat_id' => random_int(1,25),
+            //
         ];
     }
 }

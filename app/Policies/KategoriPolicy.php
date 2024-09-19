@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Surat;
+use App\Models\Kategori;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class SuratPolicy
+class KategoriPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -19,7 +19,7 @@ class SuratPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Surat $surat): bool
+    public function view(User $user, Kategori $kategori): bool
     {
         //
     }
@@ -29,13 +29,13 @@ class SuratPolicy
      */
     public function create(User $user): bool
     {
-        return true;
+        //
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Surat $surat): bool
+    public function update(User $user, Kategori $kategori): bool
     {
         //
     }
@@ -43,7 +43,7 @@ class SuratPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Surat $surat): bool
+    public function delete(User $user, Kategori $kategori): bool
     {
         //
     }
@@ -51,7 +51,7 @@ class SuratPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Surat $surat): bool
+    public function restore(User $user, Kategori $kategori): bool
     {
         //
     }
@@ -59,7 +59,7 @@ class SuratPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Surat $surat): bool
+    public function forceDelete(User $user, Kategori $kategori): bool
     {
         //
     }
