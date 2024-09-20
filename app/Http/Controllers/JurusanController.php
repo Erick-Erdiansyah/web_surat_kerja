@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Prodi;
-use App\Http\Requests\StoreProdiRequest;
-use App\Http\Requests\UpdateProdiRequest;
+use App\Http\Requests\StoreJurusanRequest;
+use App\Http\Requests\UpdateJurusanRequest;
+use App\Models\Jurusan;
 
-class ProdiController extends Controller
+class JurusanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class ProdiController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProdiRequest $request)
+    public function store(StoreJurusanRequest $request)
     {
         //
     }
@@ -35,7 +35,7 @@ class ProdiController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Prodi $prodi)
+    public function show(Jurusan $jurusan)
     {
         //
     }
@@ -43,7 +43,7 @@ class ProdiController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Prodi $prodi)
+    public function edit(Jurusan $jurusan)
     {
         //
     }
@@ -51,7 +51,7 @@ class ProdiController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProdiRequest $request, Prodi $prodi)
+    public function update(UpdateJurusanRequest $request, Jurusan $jurusan)
     {
         //
     }
@@ -59,7 +59,7 @@ class ProdiController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Prodi $prodi)
+    public function destroy(Jurusan $jurusan)
     {
         //
     }

@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Prodi;
+use App\Models\Jurusan;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class ProdiPolicy
+class JurusanPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -19,7 +19,7 @@ class ProdiPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Prodi $prodi): bool
+    public function view(User $user, Jurusan $jurusan): bool
     {
         //
     }
@@ -35,7 +35,7 @@ class ProdiPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Prodi $prodi): bool
+    public function update(User $user, Jurusan $jurusan): bool
     {
         //
     }
@@ -43,7 +43,7 @@ class ProdiPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Prodi $prodi): bool
+    public function delete(User $user, Jurusan $jurusan): bool
     {
         //
     }
@@ -51,7 +51,7 @@ class ProdiPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Prodi $prodi): bool
+    public function restore(User $user, Jurusan $jurusan): bool
     {
         //
     }
@@ -59,7 +59,7 @@ class ProdiPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Prodi $prodi): bool
+    public function forceDelete(User $user, Jurusan $jurusan): bool
     {
         //
     }

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
-class SuratController extends Controller
+class Unsused extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class SuratController extends Controller
     public function index(Request $request)
     {
         return Inertia::render('Surat/Index', [
-            'surats' => Surat::with(['prodi']) // Eager load
+            'surats' => Unsused::with(['prodi']) // Eager load
             ->when($request->input('search'), function ($query, $search) {
                 $query->whereHas('prodi', function($q) use ($search) {
                     $q->where('nama_prodi', 'like', "%{$search}%");
