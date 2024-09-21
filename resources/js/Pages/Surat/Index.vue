@@ -30,10 +30,10 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
     <template #header>
       <div class="flex justify-between h-10">
         <div class="flex items-center">
-          <h2 class="font-semibold text-xl text-white leading-tight">
+          <h2 class="font-semibold text-xl text-gray-800 dark:text-white leading-tight">
             SK Elektro
           </h2>
-          <Link href="/sk/create" class="text-white hover:text-slate-300 ml-3">
+          <Link href="/sk/create" class="text-gray-800 dark:text-gray-200 dark:hover:text-white hover:text-gray-600 ml-3 py-4 px-4">
           <font-awesome-icon :icon="['fas', 'file-circle-plus']" />
           </Link>
           <!-- <Link v-if="can.createUser" href="/users/create" class="text-blue-500 text-sm ml-3">create new user</Link> -->

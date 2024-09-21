@@ -8,10 +8,10 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
     <template #header>
       <div class="flex justify-between">
         <div class="flex items-center">
-          <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+          <h2 class="font-semibold text-xl dark:text-white text-gray-800 leading-tight">
             Judul sk nya
           </h2>
-          <Link href="/sk/bookmark" class="text-gray-800 hover:text-gray-600 ml-3 py-4 px-4">
+          <Link href="/sk/bookmark" class="text-gray-800 dark:text-gray-200 dark:hover:text-white hover:text-gray-600 ml-3 py-4 px-4">
           <font-awesome-icon :icon="['far', 'bookmark']" />
           </Link>
         </div>

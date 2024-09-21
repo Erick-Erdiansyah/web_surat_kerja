@@ -7,12 +7,21 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+import { useDark,useToggle } from '@vueuse/core'
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faMoon,faSun)
 
 defineProps({
     title: String,
 });
 
 const showingNavigationDropdown = ref(false);
+const isDark = useDark()
+const toggleDark = useToggle(isDark)
+const isActive = ref(isDark)
 
 const switchToTeam = (team) => {
     router.put(route('current-team.update'), {
@@ -33,8 +42,8 @@ const logout = () => {
 
         <Banner />
 
-        <div class="min-h-screen pb-6 bg-slate-300">
-            <nav class="bg-slate-800 border-b border-gray-600">
+        <div class="min-h-screen pb-6 bg-gray-200 dark:bg-slate-300">
+            <nav class="dark:bg-slate-800 bg-white border-b dark:border-gray-600">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
@@ -43,7 +52,7 @@ const logout = () => {
                             <div class="shrink-0 flex items-center">
                                 <Link :href="route('dashboard')">
                                     <!-- <ApplicationMark class="block h-9 w-auto" /> -->
-                                     <h1 class="text-white">gambar logo logo</h1>
+                                     <h1 class="dark:text-white">gambar logo logo</h1>
                                 </Link>
                             </div>
 
@@ -61,7 +70,6 @@ const logout = () => {
                         <div class="hidden sm:flex sm:items-center sm:ms-6">
                             <!-- Settings Dropdown -->
                             <div class="ms-3 relative">
-                                
                                 <Dropdown align="right" width="48">
                                     <template #trigger>
                                         <button v-if="$page.props.jetstream.managesProfilePhotos" class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
@@ -69,7 +77,7 @@ const logout = () => {
                                         </button>
 
                                         <span v-else class="inline-flex rounded-md">
-                                            <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                                            <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-white dark:bg-slate-800 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
                                                 {{ $page.props.auth.user.name }}
 
                                                 <svg class="ms-2 -me-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -104,6 +112,9 @@ const logout = () => {
                                     </template>
                                 </Dropdown>
                             </div>
+                            <button @click="toggleDark()" class="px-4 py-2 dark:text-black rounded-full dark:bg-white">
+                                <font-awesome-icon :icon="isActive ? ['far', 'sun'] : ['far', 'moon']" />
+                            </button>
                         </div>
 
                         <!-- Hamburger -->
@@ -173,7 +184,7 @@ const logout = () => {
             </nav>
 
             <!-- Page Heading -->
-            <header v-if="$slots.header" class="bg-slate-800 shadow">
+            <header v-if="$slots.header" class="bg-white dark:bg-slate-800 shadow">
                 <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
                     <slot name="header" />
                 </div>
