@@ -1,97 +1,94 @@
 <template>
   <AppLayout title="Update">
-    <form @submit.prevent="submit" class="max-w-md mx-auto my-8 bg-slate-100 px-3 pb-6 rounded-md">
+    <form @submit.prevent="submit" class="max-w-xl mx-auto my-8 bg-slate-100 px-6 pb-6 rounded-md" enctype="multipart/form-data">
+      <!-- Jurusan -->
       <div class="mb-6">
-        <label class="block mb-2 uppercase font-bold text-xs text-gray-700 pt-3" for="nomorSurat">
-          jurusan
+        <label class="block mb-2 uppercase font-bold text-xs text-gray-700 pt-3" for="jurusan_id">
+          Jurusan
         </label>
-        <!-- something here -->
-        <!-- <select name="kategori_from_id" id="kategori_from_id" v-model="input.from.kategori_from_id">
-          <option v-for="kategori in kategories" v-bind:key="'from-'+kategori.id" :value="kategori.id" value="">{{ kategori.name }}</option>
-        </select> -->
-        <select name="" id="" class="border border-gray-400 p-2 w-full rounded-lg">
-          <option value="">jurusan 1</option>
-          <option value="">jurusan 2</option>
-          <option value="">jurusan 3</option>
+        <select v-model="form.jurusan_id" id="jurusan_id" class="border border-gray-400 p-2 w-full rounded-lg">
+          <option value="" disabled>Pilih Jurusan</option>
+          <option v-for="jurus in Jurusan" :key="jurus.id" :value="jurus.id">{{ jurus.jurusan }}</option>
         </select>
       </div>
+
+      <!-- Kategori -->
       <div class="mb-6">
-        <label class="block mb-2 uppercase font-bold text-xs text-gray-700" for="nomorSurat">
-          kategori
+        <label class="block mb-2 uppercase font-bold text-xs text-gray-700" for="kategori_id">
+          Kategori
         </label>
-        <!-- something here -->
-        <!-- <select name="kategori_from_id" id="kategori_from_id" v-model="input.from.kategori_from_id">
-          <option v-for="kategori in kategories" v-bind:key="'from-'+kategori.id" :value="kategori.id" value="">{{ kategori.name }}</option>
-        </select> -->
-        <select name="" id="" class="border border-gray-400 p-2 w-full rounded-lg">
-          <option value="">kategori 1</option>
-          <option value="">kategori 2</option>
-          <option value="">kategori 3</option>
+        <select v-model="form.kategori_id" id="kategori_id" class="border border-gray-400 p-2 w-full rounded-lg">
+          <option value="" disabled>Pilih Kategori</option>
+          <option v-for="kategori in Kategories" :key="kategori.id" :value="kategori.id">{{ kategori.nama }}</option>
         </select>
       </div>
+
+      <!-- Sub Kategori -->
       <div class="mb-6">
-        <label class="block mb-2 uppercase font-bold text-xs text-gray-700" for="nomorSurat">
-          sub kategori
+        <label class="block mb-2 uppercase font-bold text-xs text-gray-700" for="sub_kategori_id">
+          Sub Kategori
         </label>
-        <!-- something here -->
-        <!-- <select name="kategori_from_id" id="kategori_from_id" v-model="input.from.kategori_from_id">
-          <option v-for="kategori in kategories" v-bind:key="'from-'+kategori.id" :value="kategori.id" value="">{{ kategori.name }}</option>
-        </select> -->
-        <select name="" id="" class="border border-gray-400 p-2 w-8/12 rounded-lg">
-          <option value="">sub 1</option>
-          <option value="">sub 2</option>
-          <option value="">sub 3</option>
+        <select v-model="form.sub_kategori_id" id="sub_kategori_id" class="border border-gray-400 p-2 w-8/12 rounded-lg">
+          <option value="" disabled>Pilih Sub Kategori</option>
+          <option v-for="sub in SubKategories" :key="sub.id" :value="sub.id">{{ sub.nama }}</option>
         </select>
-        <SubCategori />
+        <SubCategori :Kategories="Kategories" />
       </div>
+
+      <!-- Nomor Surat -->
       <div class="mb-6">
         <label class="block mb-2 uppercase font-bold text-xs text-gray-700" for="nomorSurat">
-          nomor surat
+          Nomor Surat
         </label>
-        <input v-model="form.nomorSurat" type="text" name="nomorSurat" id="nomorSurat"
-          class="border border-gray-400 p-2 w-full rounded-lg" required placeholder="nomor surat">
-        <div v-if="form.errors.nomorSurat" v-text="form.errors.nomorSurat" class="text-red-500 text-xs  mt-1"></div>
+        <input v-model="form.nomor_surat" type="text" id="nomorSurat"
+          class="border border-gray-400 p-2 w-full rounded-lg" required placeholder="Nomor Surat">
       </div>
+
+      <!-- Tanggal Surat -->
       <div class="mb-6">
-        <label class="block mb-2 uppercase font-bold text-xs text-gray-700" for="tanggal">
-          tanggal surat
+        <label class="block mb-2 uppercase font-bold text-xs text-gray-700" for="tanggal_surat">
+          Tanggal Surat
         </label>
-        <input v-model="form.tanggal" type="text" name="tanggal" id="tanggal"
-          class="border border-gray-400 p-2 w-full rounded-lg" required placeholder="tanggal surat">
-        <div v-if="form.errors.tanggal" v-text="form.errors.tanggal" class="text-red-500 text-xs  mt-1"></div>
+        <input v-model="form.tanggal_surat" type="text" id="tanggal_surat"
+          class="border border-gray-400 p-2 w-full rounded-lg" required placeholder="Tanggal Surat">
       </div>
+
+      <!-- Judul Surat -->
       <div class="mb-6">
         <label class="block mb-2 uppercase font-bold text-xs text-gray-700" for="judul">
-          judul surat
+          Judul Surat
         </label>
-        <input v-model="form.judul" type="text" name="judul" id="judul"
-          class="border border-gray-400 p-2 w-full rounded-lg" required placeholder="judul surat">
-        <div v-if="form.errors.judul" v-text="form.errors.judul" class="text-red-500 text-xs  mt-1"></div>
+        <input v-model="form.judul" type="text" id="judul"
+          class="border border-gray-400 p-2 w-full rounded-lg" required placeholder="Judul Surat">
       </div>
+
+      <!-- Deskripsi Surat -->
       <div class="mb-6">
         <label class="block mb-2 uppercase font-bold text-xs text-gray-700" for="desc">
-          deskripsi surat
+          Deskripsi Surat
         </label>
-        <textarea v-model="form.desc" type="text" name="desc" id="desc"
-          class="border border-gray-400 p-2 w-full rounded-lg" required placeholder="desc surat"></textarea>
-        <div v-if="form.errors.desc" v-text="form.errors.desc" class="text-red-500 text-xs  mt-1"></div>
+        <textarea v-model="form.deskripsi" id="desc"
+          class="border border-gray-400 p-2 w-full rounded-lg" required placeholder="Deskripsi Surat"></textarea>
       </div>
+
+      <!-- Tahun Ajaran -->
       <div class="mb-6">
         <label class="block mb-2 uppercase font-bold text-xs text-gray-700" for="tahunAjaran">
-          tahun ajaran
+          Tahun Ajaran
         </label>
-        <input v-model="form.tahunAjaran" type="text" name="tahunAjaran" id="tahunAjaran"
-          class="border border-gray-400 p-2 w-full rounded-lg" required placeholder="tahun ajaran">
-        <div v-if="form.errors.tahunAjaran" v-text="form.errors.tahunAjaran" class="text-red-500 text-xs  mt-1"></div>
+        <input v-model="form.tahun_ajaran" type="text" id="tahunAjaran"
+          class="border border-gray-400 p-2 w-full rounded-lg" required placeholder="Tahun Ajaran">
       </div>
+
+      <!-- File Upload -->
       <div class="mb-6">
         <label class="block mb-2 uppercase font-bold text-xs text-gray-700" for="file">
-          file
+          File
         </label>
-        <input v-on:change="form.file" type="file" name="file" id="file"
-          class="border border-gray-400 p-2 w-full rounded-lg" required>
-        <div v-if="form.errors.file" v-text="form.errors.file" class="text-red-500 text-xs  mt-1"></div>
+        <input type="file" @change="handleFileChange" id="file" class="border border-gray-400 p-2 w-full rounded-lg">
       </div>
+
+      <!-- Submit Button -->
       <div class="bm-6">
         <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
           Perbaharui
@@ -100,20 +97,40 @@
     </form>
   </AppLayout>
 </template>
+
 <script setup>
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SubCategori from './Partials/SubCategori.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { useForm } from '@inertiajs/vue3';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
 
+let props = defineProps({
+  Kategories: Array,
+  SubKategories: Array,
+  Jurusan: Array,
+  laporan: Object // Pass existing data as a prop
+});
+
+// Initialize form with existing data
 let form = useForm({
-  name: '',
-  email: '',
-  password: ''
-})
+  jurusan_id: props.laporan.jurusan_id || '',
+  kategori_id: props.laporan.kategori_id || '',
+  sub_kategori_id: props.laporan.sub_kategori_id || '',
+  nomor_surat: props.laporan.nomor_surat || '',
+  tanggal_surat: props.laporan.tanggal_surat || '',
+  judul: props.laporan.judul || '',
+  deskripsi: props.laporan.deskripsi || '',
+  tahun_ajaran: props.laporan.tahun_ajaran || '',
+  file: null,
+});
 
+// Handle file change
+const handleFileChange = (e) => {
+  form.file = e.target.files[0];
+};
+
+// Submit function
 let submit = () => {
-  form.post('index')
+  form.put(`/sk/${props.laporan.id}/update`);
 }
-
 </script>

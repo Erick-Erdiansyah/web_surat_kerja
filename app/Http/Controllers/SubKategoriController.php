@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\SubKategori;
 use App\Http\Requests\StoreSubKategoriRequest;
 use App\Http\Requests\UpdateSubKategoriRequest;
+use App\Models\Kategori;
+use Illuminate\Support\Facades\Log;
+use Inertia\Inertia;
 
 class SubKategoriController extends Controller
 {
@@ -13,7 +16,8 @@ class SubKategoriController extends Controller
      */
     public function index()
     {
-        //
+        $subKategori = SubKategori::with('kategori')->get();
+        return Inertia::render('subkategori.index', compact('subKategori'));
     }
 
     /**
@@ -21,7 +25,8 @@ class SubKategoriController extends Controller
      */
     public function create()
     {
-        //
+        $kategoris = Kategori::all();
+        return Inertia::render('subkategori.create', compact('kategoris'));
     }
 
     /**
@@ -29,7 +34,14 @@ class SubKategoriController extends Controller
      */
     public function store(StoreSubKategoriRequest $request)
     {
-        //
+        $request->validate([
+            'kategori_id' => 'required|exists:kategoris,id',
+            'nama' => 'required|string|max:255',
+        ]);
+
+        SubKategori::create($request->all());
+
+        return redirect()->route(route: 'create_sk')->with('success', 'Item created successfully.');
     }
 
     /**
@@ -37,7 +49,7 @@ class SubKategoriController extends Controller
      */
     public function show(SubKategori $subKategori)
     {
-        //
+        return Inertia::render('subkategori.show', compact('subKategori'));
     }
 
     /**
@@ -45,7 +57,8 @@ class SubKategoriController extends Controller
      */
     public function edit(SubKategori $subKategori)
     {
-        //
+        $kategoris = Kategori::all();  // Correct capitalization and pluralization
+        return Inertia::render('subkategori.edit', compact('subKategori', 'kategoris'));
     }
 
     /**
@@ -53,7 +66,14 @@ class SubKategoriController extends Controller
      */
     public function update(UpdateSubKategoriRequest $request, SubKategori $subKategori)
     {
-        //
+        $request->validate([
+            'kategori_id' => 'required|exists:kategoris,id',
+            'nama' => 'required|string|max:255',
+        ]);
+
+        $subKategori->update($request->all());
+
+        return redirect()->route('subkategori.index')->with('success', 'Item updated successfully.');
     }
 
     /**
@@ -61,6 +81,8 @@ class SubKategoriController extends Controller
      */
     public function destroy(SubKategori $subKategori)
     {
-        //
+        $subKategori->delete();
+
+        return redirect()->route('subkategori.index')->with('success', 'Item deleted successfully.');
     }
 }

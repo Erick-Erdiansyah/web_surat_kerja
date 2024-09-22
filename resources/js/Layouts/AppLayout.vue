@@ -12,6 +12,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 
+
 library.add(faMoon,faSun)
 
 defineProps({
@@ -52,7 +53,8 @@ const logout = () => {
                             <div class="shrink-0 flex items-center">
                                 <Link :href="route('dashboard')">
                                     <!-- <ApplicationMark class="block h-9 w-auto" /> -->
-                                     <h1 class="dark:text-white">gambar logo logo</h1>
+                                    <img src="resources/assets/images/logo.png" alt="">
+                                     <!-- <h1 class="dark:text-white">gambar logo logo</h1> -->
                                 </Link>
                             </div>
 

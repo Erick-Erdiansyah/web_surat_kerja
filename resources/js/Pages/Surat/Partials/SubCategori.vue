@@ -7,28 +7,25 @@
       Tambah sub kategori
     </template>
     <template #content>
-      <form @submit.prevent="submit" class="max-w-md mx-auto mt-8">
+      <form @submit.prevent="submit" class="max-w-lg mx-auto mt-8">
         <div class="mb-6">
-          <!-- something here -->
-          <!-- <select name="kategori_from_id" id="kategori_from_id" v-model="input.from.kategori_from_id">
-              <option v-for="kategori in kategories" v-bind:key="'from-'+kategori.id" :value="kategori.id" value="">{{ kategori.name }}</option>
-            </select> -->
-          <select name="" id="" class="border border-gray-400 p-2 w-full rounded-lg">
-            <option value="">kategori 1</option>
-            <option value="">kategori 2</option>
-            <option value="">kategori 3</option>
+          <label class="block mb-2 uppercase font-bold text-xs text-gray-700" for="kategori_id">
+            Nama kategori
+          </label>
+          <select v-model="form.kategori_id" name="kategori_id" id="kategori_id" class="border border-gray-400 p-2 w-full rounded-lg">
+            <option value="" disabled>Pilih categori</option>
+            <option v-for="kategori in Kategories" :key="kategori.id" :value="kategori.id">{{ kategori.nama }}</option>
           </select>
         </div>
         <div class="mb-6">
           <label class="block mb-2 uppercase font-bold text-xs text-gray-700" for="sub">
             Nama sub kategori
           </label>
-          <input v-model="form.sub" type="text" name="sub" id="sub" class="border border-gray-400 p-2 w-full rounded-lg"
-            required placeholder="nama sub kategori">
-          <div v-if="form.errors.sub" v-text="form.errors.sub" class="text-red-500 text-xs  mt-1"></div>
+          <input v-model="form.nama" type="text" name="sub" id="sub" class="border border-gray-400 p-2 w-full rounded-lg" required placeholder="nama sub kategori">
+          <div class="text-red-500 text-xs mt-1"></div>
         </div>
-        <div class="bm-6">
-          <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+        <div class="mb-6">
+          <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing" @click="handleCloseModal">
             Tambah
           </PrimaryButton>
         </div>
@@ -41,6 +38,7 @@
     </template>
   </DialogModal>
 </template>
+
 <script setup>
 import DialogModal from '@/Components/DialogModal.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
@@ -50,18 +48,25 @@ import { ref } from 'vue';
 
 const isModalOpen = ref(false);
 
+let props = defineProps({
+  Kategories: {
+    type: Array,
+    default: () => [],
+  }
+});
+
 const handleCloseModal = () => {
   isModalOpen.value = false;
 };
 
+
 let form = useForm({
-  name: '',
-  email: '',
-  password: ''
-})
+  kategori_id: '',
+  nama: '',
+});
 
+// Submit function
 let submit = () => {
-  form.post('index')
+  form.post('/subkategori/store');
 }
-
 </script>

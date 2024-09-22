@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kategori;
 use App\Http\Requests\StoreKategoriRequest;
 use App\Http\Requests\UpdateKategoriRequest;
+use Inertia\Inertia;
 
 class KategoriController extends Controller
 {
@@ -13,7 +14,9 @@ class KategoriController extends Controller
      */
     public function index()
     {
-        //
+        $kategoris = kategori::all();
+        return Inertia::render("kategori.index", compact('kategoris'));
+        // return Inertia::render("kategori.index", ['kategoris' => $kategoris]);
     }
 
     /**
@@ -37,7 +40,7 @@ class KategoriController extends Controller
      */
     public function show(Kategori $kategori)
     {
-        //
+        // 
     }
 
     /**

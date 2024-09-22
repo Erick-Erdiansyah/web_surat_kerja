@@ -29,7 +29,7 @@ class LaporanSKPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->email === 'email@mail.com';
     }
 
     /**
