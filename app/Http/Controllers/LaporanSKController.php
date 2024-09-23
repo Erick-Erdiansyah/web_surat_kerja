@@ -47,8 +47,8 @@ class LaporanSKController extends Controller
             ]
         ]);
     }
-    
-    
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -76,14 +76,14 @@ class LaporanSKController extends Controller
             'judul' => 'required|string|max:255',
             'deskripsi' => 'required|string',
             'tahun_ajaran' => 'required|string|max:20',
-            'file' => 'required|file|max:2048',
+            'surat_file' => 'required|file|max:2048',
         ]);
 
         // Handle file upload
-        $filePath = $request->file('file')->store('surat_files', 'public');
+        $filePath = $request->file('surat_file')->store('surat_files', 'public');
 
         // Merge file path
-        $validatedData['file'] = $filePath;
+        $validatedData['surat_file'] = $filePath;
 
         LaporanSK::create($validatedData);
 
@@ -119,7 +119,7 @@ class LaporanSKController extends Controller
      */
     public function update(UpdateLaporanSKRequest $request, LaporanSK $Surat)
     {
-        // dd($Surat);
+        // dd($request->all());
         $validatedData = $request->validate([
             'jurusan_id' => 'required|exists:jurusans,id',
             'kategori_id' => 'required|exists:kategoris,id',
@@ -129,24 +129,24 @@ class LaporanSKController extends Controller
             'judul' => 'required|string|max:255',
             'deskripsi' => 'required|string',
             'tahun_ajaran' => 'required|string|max:20',
-            'file' => 'nullable|file|max:2048',
+            'surat_file' => 'nullable|file|max:10240',
         ]);
-        // dd($Surat,$validatedData);
-        
-        if ($request->hasFile('file')) {
-            $filePath = $request->file('file')->store('surat_files', 'public');
-            $validatedData['file'] = $filePath;
+
+        // dd($validatedData);
+
+        if ($request->hasFile('surat_file')) {
+            $filePath = $request->file('surat_file')->store('surat_files', 'public');
+            $validatedData['surat_file'] = $filePath;
         } else {
-            // If no new file is uploaded, don't include the file field in the validated data
-            unset($validatedData['file']);
+            unset($validatedData['surat_file']);
         }
+
+        // dd($validatedData);
 
         $Surat->update($validatedData);
 
         return redirect()->route('index')->with('success', 'Laporan updated successfully.');
     }
-
-
 
     /**
      * Remove the specified resource from storage.

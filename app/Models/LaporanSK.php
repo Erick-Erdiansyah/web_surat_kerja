@@ -17,7 +17,7 @@ class LaporanSK extends Model
         'judul',
         'deskripsi',
         'tahun_ajaran',
-        'file',
+        'surat_file',
     ];
 
     public function jurusan() {

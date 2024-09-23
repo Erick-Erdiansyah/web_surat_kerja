@@ -8,7 +8,7 @@
         </label>
         <select v-model="form.jurusan_id" id="jurusan_id" class="border border-gray-400 p-2 w-full rounded-lg">
           <option value="" disabled>Pilih Jurusan</option>
-          <option  v-for="jurus in Jurusan" :key="jurus.id" :value="jurus.id">{{ jurus.jurusan }}</option>
+          <option  v-for="jurus in Jurusan" :key="jurus.id" :value="jurus.id">{{ jurus.nama }}</option>
         </select>
       </div>
       
@@ -85,7 +85,7 @@
         <label class="block mb-2 uppercase font-bold text-xs text-gray-700" for="file">
           File
         </label>
-        <input type="file" @change="handleFileChange" id="file" class="border border-gray-400 p-2 w-full rounded-lg" required>
+        <input type="file" @change="handleFileChange" id="surat_file" class="border border-gray-400 p-2 w-full rounded-lg" required>
       </div>
 
       <!-- Submit Button -->
@@ -119,12 +119,12 @@ let form = useForm({
   judul: '',
   deskripsi: '',
   tahun_ajaran: '',
-  file: null,
+  surat_file: null,
 });
 
 // Handle file change
 const handleFileChange = (e) => {
-  form.file = e.target.files[0];
+  form.surat_file = e.target.files[0];
 };
 
 // Submit function

@@ -20,7 +20,7 @@ let props = defineProps({
   Surat: Object // assuming Surat contains the PDF path
 });
 
-const pdfPath = ref(`/storage/${props.Surat.file}`); // Adjust the path as needed
+const pdfPath = ref(`/storage/${props.Surat.surat_file}`); // Adjust the path as needed
 const errorMessage = ref('');
 const loading = ref(false);
 const visiblePages = ref([1, 2, 3]); // Start with the first few pages

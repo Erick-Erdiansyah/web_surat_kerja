@@ -21,10 +21,10 @@ return new class extends Migration
             $table->string('judul');
             $table->text('deskripsi');
             $table->string('tahun_ajaran', 20);
-            $table->string('file');
+            $table->string('surat_file')->nullable(true);
             $table->timestamps();
 
-            $table->foreign('jurusan_id')->references(columns: 'id')->on('jurusan')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('jurusan_id')->references(columns: 'id')->on('jurusans')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreign('kategori_id')->references('id')->on('kategoris')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreign('sub_kategori_id')->references('id')->on('sub_kategoris')->cascadeOnDelete()->cascadeOnUpdate();
         });
