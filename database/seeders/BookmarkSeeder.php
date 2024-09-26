@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class UserDataSeeder extends Seeder
+class BookmarkSeeder extends Seeder
 {
     /**
      * Run the database seeds.

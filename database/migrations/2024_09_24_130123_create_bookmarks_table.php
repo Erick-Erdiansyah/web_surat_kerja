@@ -4,28 +4,25 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateBookmarksTable extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('user_data', function (Blueprint $table) {
+        Schema::create('bookmarks', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->json('bookmarked')->nullable();
+            $table->unsignedBigInteger('laporan_id');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('laporan_id')->references('id')->on('laporan_s_k_s')->cascadeOnDelete()->cascadeOnUpdate();
+            
+            $table->unique(['user_id', 'laporan_id']); // Ensures a user can only bookmark a report once
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('user_data');
+        Schema::dropIfExists('bookmarks');
     }
-};
+}

@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
+use App\Models\Bookmarks;
 use App\Models\User;
-use App\Models\UserData;
 use Illuminate\Auth\Access\Response;
 
-class UserDataPolicy
+class BookmarkPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -19,7 +19,7 @@ class UserDataPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, UserData $userData): bool
+    public function view(User $user, Bookmarks $bookmarks): bool
     {
         //
     }
@@ -29,29 +29,29 @@ class UserDataPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->email === 'email@mail.com';
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, UserData $userData): bool
+    public function update(User $user, Bookmarks $bookmarks): bool
     {
-        //
+        return $user->email === 'email@mail.com';
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, UserData $userData): bool
+    public function delete(User $user, Bookmarks $bookmarks): bool
     {
-        //
+        return $user->email === 'email@mail.com';
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, UserData $userData): bool
+    public function restore(User $user, Bookmarks $bookmarks): bool
     {
         //
     }
@@ -59,7 +59,7 @@ class UserDataPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, UserData $userData): bool
+    public function forceDelete(User $user, Bookmarks $bookmarks): bool
     {
         //
     }

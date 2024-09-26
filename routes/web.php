@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\BookmarkController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LaporanSKController;
 use App\Http\Controllers\SubKategoriController;
 use Illuminate\Foundation\Application;
@@ -20,9 +22,7 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/sk/{Surat}/read', [LaporanSKController::class, 'show']);
     Route::get('/sk/{Surat}/edit', [LaporanSKController::class, 'edit']);
     Route::put('/sk/{Surat}/update', [LaporanSKController::class, 'update']);
@@ -30,4 +30,6 @@ Route::middleware([
     Route::get('/sk/create', [LaporanSKController::class, 'create'])->name('create_sk');
     Route::post('/subkategori/store', [SubKategoriController::class, 'store'])->name('sub_store');
     Route::post('/sk/store', [LaporanSKController::class, 'store'])->name('store_sk');
+    Route::post('/bookmarks', [BookmarkController::class, 'store'])->name('bookmarks.store');
+    Route::delete('/bookmarks/{laporan}', [BookmarkController::class, 'destroy'])->name('bookmarks.destroy');    
 });

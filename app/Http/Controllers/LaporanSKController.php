@@ -19,6 +19,11 @@ class LaporanSKController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
+
+        // Get the IDs of the bookmarked reports for the authenticated user
+        $bookmarkedLaporans = $user->bookmarkedLaporans()->pluck('laporan_s_k_s.id');
+
         return Inertia::render('Surat/Index', [
             'Laporans' => LaporanSK::with(['kategori', 'sub_kategori'])
                 ->when(Request::input('search'), function ($query, $search) {
@@ -37,11 +42,13 @@ class LaporanSKController extends Controller
                     'judul' => $laporan->judul,
                     'kategori' => $laporan->kategori ? $laporan->kategori->nama : 'N/A',
                     'sub_kategori' => $laporan->sub_kategori ? $laporan->sub_kategori->nama : 'N/A',
+                    'isBookmarked' => $bookmarkedLaporans->contains($laporan->id),
                     'can' => [
                         'edit' => Auth::user()->can('edit', $laporan),
                     ]
                 ]),
             'filters' => Request::only(['search']),
+            'bookmarkedLaporans' => $bookmarkedLaporans,  // Passing bookmarked IDs to the frontend
             'can' => [
                 'createLaporan' => Auth::user()->can('create', LaporanSK::class),
             ]
@@ -95,9 +102,15 @@ class LaporanSKController extends Controller
      */
     public function show(LaporanSK $Surat)
     {
+        $user = Auth::user();
+
+        $bookmarkedLaporans = $user->bookmarkedLaporans()->pluck('laporan_s_k_s.id');
         // Pass the LaporanSK instance to the view
         return Inertia::render('Surat/Read', [
-            'Surat' => $Surat
+            'laporan' => $Surat,
+            'kategori' => $Surat->kategori ? $Surat->kategori->nama : 'N/A',
+            'sub_kategori' => $Surat->sub_kategori ? $Surat->sub_kategori->nama : 'N/A',
+            'bookmarkedLaporans' => $bookmarkedLaporans,  // Passing bookmarked IDs to the frontend
         ]);
     }
 

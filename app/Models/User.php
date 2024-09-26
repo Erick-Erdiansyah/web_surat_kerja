@@ -60,4 +60,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function bookmarks()
+    {
+        return $this->hasMany(Bookmark::class);
+    }
+
+    public function bookmarkedLaporans()
+    {
+        return $this->belongsToMany(LaporanSK::class, 'bookmarks', 'user_id', 'laporan_id');
+    }
 }

@@ -1,5 +1,6 @@
 <template>
   <AppLayout title="Create">
+    <div class=" pt-10"></div>
     <form @submit.prevent="submit" class="max-w-xl mx-auto my-8 bg-slate-100 px-6 pb-6 rounded-md" enctype="multipart/form-data">
       <!-- Jurusan -->
       <div class="mb-6">
