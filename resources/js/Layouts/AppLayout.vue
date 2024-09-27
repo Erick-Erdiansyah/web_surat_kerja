@@ -12,6 +12,8 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 
+const imageUrl = new URL('@/assets/images/logo.svg', import.meta.url);
+
 
 library.add(faMoon,faSun)
 
@@ -53,7 +55,7 @@ const logout = () => {
                             <div class="shrink-0 flex items-center">
                                 <Link :href="route('dashboard')">
                                     <!-- <ApplicationMark class="block h-9 w-auto" /> -->
-                                    <img src="resources/assets/images/logo.png" alt="">
+                                    <img :src="imageUrl" alt="img" class="block h-16 max-w-max"/>
                                      <!-- <h1 class="dark:text-white">gambar logo logo</h1> -->
                                 </Link>
                             </div>

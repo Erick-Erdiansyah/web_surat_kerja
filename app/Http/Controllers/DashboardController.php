@@ -13,13 +13,11 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        // Fetch reports created in the last 7 days for the NewItem component
         $newItems = LaporanSK::with(['kategori', 'sub_kategori'])
         ->where('created_at', '>=', Carbon::now()
         ->subDays(7))
         ->get();
 
-        // Fetch bookmarked reports for the Bookmarks component
         $bookmarkedLaporans = $user->bookmarkedLaporans()->with(['kategori', 'sub_kategori'])->get();
 
         return Inertia::render('Dashboard', [

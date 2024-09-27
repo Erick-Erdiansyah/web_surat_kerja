@@ -16,7 +16,6 @@ class KategoriController extends Controller
     {
         $kategoris = kategori::all();
         return Inertia::render("kategori.index", compact('kategoris'));
-        // return Inertia::render("kategori.index", ['kategoris' => $kategoris]);
     }
 
     /**

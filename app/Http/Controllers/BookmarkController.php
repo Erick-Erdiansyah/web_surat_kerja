@@ -24,8 +24,7 @@ class BookmarkController extends Controller
 
     public function store(StoreBookmarkRequest $request)
     {
-        // Validation is handled by the form request, so no need to validate again here
-        Bookmark::updateOrCreate( // Using the singular form of the model name
+        Bookmark::updateOrCreate( 
             ['user_id' => Auth::id(), 'laporan_id' => $request->laporan_id]
         );
 
@@ -34,7 +33,6 @@ class BookmarkController extends Controller
 
     public function destroy(UpdateBookmarkRequest $request)
     {
-        // Validation is handled by the form request, so no need to validate again here
         Bookmark::where('user_id', Auth::id())
             ->where('laporan_id', $request->laporan_id)
             ->delete();

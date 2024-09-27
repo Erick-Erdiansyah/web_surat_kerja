@@ -21,7 +21,6 @@ class LaporanSKController extends Controller
     {
         $user = Auth::user();
 
-        // Get the IDs of the bookmarked reports for the authenticated user
         $bookmarkedLaporans = $user->bookmarkedLaporans()->pluck('laporan_s_k_s.id');
 
         return Inertia::render('Surat/Index', [
@@ -48,7 +47,7 @@ class LaporanSKController extends Controller
                     ]
                 ]),
             'filters' => Request::only(['search']),
-            'bookmarkedLaporans' => $bookmarkedLaporans,  // Passing bookmarked IDs to the frontend
+            'bookmarkedLaporans' => $bookmarkedLaporans,
             'can' => [
                 'createLaporan' => Auth::user()->can('create', LaporanSK::class),
             ]
@@ -86,7 +85,6 @@ class LaporanSKController extends Controller
             'surat_file' => 'required|file|max:2048',
         ]);
 
-        // Handle file upload
         $filePath = $request->file('surat_file')->store('surat_files', 'public');
 
         // Merge file path
@@ -105,12 +103,11 @@ class LaporanSKController extends Controller
         $user = Auth::user();
 
         $bookmarkedLaporans = $user->bookmarkedLaporans()->pluck('laporan_s_k_s.id');
-        // Pass the LaporanSK instance to the view
         return Inertia::render('Surat/Read', [
             'laporan' => $Surat,
             'kategori' => $Surat->kategori ? $Surat->kategori->nama : 'N/A',
             'sub_kategori' => $Surat->sub_kategori ? $Surat->sub_kategori->nama : 'N/A',
-            'bookmarkedLaporans' => $bookmarkedLaporans,  // Passing bookmarked IDs to the frontend
+            'bookmarkedLaporans' => $bookmarkedLaporans,
         ]);
     }
 
@@ -120,10 +117,10 @@ class LaporanSKController extends Controller
     public function edit(LaporanSK $Surat)
     {
         return Inertia::render('Surat/Update', [
-            'laporan' => $Surat, // This contains the existing data
-            'Jurusan' => Jurusan::all(), // Fetch all jurusan data
-            'Kategories' => Kategori::all(), // Fetch all kategori data
-            'SubKategories' => SubKategori::all(), // Fetch all sub kategori data
+            'laporan' => $Surat,
+            'Jurusan' => Jurusan::all(),
+            'Kategories' => Kategori::all(), 
+            'SubKategories' => SubKategori::all(),
         ]);
     }
 

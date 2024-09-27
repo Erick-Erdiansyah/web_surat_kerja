@@ -26,6 +26,7 @@ Route::middleware([
     Route::get('/sk/{Surat}/read', [LaporanSKController::class, 'show']);
     Route::get('/sk/{Surat}/edit', [LaporanSKController::class, 'edit']);
     Route::put('/sk/{Surat}/update', [LaporanSKController::class, 'update']);
+    Route::delete('/sk/{Surat}/delete', [LaporanSKController::class, 'destroy']);
     Route::get('/sk/index', [LaporanSKController::class, 'index'])->name('index');
     Route::get('/sk/create', [LaporanSKController::class, 'create'])->name('create_sk');
     Route::post('/subkategori/store', [SubKategoriController::class, 'store'])->name('sub_store');

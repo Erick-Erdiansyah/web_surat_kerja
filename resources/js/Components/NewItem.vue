@@ -4,46 +4,42 @@
       <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
         <table class="min-w-full divide-y divide-gray-200">
           <tbody class="bg-white divide-y divide-gray-200">
-            <tr v-for="item in newItems" :key="item.id" class="hover:bg-slate-100 relative">
-              <h2 class="px-3 pt-1 rounded-sm text-white bg-slate-500 w-52 flex items-center absolute top-0 left-0">
-                Surat baru telah diupload
-              </h2>
+            <tr v-for="item in newItems" :key="item.id"
+              class="hover:bg-slate-100 dark:hover:bg-slate-800 dark:bg-slate-700 relative">
 
-              <!-- Main content with judul, kategori, and sub_kategori -->
               <td class="px-6 pt-7 pb-4 whitespace-pre-wrap">
-                <div class="flex items-center">
-                  <div>
-                    <p class="font-medium text-gray-900">{{ item.judul }}</p>
-                    <p class="text-xs text-gray-500">Kategori: {{ item.kategori.nama }}</p>
-                    <p class="text-xs text-gray-500">Sub Kategori: {{ item.sub_kategori.nama ?? 'N/A' }}</p>
+                <a :href="`/sk/${item.id}/read`" class="block w-full h-full">
+                  <h2
+                    class="px-3 pt-1 rounded-sm text-white dark:text-black dark:bg-white bg-slate-500 w-52 flex items-center absolute top-0 left-0">
+                    Surat baru telah diupload
+                  </h2>
+                  <div class="flex items-center">
+                    <div>
+                      <p class="font-medium text-gray-900 dark:text-white">{{ item.judul }}</p>
+                      <p class="text-xs text-gray-500 dark:text-gray-300">Kategori: {{ item.kategori.nama }}</p>
+                      <p class="text-xs text-gray-500 dark:text-gray-300">Sub Kategori: {{ item.sub_kategori.nama ??
+                        'N/A' }}</p>
+                    </div>
                   </div>
-                </div>
+                </a>
               </td>
-
-              <!-- Empty space -->
               <td class="w-10"></td>
-
-              <!-- Read link -->
               <td class="pr-2 whitespace-nowrap text-center text-sm font-medium items-center w-5">
-                <Link :href="`/sk/${item.id}/read`"
-                  class="text-gray-900 hover:text-gray-700 hover:bg-slate-400 py-4 px-6 text-sm focus:outline-none leading-none bg-slate-200 rounded">
-                  <font-awesome-icon :icon="['far', 'eye']" />
-                </Link>
-              </td>
-
-              <!-- Bookmark button -->
-              <td class="pr-2 whitespace-nowrap text-center text-sm font-medium items-center w-5">
-                <button @click="toggleBookmark(item.id)" 
-                  class="text-gray-900 hover:text-gray-700 hover:bg-slate-400 py-4 px-6 text-sm focus:outline-none leading-none bg-slate-200 rounded">
+                <button @click="toggleBookmark(item.id)"
+                  class="text-gray-900 dark:text-white dark:hover:text-gray-400 hover:text-gray-700 py-4 px-6 text-2xl focus:outline-none leading-none rounded">
                   <font-awesome-icon :icon="isBookmarked(item.id) ? ['fas', 'bookmark'] : ['far', 'bookmark']" />
                 </button>
               </td>
-
-              <!-- Edit link -->
+              <td class="pr-2 whitespace-nowrap text-center text-sm font-medium items-center w-5">
+                <Link :href="`/sk/${item.id}/delete`"
+                  class="text-gray-900 hover:text-gray-700 dark:text-white dark:hover:text-gray-400 py-4 px-6 text-2xl focus:outline-none leading-none rounded">
+                <font-awesome-icon :icon="['far', 'trash-can']" />
+                </Link>
+              </td>
               <td class="pr-6 whitespace-nowrap text-center text-sm font-medium items-center w-5">
                 <Link :href="`/sk/${item.id}/edit`"
-                  class="text-gray-900 hover:text-gray-700 hover:bg-slate-400 py-4 px-6 text-sm focus:outline-none leading-none bg-slate-200 rounded">
-                  <font-awesome-icon :icon="['far', 'pen-to-square']" />
+                  class="text-gray-900 dark:text-white dark:hover:text-gray-400 hover:text-gray-700 y-4 px-6 text-2xl focus:outline-none leading-none rounded">
+                <font-awesome-icon :icon="['far', 'pen-to-square']" />
                 </Link>
               </td>
             </tr>
@@ -57,40 +53,36 @@
 <script setup>
 import { ref, watch } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { usePage,useForm } from '@inertiajs/vue3';
+import { usePage, useForm, router } from '@inertiajs/vue3';
 
-// Retrieve the bookmarked laporans
 const { newItems, bookmarkedLaporans } = usePage().props;
 
+const goTo = (itemId) => {
+  this.$router.push(`/sk/${itemId}/read`)
+};
 
-// Track the local bookmark state
 const bookmarks = ref(bookmarkedLaporans.map(laporan => laporan.id));
 
-// Watch for changes in the initial bookmarks prop
 watch(() => bookmarkedLaporans, (newBookmarks) => {
   bookmarks.value = newBookmarks.map(laporan => laporan.id);
 });
 
-// Initialize form with default fields
 const form = useForm({
-  laporan_id: null, // Define the field here
+  laporan_id: null,
 });
 
-// Function to check if a Laporan is bookmarked
 const isBookmarked = (laporanId) => {
   return bookmarks.value.includes(laporanId);
 };
 
-// Toggle bookmark status
+
 const toggleBookmark = (laporanId) => {
-  form.laporan_id = laporanId; // Set the laporan_id field dynamically
+  form.laporan_id = laporanId;
 
   if (isBookmarked(laporanId)) {
-    // If already bookmarked, remove the bookmark
     form.delete(`/bookmarks/${laporanId}`, {
       onSuccess: () => {
         console.log(`Laporan ${laporanId} removed from bookmarks.`);
-        // Remove from local bookmarks after successful deletion
         bookmarks.value = bookmarks.value.filter(id => id !== laporanId);
       },
       onError: (errors) => {
@@ -98,11 +90,9 @@ const toggleBookmark = (laporanId) => {
       },
     });
   } else {
-    // If not bookmarked, add the bookmark
     form.post('/bookmarks', {
       onSuccess: () => {
         console.log(`Laporan ${laporanId} added to bookmarks.`);
-        // Add to local bookmarks after successful addition
         bookmarks.value.push(laporanId);
       },
       onError: (errors) => {
