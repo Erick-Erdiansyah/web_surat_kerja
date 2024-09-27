@@ -17,6 +17,10 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/welcome', function () {
+    return Inertia::render('Landing/Welcome');
+});
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),

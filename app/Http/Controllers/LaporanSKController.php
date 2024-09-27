@@ -165,6 +165,6 @@ class LaporanSKController extends Controller
     {
         $Surat->delete();
 
-        return redirect()->route('surat.index')->with('success', 'Item deleted successfully.');
+        return redirect()->route('dashboard')->with('success', 'Item deleted successfully.');
     }
 }
