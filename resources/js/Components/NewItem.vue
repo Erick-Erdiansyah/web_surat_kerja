@@ -30,11 +30,25 @@
                   <font-awesome-icon :icon="isBookmarked(item.id) ? ['fas', 'bookmark'] : ['far', 'bookmark']" />
                 </button>
               </td>
+              
               <td class="pr-2 whitespace-nowrap text-center text-sm font-medium items-center w-5">
-                <Link :href="`/sk/${item.id}/delete`"
-                  class="text-gray-900 hover:text-gray-700 dark:text-white dark:hover:text-gray-400 py-4 px-6 text-2xl focus:outline-none leading-none rounded">
-                <font-awesome-icon :icon="['far', 'trash-can']" />
-                </Link>
+                <button @click="openModal"
+                  class="text-gray-900 dark:text-white dark:hover:text-gray-400 hover:text-gray-700 py-4 px-6 text-2xl focus:outline-none leading-none rounded">
+                  <font-awesome-icon :icon="['far', 'trash-can']" />
+                </button>
+
+                <ConfirmationModal :show="isModalOpen" @close="closeModal" title="Confirm Deletion">
+                  <template #content>
+                    Are you sure you want to delete this item?
+                  </template>
+
+                  <template #footer>
+                    <button @click="closeModal" class="mr-2 px-4 py-2 bg-gray-300 rounded">Cancel</button>
+                    <button @click="() => { remove(item.id); closeModal(); }"
+                      class="px-4 py-2 bg-red-600 text-white rounded">Delete</button>
+                  </template>
+                </ConfirmationModal>
+
               </td>
               <td class="pr-6 whitespace-nowrap text-center text-sm font-medium items-center w-5">
                 <Link :href="`/sk/${item.id}/edit`"
@@ -54,6 +68,8 @@
 import { ref, watch } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { usePage, useForm, router } from '@inertiajs/vue3';
+import ConfirmationModal from './ConfirmationModal.vue';
+import { Inertia } from '@inertiajs/inertia';
 
 const { newItems, bookmarkedLaporans } = usePage().props;
 
@@ -70,6 +86,29 @@ watch(() => bookmarkedLaporans, (newBookmarks) => {
 const form = useForm({
   laporan_id: null,
 });
+
+
+const isModalOpen = ref(false);
+
+const openModal = () => {
+  isModalOpen.value = true;
+};
+
+const closeModal = () => {
+  isModalOpen.value = false;
+};
+
+const fetchItems = () => {
+  Inertia.get('/sk/index', {}, { preserveState: true });
+};
+
+const remove = (LaporanId) => {
+  form.delete(`/sk/${LaporanId}/delete`, {
+    onFinish: () => {
+      fetchItems();
+    },
+  });
+};
 
 const isBookmarked = (laporanId) => {
   return bookmarks.value.includes(laporanId);

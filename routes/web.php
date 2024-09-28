@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
+    return Inertia::render('Landing/Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
@@ -17,9 +17,6 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/welcome', function () {
-    return Inertia::render('Landing/Welcome');
-});
 
 Route::middleware([
     'auth:sanctum',

@@ -64,7 +64,7 @@ class LaporanSKController extends Controller
         $Kategories = Kategori::all();
         $SubKategories = SubKategori::all();
         $Jurusan = Jurusan::all();
-        return Inertia::render('Surat/Create', compact('Kategories', 'SubKategories', 'Jurusan'));
+        return Inertia::render('Surat/Partials/Form', compact('Kategories', 'SubKategories', 'Jurusan'));
     }
 
     /**
@@ -116,7 +116,7 @@ class LaporanSKController extends Controller
      */
     public function edit(LaporanSK $Surat)
     {
-        return Inertia::render('Surat/Update', [
+        return Inertia::render('Surat/Partials/Form', [
             'laporan' => $Surat,
             'Jurusan' => Jurusan::all(),
             'Kategories' => Kategori::all(), 
@@ -165,6 +165,6 @@ class LaporanSKController extends Controller
     {
         $Surat->delete();
 
-        return redirect()->route('dashboard')->with('success', 'Item deleted successfully.');
+        return back();
     }
 }
