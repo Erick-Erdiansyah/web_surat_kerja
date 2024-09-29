@@ -29,9 +29,9 @@ class SubKategoriPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->is_admin = true;
     }
-
+    
     /**
      * Determine whether the user can update the model.
      */
@@ -39,13 +39,13 @@ class SubKategoriPolicy
     {
         //
     }
-
+    
     /**
      * Determine whether the user can delete the model.
      */
     public function delete(User $user, SubKategori $subKategori): bool
     {
-        //
+        return $user->is_admin = true;
     }
 
     /**

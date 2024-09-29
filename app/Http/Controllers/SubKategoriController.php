@@ -41,7 +41,7 @@ class SubKategoriController extends Controller
 
         SubKategori::create($request->all());
 
-        return redirect()->route(route: 'create_sk')->with('success', 'Item created successfully.');
+        return redirect()->route(route: 'sk.create')->banner('sub kategori baru berhasil ditambahkan');
     }
 
     /**

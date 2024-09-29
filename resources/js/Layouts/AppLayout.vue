@@ -26,14 +26,6 @@ const isDark = useDark()
 const toggleDark = useToggle(isDark)
 const isActive = ref(isDark)
 
-const switchToTeam = (team) => {
-    router.put(route('current-team.update'), {
-        team_id: team.id,
-    }, {
-        preserveState: false,
-    });
-};
-
 const logout = () => {
     router.post(route('logout'));
 };

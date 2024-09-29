@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Models\Bookmarks;
+use App\Models\Bookmark;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
@@ -13,15 +13,17 @@ class BookmarkPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return $user->where("id", $user->id)->count() > 0;
+
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Bookmarks $bookmarks): bool
+    public function view(User $user, Bookmark $bookmarks): bool
     {
-        //
+        return $bookmarks->where("user_id", $user->id)->count() > 0;
+
     }
 
     /**
@@ -29,38 +31,38 @@ class BookmarkPolicy
      */
     public function create(User $user): bool
     {
-        return $user->email === 'email@mail.com';
+        return $user->exists();
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Bookmarks $bookmarks): bool
+    public function update(User $user, Bookmark $bookmark): bool
     {
-        return $user->email === 'email@mail.com';
+        return $bookmark->user_id === $user->id;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Bookmarks $bookmarks): bool
+    public function delete(User $user, Bookmark $bookmark): bool
     {
-        return $user->email === 'email@mail.com';
+        return $bookmark->user_id === $user->id;
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Bookmarks $bookmarks): bool
+    public function restore(User $user, Bookmark $bookmark): bool
     {
-        //
+        return $bookmark->user_id === $user->id;
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Bookmarks $bookmarks): bool
+    public function forceDelete(User $user, Bookmark $bookmark): bool
     {
-        //
+        return $bookmark->user_id === $user->id;
     }
 }

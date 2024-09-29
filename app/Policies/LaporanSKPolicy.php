@@ -29,7 +29,7 @@ class LaporanSKPolicy
      */
     public function create(User $user): bool
     {
-        return $user->email === 'email@mail.com';
+        return $user->is_admin;
     }
 
     /**
@@ -37,7 +37,7 @@ class LaporanSKPolicy
      */
     public function update(User $user, LaporanSK $laporanSK): bool
     {
-        //
+        return $user->is_admin;
     }
 
     /**
@@ -45,7 +45,7 @@ class LaporanSKPolicy
      */
     public function delete(User $user, LaporanSK $laporanSK): bool
     {
-        //
+        return $user->is_admin;
     }
 
     /**

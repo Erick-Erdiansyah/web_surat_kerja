@@ -43,13 +43,14 @@ class LaporanSKController extends Controller
                     'sub_kategori' => $laporan->sub_kategori ? $laporan->sub_kategori->nama : 'N/A',
                     'isBookmarked' => $bookmarkedLaporans->contains($laporan->id),
                     'can' => [
-                        'edit' => Auth::user()->can('edit', $laporan),
+                        'update' => Auth::user()->can('update', $laporan),
+                        'delete' => Auth::user()->can('delete', $laporan),
                     ]
                 ]),
             'filters' => Request::only(['search']),
             'bookmarkedLaporans' => $bookmarkedLaporans,
             'can' => [
-                'createLaporan' => Auth::user()->can('create', LaporanSK::class),
+                'create' => Auth::user()->can('create', LaporanSK::class),
             ]
         ]);
     }
@@ -92,7 +93,7 @@ class LaporanSKController extends Controller
 
         LaporanSK::create($validatedData);
 
-        return redirect()->route('index')->with('success', 'Item created successfully.');
+        return redirect()->route('index')->banner('surat baru berhasil ditambahkan');
     }
 
     /**
@@ -119,7 +120,7 @@ class LaporanSKController extends Controller
         return Inertia::render('Surat/Partials/Form', [
             'laporan' => $Surat,
             'Jurusan' => Jurusan::all(),
-            'Kategories' => Kategori::all(), 
+            'Kategories' => Kategori::all(),
             'SubKategories' => SubKategori::all(),
         ]);
     }
@@ -155,7 +156,7 @@ class LaporanSKController extends Controller
 
         $Surat->update($validatedData);
 
-        return redirect()->route('index')->with('success', 'Laporan updated successfully.');
+        return redirect()->route('index')->banner( 'surat berhasil di perbaharui');
     }
 
     /**
@@ -165,6 +166,6 @@ class LaporanSKController extends Controller
     {
         $Surat->delete();
 
-        return back();
+        return back()->dangerbanner('surat berhasil dihapus');
     }
 }

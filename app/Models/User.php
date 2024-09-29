@@ -25,8 +25,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_admin',
     ];
-
+    
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -34,6 +35,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
+        'is_admin',
         'remember_token',
         'two_factor_recovery_codes',
         'two_factor_secret',

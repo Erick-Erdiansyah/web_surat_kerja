@@ -6,7 +6,7 @@
           <h2 class="font-semibold text-xl text-gray-800 dark:text-white leading-tight">
             SK Elektro
           </h2>
-          <Link href="/sk/create"
+          <Link v-show="can.create" href="/sk/create"
             class="text-gray-800 dark:text-gray-200 dark:hover:text-white text-xl hover:text-gray-600 ml-3 py-4 px-4">
           <font-awesome-icon :icon="['fas', 'file-circle-plus']" />
           </Link>
@@ -43,7 +43,8 @@
                     <font-awesome-icon :icon="isBookmarked(laporan.id) ? ['fas', 'bookmark'] : ['far', 'bookmark']" />
                   </button>
                 </td>
-                <td class="pr-2 whitespace-nowrap text-center text-sm font-medium items-center w-5">
+                <td v-show="laporan.can.delete"
+                  class="pr-2 whitespace-nowrap text-center text-sm font-medium items-center w-5">
                   <button @click="openModal"
                     class="text-gray-900 dark:text-white dark:hover:text-gray-400 hover:text-gray-700 py-4 px-6 text-2xl focus:outline-none leading-none rounded">
                     <font-awesome-icon :icon="['far', 'trash-can']" />
@@ -62,7 +63,8 @@
                   </ConfirmationModal>
                 </td>
 
-                <td class="pr-6 whitespace-nowrap text-center text-sm font-medium items-center w-5">
+                <td v-show="laporan.can.update"
+                  class="pr-6 whitespace-nowrap text-center text-sm font-medium items-center w-5">
                   <Link :href="`/sk/${laporan.id}/edit`"
                     class="text-gray-900 dark:text-white dark:hover:text-gray-400 hover:text-gray-700 y-4 px-6 text-2xl focus:outline-none leading-none rounded">
                   <font-awesome-icon :icon="['far', 'pen-to-square']" />
@@ -96,8 +98,7 @@ let props = defineProps({
 let search = ref(props.filters.search);
 
 watch(search, throttle((value) => {
-  console.log('search value :', value);
-  Inertia.get('/sk/index', { search: value }, {
+  router.get('/sk/index', { search: value }, {
     onSuccess: (response) => {
       // assign new value, the page not reload properly -_-
       Laporans.data = response.props.Laporans.data;
@@ -151,7 +152,6 @@ const toggleBookmark = (laporanId) => {
   if (isBookmarked(laporanId)) {
     form.delete(`/bookmarks/${laporanId}`, {
       onSuccess: () => {
-        console.log(`Laporan ${laporanId} removed from bookmarks.`);
         bookmarks.value = bookmarks.value.filter(id => id !== laporanId);
       },
       onError: (errors) => {
@@ -161,8 +161,6 @@ const toggleBookmark = (laporanId) => {
   } else {
     form.post('/bookmarks', {
       onSuccess: () => {
-        console.log(`Laporan ${laporanId} added to bookmarks.`);
-        // Add to local bookmarks after successful addition
         bookmarks.value.push(laporanId);
       },
       onError: (errors) => {

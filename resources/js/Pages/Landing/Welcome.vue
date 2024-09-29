@@ -1,10 +1,8 @@
 <template>
   <div class="flex h-screen">
-    <!-- Import BannerSection Component -->
     <Banner />
 
-    <!-- Import FormSection Component -->
-    <Form />
+    <Form v-if="!$page.props.auth.user"/>
   </div>
 </template>
 

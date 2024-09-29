@@ -68,11 +68,11 @@ const form = useForm({
 
 const submit = () => {
   if (Register.value) {
-    form.post(route('login'), {
+    form.post('/login', {
       onFinish: () => form.reset('password'),
     });
   } else {
-    form.post(route('register'), {
+    form.post('/register', {
       onFinish: () => form.reset('password', 'password_confirmation'),
     });
   }
