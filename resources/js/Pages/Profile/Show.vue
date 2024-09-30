@@ -14,11 +14,11 @@ defineProps({
 </script>
 
 <template>
-    <AppLayout title="Profile">
+    <AppLayout title="Profil">
         <div class=" pt-28"></div>
         <template #header>
             <h2 class="font-semibold text-xl dark:text-white text-gray-800 leading-tight">
-                Profile
+                Profil
             </h2>
         </template>
 

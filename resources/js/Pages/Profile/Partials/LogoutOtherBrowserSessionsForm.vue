@@ -45,16 +45,16 @@ const closeModal = () => {
 <template>
     <ActionSection>
         <template #title>
-            Browser Sessions
+            Sesi Perambanan
         </template>
 
         <template #description>
-            Manage and log out your active sessions on other browsers and devices.
+            Kelola dan keluar dari sesi aktif Anda di perambanan dan perangkat lain.
         </template>
 
         <template #content>
             <div class="max-w-xl text-sm text-gray-600">
-                If necessary, you may log out of all of your other browser sessions across all of your devices. Some of your recent sessions are listed below; however, this list may not be exhaustive. If you feel your account has been compromised, you should also update your password.
+                Jika perlu, Anda dapat keluar dari semua sesi perambanan lainnya di semua perangkat Anda. Beberapa sesi terbaru Anda tercantum di bawah ini; Namun, daftar ini mungkin tidak lengkap. Jika Anda merasa akun Anda telah disusupi, Anda juga harus memperbarui kata sandi Anda.
             </div>
 
             <!-- Other Browser Sessions -->
@@ -89,7 +89,7 @@ const closeModal = () => {
 
             <div class="flex items-center mt-5">
                 <PrimaryButton @click="confirmLogout">
-                    Log Out Other Browser Sessions
+                    Keluar dari Sesi Browser Lain
                 </PrimaryButton>
 
                 <ActionMessage :on="form.recentlySuccessful" class="ms-3">
@@ -100,7 +100,7 @@ const closeModal = () => {
             <!-- Log Out Other Devices Confirmation Modal -->
             <DialogModal :show="confirmingLogout" @close="closeModal">
                 <template #title>
-                    Log Out Other Browser Sessions
+                    Keluar dari Sesi Browser Lain
                 </template>
 
                 <template #content>

@@ -11,7 +11,7 @@
           <font-awesome-icon :icon="['fas', 'file-circle-plus']" />
           </Link>
         </div>
-        <input v-model="search" type="text" class="border rounded-lg h-10 mt-1" placeholder="Search...">
+        <input v-model="search" type="text" class="border rounded-lg h-10 mt-1" placeholder="Cari...">
       </div>
     </template>
 
@@ -52,13 +52,13 @@
 
                   <ConfirmationModal :show="isModalOpen" @close="closeModal" title="Confirm Deletion">
                     <template #content>
-                      Are you sure you want to delete this item?
+                      Apakah Anda yakin ingin menghapus item ini?
                     </template>
 
                     <template #footer>
-                      <button @click="closeModal" class="mr-2 px-4 py-2 bg-gray-300 rounded">Cancel</button>
+                      <button @click="closeModal" class="mr-2 px-4 py-2 bg-gray-300 rounded">Batal</button>
                       <button @click="() => { remove(laporan.id); closeModal(); }"
-                        class="px-4 py-2 bg-red-600 text-white rounded">Delete</button>
+                        class="px-4 py-2 bg-red-600 text-white rounded">Hapus</button>
                     </template>
                   </ConfirmationModal>
                 </td>

@@ -14,7 +14,7 @@
           </button>
         </div>
 
-        <h2 class="text-3xl text-center mb-6">{{ Register ? 'Masuk' : 'Register' }}</h2>
+        <h2 class="text-3xl text-center mb-6">{{ Register ? 'Masuk' : 'Registrasi' }}</h2>
 
         <form @submit.prevent="submit">
           <input v-model="form.name" v-show="!Register" type="text" id="name" placeholder="Masukkan Nama" 
@@ -23,11 +23,11 @@
           <input v-model="form.email" type="email" id="email" placeholder="Masukkan Email" required
             class="w-full px-4 py-2 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300" />
 
-          <input v-model="form.password" type="password" id="password" placeholder="Masukkan Password" required
+          <input v-model="form.password" type="password" id="password" placeholder="Masukkan Kata Sandi" required
             class="w-full px-4 py-2 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300" />
 
           <input v-model="form.password_confirmation" v-show="!Register" type="password" id="password_confirmation"
-            :required="!Register" placeholder="Konfirmasi Password"
+            :required="!Register" placeholder="Konfirmasi Kata Sandi"
             class="w-full px-4 py-2 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300" />
 
           <div v-show="Register" class="flex justify-between items-center mb-4">

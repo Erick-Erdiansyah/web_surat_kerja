@@ -3,13 +3,16 @@
     <div 
       class="w-full text-5xl flex-grow bg-cover bg-center image" 
       :style="{ 'background-image': `url(${imageUrl})` }">
-      <h1 class="text-7xl font-semibold text-white mt-10 px-4">Arsip Surat Kerja</h1>
-      <h1 class="text-7xl font-semibold text-white mt-4 px-4">Teknik Elektro <Link v-show="$page.props.auth.user" href="/dashboard">[dashboard]</Link></h1>
-      <p class="text-xl font-semibold text-white mt-4 px-4 pb-28 mb-80">
-        Sederhanakan Arsip Surat Anda : <br>
-        Efisiensi dan Keamanan Dalam <br>
-        Satu Aplikasi
-      </p>
+      <div :class="$page.props.auth.user ? 'text-center' : ''">
+        <h1 v-if="$page.props.auth.user" class="text-7xl font-semibold text-white mt-10 px-4">Arsip Surat Kerja Teknik Elektro</h1>
+        <h1 v-if="!$page.props.auth.user" class="text-7xl font-semibold text-white mt-10 px-4">Arsip Surat Kerja <br> Teknik Elektro</h1>
+        <h1 v-if="$page.props.auth.user" class="text-7xl font-semibold text-white mt-4 px-4 underline"> <Link href="/dashboard">Beranda</Link></h1>
+        <p class="text-3xl font-semibold text-white mt-4 px-4 pb-28 mb-80">
+          Sederhanakan Arsip Surat Anda : <br>
+          Efisiensi dan Keamanan Dalam <br>
+          Satu Aplikasi
+        </p>
+      </div>
       <p class="mt-80 hidden">hello</p>
     </div>
   </div>
