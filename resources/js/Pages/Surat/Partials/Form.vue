@@ -128,11 +128,15 @@ const handleFileChange = (e) => {
   form.surat_file = e.target.files[0];
 };
 
+// idk what but i keep breaking the update one -_-, maybe I'll just disable the file update or something
 const submit = () => {
   const url = isEditMode.value ? `/sk/${props.laporan.id}/update` : '/sk/store';
 
-  form.post(url, {
-    _method: isEditMode.value ? 'put' : 'post',
-  });
+  form.transform((data) => {
+    if (isEditMode.value) {
+      data._method = 'put';
+    }
+    return data;
+  }).post(url);
 };
 </script>

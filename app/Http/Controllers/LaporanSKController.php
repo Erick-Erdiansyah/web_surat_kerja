@@ -39,8 +39,8 @@ class LaporanSKController extends Controller
                 ->through(fn($laporan) => [
                     'id' => $laporan->id,
                     'judul' => $laporan->judul,
-                    'kategori' => $laporan->kategori ? $laporan->kategori->nama : 'N/A',
-                    'sub_kategori' => $laporan->sub_kategori ? $laporan->sub_kategori->nama : 'N/A',
+                    'kategori' => $laporan->kategori ? $laporan->kategori : 'N/A',
+                    'sub_kategori' => $laporan->sub_kategori ? $laporan->sub_kategori : 'N/A',
                     'isBookmarked' => $bookmarkedLaporans->contains($laporan->id),
                     'can' => [
                         'update' => Auth::user()->can('update', $laporan),
