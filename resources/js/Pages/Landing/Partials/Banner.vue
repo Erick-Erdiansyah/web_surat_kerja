@@ -24,6 +24,8 @@
 
 <script setup>
 const imageUrl = new URL('@/assets/images/background.svg', import.meta.url);
+
+
 </script>
 
 <style>

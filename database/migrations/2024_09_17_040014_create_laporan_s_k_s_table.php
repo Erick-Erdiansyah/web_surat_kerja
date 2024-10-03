@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('jurusan_id');
             $table->unsignedBigInteger('kategori_id');
             $table->unsignedBigInteger('sub_kategori_id');
+            $table->enum('jenis',['surat kerja','surat tugas']);
             $table->string('nomor_surat');
             $table->string('tanggal_surat');
             $table->string('judul');
