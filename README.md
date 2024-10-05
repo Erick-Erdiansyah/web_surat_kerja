@@ -1,4 +1,4 @@
-# uhh something something sk dosen polnep
+# website for organizing report in Elektro polnep
 
 sebelum menjalankan perintah dibawah pastikan php,mysql,node dan composer sudah terinstall
 jalankan perintah dibawah secara berurutan
