@@ -31,7 +31,7 @@
             class="w-full px-4 py-2 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300" />
 
           <div v-show="Register" class="flex justify-between items-center mb-4">
-            <a href="#" class="text-sm text-gray-500 hover:underline">Lupa Password?</a>
+            <a href="#" class="text-sm text-gray-500 hover:underline">Lupa Kata sandi?</a>
           </div>
 
           <div v-show="!Register" class="block mb-4">

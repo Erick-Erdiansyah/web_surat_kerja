@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\LaporanSK;
+use Carbon\Carbon;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,8 +23,12 @@ class WelcomeController extends Controller
                         $q->where('nama', 'like', "%{$search}%");
                     });
             })
-            ->get();
-
+            ->get()
+            ->map(function ($laporan) {
+                $laporan->created_human = Carbon::parse($laporan->created_at)->diffForHumans();
+                $laporan->created_timestamp = $laporan->created_at->timestamp;
+                return $laporan;
+            });
         return Inertia::render('Landing/Welcome', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
