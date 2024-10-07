@@ -121,6 +121,9 @@ const logout = () => {
                             <button @click="toggleDark()" class="px-4 py-2 dark:text-black rounded-full dark:bg-white">
                                 <font-awesome-icon :icon="isActive ? ['far', 'sun'] : ['far', 'moon']" />
                             </button>
+                            <button @click="toggleDark()" class="px-4 py-2 dark:text-black rounded-full dark:bg-white">
+                                <font-awesome-icon :icon="['far', 'bell']" />
+                            </button>
                         </div>
 
                         <!-- Hamburger -->

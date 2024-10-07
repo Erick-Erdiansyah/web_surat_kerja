@@ -41,7 +41,7 @@
             </label>
           </div>
 
-          <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+          <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
             {{ Register ? 'Masuk' : 'Registrasi' }}
           </PrimaryButton>
         </form>

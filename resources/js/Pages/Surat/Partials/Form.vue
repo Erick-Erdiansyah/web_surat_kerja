@@ -3,6 +3,17 @@
     <div class="pt-10"></div>
     <form @submit.prevent="submit" class="max-w-xl mx-auto my-8 bg-slate-100 px-6 pb-6 rounded-md"
       enctype="multipart/form-data">
+      
+      <!-- Jenis -->
+      <div class="mb-6">
+        <label class="block mb-2 uppercase font-bold text-xs text-gray-700 pt-3" for="jenis">Jenis</label>
+        <select v-model="form.jenis" id="jenis" class="border border-gray-400 p-2 w-full rounded-lg"
+          :disabled="isEditMode">
+          <option value="" disabled>Pilih Jenis Surat</option>
+          <option v-for="jen in jenis" :key="jen" :value="jen">{{ jen }}</option>
+        </select>
+      </div>
+
       <!-- Jurusan -->
       <div class="mb-6">
         <label class="block mb-2 uppercase font-bold text-xs text-gray-700 pt-3" for="jurusan_id">Jurusan</label>
@@ -105,6 +116,7 @@ const isEditMode = computed(() => !!props.laporan);
 
 const form = useForm({
   jurusan_id: props.laporan?.jurusan_id || '',
+  jenis: props.laporan?.jenis || '',
   kategori_id: props.laporan?.kategori_id || '',
   sub_kategori_id: props.laporan?.sub_kategori_id || '',
   nomor_surat: props.laporan?.nomor_surat || '',

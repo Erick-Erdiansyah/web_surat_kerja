@@ -27,6 +27,7 @@ class LaporanSKController extends Controller
             'Laporans' => LaporanSK::with(['kategori', 'sub_kategori'])
                 ->when(Request::input('search'), function ($query, $search) {
                     $query->where('judul', 'like', "%{$search}%")
+                        ->orWhere("jenis", "like", "%{$search}%")
                         ->orWhereHas('kategori', function ($q) use ($search) {
                             $q->where('nama', 'like', "%{$search}%");
                         })
@@ -156,7 +157,7 @@ class LaporanSKController extends Controller
 
         $Surat->update($validatedData);
 
-        return redirect()->route('index')->banner( 'surat berhasil di perbaharui');
+        return redirect()->route('index')->banner('surat berhasil di perbaharui');
     }
 
     /**

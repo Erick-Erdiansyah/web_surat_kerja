@@ -12,7 +12,19 @@
           <Link href="/dashboard">Beranda</Link>
         </h1>
         <div class=" mt-6 sm:pb-6 lg:pb-6 max-w-3xl mx-auto sm:px-6 lg:px-6  bg-gray-600  rounded-lg opacity-70">
-          <input v-model="search" type="text" class="border rounded-lg h-10 my-1" placeholder="Cari...">
+          <div class="h-10 mb-5">
+            <input v-model="search" type="text" class="border rounded-lg w-1/3" placeholder="Cari...">
+            <select id="jenis" class="border border-gray-400 w-1/4 rounded-lg ml-2">
+              <option value="" disabled>Pilih jenis</option>
+              <option>hello</option>
+              <option>world</option>
+            </select>
+            <select id="kategori" class="border border-gray-400 w-1/4 rounded-lg ml-2">
+              <option value="" disabled>Pilih Kategori</option>
+              <option>hello</option>
+              <option>world</option>
+            </select>
+          </div>
           <div
             class="bg-gray-200 opacity-100 overflow-hidden max-h-[400px] overflow-y-auto shadow-xl sm:rounded-lg over">
             <table class="min-w-full divide-y divide-gray-200">
@@ -23,23 +35,22 @@
                     <div class="flex items-center">
                       <p v-show="baru(item.created_timestamp)"
                         class="text-sm px-3 pt-1 rounded-sm text-white dark:text-black dark:bg-white bg-slate-900 w-52 flex items-center absolute top-0 left-0">
-                        Surat baru telah diupload
-                    </p>
+                        surat dibuat {{ item.created_human }}
+                      </p>
                       <div class="flex items-center">
-                        <p class="text-gray-900 dark:text-white" :class="baru(item.created_timestamp) ? 'text-base pt-2 font-medium' : ''">
+                        <p class="text-gray-900 dark:text-white"
+                          :class="baru(item.created_timestamp) ? 'text-base pt-2 font-medium' : ''">
                           {{ item.judul }}</p>
                       </div>
                     </div>
                   </td>
                   <td class="w-10"></td>
                   <td class="pr-2 whitespace-nowrap text-center text-sm font-medium items-center w-3">
-                    <button v-tippy="{ content: 'Lihat', theme: 'dark', arrow: true }"
-                      class="text-gray-900 dark:text-white dark:hover:text-gray-400 hover:text-gray-700 hover:bg-gray-300 hover:rounded-lg py-2 px-2 text-xl focus:outline-none leading-none rounded">
-                      <font-awesome-icon :icon="['far', 'eye']" />
-                    </button>
+                    <Read :kategori="item.kategori.nama" :sub_kategori="item.sub_kategori.nama"
+                      :deskripsi="item.deskripsi" :surat_file="item.surat_file" />
                   </td>
                   <td class="pr-2 whitespace-nowrap text-center text-sm font-medium items-center w-3">
-                    <Dropdown @visible-change="change" :border="false">
+                    <Dropdown :border="false">
                       <!-- trigger element -->
                       <template #trigger>
                         <button type="button" v-tippy="{ content: 'Info lebih lanjut', theme: 'dark', arrow: true }"
@@ -55,11 +66,23 @@
                         <div class="px-2 py-1 text-xl hover:bg-gray-500 hover:text-white rounded-sm">
                           <font-awesome-icon :icon="['far', 'trash-can']" /> hapus
                         </div>
+                        <button v-if="$page.props.auth.user"
+                          class="px-2 py-1 text-xl hover:bg-gray-500 hover:text-white rounded-sm">
+                          <font-awesome-icon :icon="['far', 'bookmark']" /> tandai
+                        </button>
+                        <button @click="openModal" v-if="!$page.props.auth.user"
+                          class="px-2 py-1 text-xl hover:bg-gray-500 hover:text-white rounded-sm">
+                          <font-awesome-icon :icon="['far', 'bookmark']" /> tandai
+                        </button>
+                        <ConfirmationModal :show="isModalOpen" :max-width="'lg'" @close="closeModal" title="masuk">
+                          <template #content>
+                            masuk dulu mas bro
+                          </template>
+                        </ConfirmationModal>
                         <div class="px-2 py-1 text-xl hover:bg-gray-500 hover:text-white rounded-sm">
-                          <font-awesome-icon :icon="['far', 'bookmark']" /> bookmark
-                        </div>
-                        <div class="px-2 py-1 text-xl hover:bg-gray-500 hover:text-white rounded-sm">
+                          <Link :href="`http://127.0.0.1:8000/${item.surat_file}`" download>
                           <font-awesome-icon :icon="['far', 'circle-down']" /> unduh
+                          </Link>
                         </div>
                       </div>
                     </Dropdown>
@@ -78,7 +101,10 @@
 <script setup>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import Dropdown from 'v-dropdown';
+import Read from '@/Components/Read.vue';
+import ConfirmationModal from '@/Components/ConfirmationModal.vue';
 import { directive as VTippy } from 'vue-tippy'
+import { ref } from 'vue';
 import 'tippy.js/dist/tippy.css'
 import 'tippy.js/themes/light.css'
 
@@ -95,6 +121,17 @@ const baru = (timestamp) => {
   const upload = sekarang - timestamp;
   const seminggu = 7 * 24 * 60 * 60;
   return upload <= seminggu;
+};
+
+
+const isModalOpen = ref(false);
+
+const openModal = () => {
+  isModalOpen.value = true;
+};
+
+const closeModal = () => {
+  isModalOpen.value = false;
 };
 
 </script>

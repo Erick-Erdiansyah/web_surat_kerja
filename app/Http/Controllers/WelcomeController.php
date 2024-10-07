@@ -25,7 +25,7 @@ class WelcomeController extends Controller
             })
             ->get()
             ->map(function ($laporan) {
-                $laporan->created_human = Carbon::parse($laporan->created_at)->diffForHumans();
+                $laporan->created_human = Carbon::parse($laporan->created_at)->locale('id')->diffForHumans();
                 $laporan->created_timestamp = $laporan->created_at->timestamp;
                 return $laporan;
             });

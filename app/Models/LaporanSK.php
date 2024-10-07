@@ -12,6 +12,7 @@ class LaporanSK extends Model
         'jurusan_id',   
         'kategori_id',
         'sub_kategori_id',
+        'jenis',
         'nomor_surat',
         'tanggal_surat',
         'judul',
