@@ -21,7 +21,7 @@
           <table class="min-w-full divide-y divide-gray-200">
             <tbody class="bg-white divide-y divide-gray-200">
               <TableRow v-for="item in Laporans.data" :key="item.id" :item="item" :toggleBookmark="toggleBookmark"
-                :isBookmarked="isBookmarked" :remove="remove" :Baru="false" />
+                :isBookmarked="isBookmarked" :remove="remove" />
             </tbody>
           </table>
         </div>
@@ -73,16 +73,6 @@ const form = useForm({
   laporan_id: null,
 });
 
-const isModalOpen = ref(false);
-
-const openModal = () => {
-  isModalOpen.value = true;
-};
-
-const closeModal = () => {
-  isModalOpen.value = false;
-};
-
 const fetchItems = () => {
   Inertia.get('/sk/index', {}, { preserveState: true });
 };
@@ -98,7 +88,6 @@ const remove = (LaporanId) => {
 const isBookmarked = (laporanId) => {
   return bookmarks.value.includes(laporanId);
 };
-
 
 const toggleBookmark = (laporanId) => {
   form.laporan_id = laporanId;

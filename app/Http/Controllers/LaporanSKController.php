@@ -11,6 +11,8 @@ use App\Models\SubKategori;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
+use Carbon\Carbon;
+
 
 class LaporanSKController extends Controller
 {
@@ -43,10 +45,14 @@ class LaporanSKController extends Controller
                     'kategori' => $laporan->kategori ? $laporan->kategori : 'N/A',
                     'sub_kategori' => $laporan->sub_kategori ? $laporan->sub_kategori : 'N/A',
                     'isBookmarked' => $bookmarkedLaporans->contains($laporan->id),
+                    'created_human' => Carbon::parse($laporan->created_at)->locale('id')->diffForHumans(),
+                    'created_timestamp' => $laporan->created_at->timestamp,
+                    'surat_file' => $laporan->surat_file,
                     'can' => [
                         'update' => Auth::user()->can('update', $laporan),
                         'delete' => Auth::user()->can('delete', $laporan),
                     ]
+
                 ]),
             'filters' => Request::only(['search']),
             'bookmarkedLaporans' => $bookmarkedLaporans,
@@ -79,6 +85,7 @@ class LaporanSKController extends Controller
             'jurusan_id' => 'required|exists:jurusans,id',
             'kategori_id' => 'required|exists:kategoris,id',
             'sub_kategori_id' => 'required|exists:sub_kategoris,id',
+            'jenis' => 'required|in:surat kerja,surat tugas',
             'nomor_surat' => 'required|string|max:255',
             'tanggal_surat' => 'required|string|max:255',
             'judul' => 'required|string|max:255',
@@ -94,7 +101,7 @@ class LaporanSKController extends Controller
 
         LaporanSK::create($validatedData);
 
-        return redirect()->route('index')->banner('surat baru berhasil ditambahkan');
+        return redirect()->route('index');
     }
 
     /**
@@ -136,6 +143,7 @@ class LaporanSKController extends Controller
             'jurusan_id' => 'required|exists:jurusans,id',
             'kategori_id' => 'required|exists:kategoris,id',
             'sub_kategori_id' => 'required|exists:sub_kategoris,id',
+            'jenis' => 'required|in:surat kerja,surat tugas',
             'nomor_surat' => 'required|string|max:255',
             'tanggal_surat' => 'required|string|max:255',
             'judul' => 'required|string|max:255',
@@ -157,7 +165,7 @@ class LaporanSKController extends Controller
 
         $Surat->update($validatedData);
 
-        return redirect()->route('index')->banner('surat berhasil di perbaharui');
+        return redirect()->route('index');
     }
 
     /**
@@ -167,6 +175,6 @@ class LaporanSKController extends Controller
     {
         $Surat->delete();
 
-        return back()->dangerbanner('surat berhasil dihapus');
+        return back();
     }
 }

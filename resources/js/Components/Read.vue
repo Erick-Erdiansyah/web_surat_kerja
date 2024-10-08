@@ -1,6 +1,6 @@
 <template>
   <button @click="isModalOpen = true" v-tippy="{ content: 'Lihat', theme: 'dark', arrow: true }"
-    class="text-gray-900 dark:text-white dark:hover:text-gray-400 hover:text-gray-700 hover:bg-gray-300 hover:rounded-lg py-2 px-2 text-xl focus:outline-none leading-none rounded">
+    class="text-gray-900 dark:text-white dark:hover:text-gray-400 hover:text-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 hover:rounded-lg py-2 px-2 text-xl focus:outline-none leading-none rounded">
     <font-awesome-icon :icon="['far', 'eye']" />
   </button>
   <DialogModal :show="isModalOpen" :closeable="true" @close="handleCloseModal">
@@ -9,28 +9,27 @@
     </template> -->
     <template #content>
       <div>
-        <div class="bg-white dark:bg-slate-800 overflow-hidden shadow-xl sm:rounded-lg">
-          <div class="flex justify-center">
-            <button @click="page = page > 1 ? page - 1 : page" class="text-gray-800 dark:text-white p-4 text-xl">
-              <font-awesome-icon :icon="['fas', 'caret-left']" />
-            </button>
-            <span class="mt-5">{{ page }} / {{ pages }}</span>
-            <button @click="page = page < pages ? page + 1 : page" class="text-gray-800 dark:text-white p-4 text-xl">
-              <font-awesome-icon :icon="['fas', 'caret-right']" />
-            </button>
+        <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+          <div>
+            <div class="flex justify-end">
+              <button @click="toggleBookmark(props.id)" v-tippy="{ content: 'Tandai', theme: 'dark', arrow: true }"
+                class="text-gray-800 dark:text-white hover:text-gray-700 px-6 text-xl focus:outline-none leading-none rounded">
+                <font-awesome-icon :icon="isBookmarked(props.id) ? ['fas', 'bookmark'] : ['far', 'bookmark']" />
+              </button>
+            </div>
+            <div class="flex justify-center">
+              <button @click="page = page > 1 ? page - 1 : page" class="text-gray-800 p-4 text-xl"
+                v-tippy="{ content: 'Halaman sebelumnya', theme: 'dark', arrow: true, placement: 'bottom' }">
+                <font-awesome-icon :icon="['fas', 'caret-left']" />
+              </button>
+              <span class="mt-5">{{ page }} / {{ pages }}</span>
+              <button @click="page = page < pages ? page + 1 : page" class="text-gray-800 p-4 text-xl"
+                v-tippy="{ content: 'Halaman selanjutnya', theme: 'dark', arrow: true, placement: 'bottom' }">
+                <font-awesome-icon :icon="['fas', 'caret-right']" />
+              </button>
+            </div>
           </div>
-          <div class="p-5 bg-slate-200 dark:bg-slate-700 rounded sm:rounded-lg">
-            <!-- <h1 class="text-xl dark:text-white font-semibold mb-2">{{ laporan.judul }} </h1> -->
-
-            <p class="dark:text-white">kategori : {{ kategori }} </p>
-
-            <p class="dark:text-white">sub kategori : {{ sub_kategori }} </p>
-
-            <p class="dark:text-white">deskripsi : {{ deskripsi }}</p>
-
-            <!-- <p class="dark:text-white">jenis : {{ jenis }}</p> -->
-          </div>
-          <div class=" border-t-2 flex justify-center mt-5">
+          <div class=" border-t-2 flex justify-center">
             <VuePDF :pdf="pdf" :page="page" :scale="1.25" />
           </div>
         </div>
@@ -48,11 +47,22 @@
 import DialogModal from '@/Components/DialogModal.vue';
 import { VuePDF, usePDF } from '@tato30/vue-pdf'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { usePage, useForm } from '@inertiajs/vue3';
+import { usePage, useForm, router } from '@inertiajs/vue3';
 import { ref, watch } from 'vue'
 import { directive as VTippy } from 'vue-tippy'
 import 'tippy.js/dist/tippy.css'
 import 'tippy.js/themes/light.css'
+
+let props = defineProps({
+  id: Number,
+  kategori: String,
+  sub_kategori: String,
+  deskripsi: String,
+  jenis: String,
+  surat_file: String
+})
+
+let bookmarks = ref('');
 
 const isModalOpen = ref(false);
 
@@ -60,57 +70,58 @@ const handleCloseModal = () => {
   isModalOpen.value = false;
 };
 
+const { bookmarkedLaporans } = usePage().props;
 
-// const { laporan, bookmarkedLaporans } = usePage().props;
+if (typeof bookmarkedLaporans[0] === 'number') {
+  console.log('we should be here');
+  bookmarks = ref(bookmarkedLaporans);
+} else {
+  bookmarks = ref(bookmarkedLaporans.map(laporan => laporan.id));
+}
 
-// const bookmarks = ref(bookmarkedLaporans);
+watch(() => bookmarkedLaporans, (newBookmarks) => {
+  bookmarks.value = typeof bookmarkedLaporans[0] === 'number' ? bookmarks.value = newBookmarks : newBookmarks.map(laporan => laporan.id);
+});
 
-// watch(() => bookmarkedLaporans, (newBookmarks) => {
-//   bookmarks.value = newBookmarks;
-// });
+const form = useForm({
+  laporan_id: null,
+});
 
-// const form = useForm({
-//   laporan_id: null,
-// });
+const isBookmarked = (laporanId) => {
+  return bookmarks.value.includes(laporanId);
+};
 
-// const isBookmarked = (laporanId) => {
-//   return bookmarks.value.includes(laporanId);
-// };
+const toggleBookmark = (laporanId) => {
+  form.laporan_id = laporanId;
 
-// const toggleBookmark = (laporanId) => {
-//   form.laporan_id = laporanId;
-
-//   if (isBookmarked(laporanId)) {
-//     form.delete(`/bookmarks/${laporanId}`, {
-//       onSuccess: () => {
-//         console.log(`Laporan ${laporanId} removed from bookmarks.`);
-//         bookmarks.value = bookmarks.value.filter(id => id !== laporanId);
-//       },
-//       onError: (errors) => {
-//         console.log('Error:', errors);
-//       },
-//     });
-//   } else {
-//     form.post('/bookmarks', {
-//       onSuccess: () => {
-//         console.log(`Laporan ${laporanId} added to bookmarks.`);
-//         bookmarks.value.push(laporanId);
-//       },
-//       onError: (errors) => {
-//         console.log('Error:', errors);
-//       },
-//     });
-//   }
-// };
-
-
-let props = defineProps({
-  kategori: String,
-  sub_kategori: String,
-  deskripsi: String,
-  jenis: String,
-  surat_file: String
-})
+  if (isBookmarked(laporanId)) {
+    form.delete(`/bookmarks/${laporanId}`, {
+      onSuccess: () => {
+        bookmarks.value = bookmarks.value.filter(id => id !== laporanId);
+        router.reload({
+          preserveScroll: false,
+          preserveState: false,
+        });
+      },
+      onError: (errors) => {
+        console.log('Error:', errors);
+      },
+    });
+  } else {
+    form.post('/bookmarks', {
+      onSuccess: () => {
+        bookmarks.value.push(laporanId);
+        router.reload({
+          preserveScroll: false,
+          preserveState: false,
+        });
+      },
+      onError: (errors) => {
+        console.log('Error:', errors);
+      },
+    });
+  }
+};
 
 const page = ref(1)
 const pdfPath = ref(`/storage/${props.surat_file}`);

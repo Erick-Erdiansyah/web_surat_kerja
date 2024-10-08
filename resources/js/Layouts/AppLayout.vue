@@ -121,7 +121,7 @@ const logout = () => {
                 <font-awesome-icon :icon="isActive ? ['far', 'sun'] : ['far', 'moon']" />
               </button>
               <button class="px-4 py-2 dark:text-white rounded-full dark:bg-slate-800"
-                v-tippy="{ content: 'pem', theme: 'dark', arrow: true, placement: 'auto' }">
+                v-tippy="{ content: 'pemberitahuan', theme: 'dark', arrow: true, placement: 'auto' }">
                 <font-awesome-icon :icon="['far', 'bell']" />
               </button>
             </div>

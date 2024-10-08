@@ -12,40 +12,30 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        // Fetch new items with relationships
-        $newItems = LaporanSK::with(['kategori', 'sub_kategori'])
-            ->where('created_at', '>=', Carbon::now()->subDays(7))
-            ->get();
-
-        // Fetch bookmarked laporans with relationships
-        $bookmarkedLaporans = $user->bookmarkedLaporans()->with(['kategori', 'sub_kategori'])->get();
-
-        // Attach permissions to each new item
-        $newItemsWithPermissions = $newItems->map(function ($item) use ($user) {
-            return array_merge($item->toArray(), [
-                'can' => [
-                    'update' => $user->can('update', $item),
-                    'delete' => $user->can('delete', $item),
-                ],
-            ]);
-        });
-
-        // Attach permissions to each bookmarked laporan
-        $bookmarkedLaporanPermision = $bookmarkedLaporans->map(function ($item) use ($user) {
-            return array_merge($item->toArray(), [
-                'can' => [
-                    'update' => $user->can('update', $item),
-                    'delete' => $user->can('delete', $item),
-                ],
-            ]);
-        });
+        // Fetch bookmarked laporans with relationships and process them
+        $bookmarkedLaporans = $user->bookmarkedLaporans()->with(['kategori', 'sub_kategori'])->get()
+            ->map(function ($laporan) {
+                return [
+                    'id' => $laporan->id,
+                    'judul' => $laporan->judul,
+                    'kategori' => $laporan->kategori->nama ?? 'N/A', // Handle null case
+                    'sub_kategori' => $laporan->sub_kategori->nama ?? 'N/A', // Handle null case
+                    'created_human' => Carbon::parse($laporan->created_at)->locale('id')->diffForHumans(),
+                    'created_timestamp' => $laporan->created_at->timestamp,
+                    'surat_file' => $laporan->surat_file,
+                    'can' => [
+                        'update' => Auth::user()->can('update', $laporan),
+                        'delete' => Auth::user()->can('delete', $laporan),
+                    ],
+                ];
+            });
 
         // Render the dashboard with the modified data
         return Inertia::render('Dashboard', [
-            'newItems' => $newItemsWithPermissions,
-            'bookmarkedLaporans' => $bookmarkedLaporanPermision,
+            'bookmarkedLaporans' => $bookmarkedLaporans,
         ]);
     }
+
 }
 
 

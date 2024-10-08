@@ -5,25 +5,13 @@
         Dashboard
       </h2>
     </template>
-    <div class="pt-36  relative">
-      <div class="max-w-9xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-          <table class="min-w-full divide-y divide-gray-200">
-            <tbody class="bg-white divide-y divide-gray-200">
-              <TableRow v-for="item in newItems" :key="item.id" :item="item" :toggleBookmark="toggleBookmark"
-                :isBookmarked="isBookmarked" :remove="remove" :Baru="true"/>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-    <div class=" py-3">
+    <div class="pt-36">
       <div class="max-w-9xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
           <table class="min-w-full divide-y divide-gray-200">
             <tbody class="bg-white divide-y divide-gray-200">
               <TableRow v-for="item in bookmarkedLaporans" :key="item.id" :item="item" :toggleBookmark="toggleBookmark"
-                :isBookmarked="isBookmarked" :remove="remove" :Baru="false"/>
+                :isBookmarked="isBookmarked" :remove="remove" />
             </tbody>
           </table>
         </div>

@@ -10,8 +10,8 @@
         <select v-model="form.jenis" id="jenis" class="border border-gray-400 p-2 w-full rounded-lg"
           :disabled="isEditMode">
           <option value="" disabled>Pilih Jenis Surat</option>
-          <option :value="1">surat kerja</option>
-          <option :value="2">surat tugas</option>
+          <option :value="'surat kerja'">Surat Kerja</option>
+          <option :value="'surat tugas'">Surat Tugas</option>
         </select>
       </div>
 
