@@ -7,7 +7,8 @@
             SK Elektro
           </h2>
           <Link v-show="can.create" href="/sk/create"
-            class="text-gray-800 dark:text-gray-200 dark:hover:text-white text-xl hover:text-gray-600 ml-3 py-4 px-4">
+            class="text-gray-800 dark:text-gray-200 dark:hover:text-white text-xl hover:text-gray-600 ml-3 py-4 px-4"
+            v-tippy="{ content: 'Tambah surat baru', theme: 'dark', arrow: true }">
           <font-awesome-icon :icon="['fas', 'file-circle-plus']" />
           </Link>
         </div>
@@ -38,6 +39,9 @@ import { throttle } from 'lodash';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { Inertia } from '@inertiajs/inertia';
 import TableRow from './Partials/TableRow.vue';
+import { directive as VTippy } from 'vue-tippy'
+import 'tippy.js/dist/tippy.css'
+import 'tippy.js/themes/light.css'
 
 const { Laporans, bookmarkedLaporans, can } = usePage().props;
 
