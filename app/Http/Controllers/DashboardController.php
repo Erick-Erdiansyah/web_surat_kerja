@@ -12,14 +12,13 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        // Fetch bookmarked laporans with relationships and process them
         $bookmarkedLaporans = $user->bookmarkedLaporans()->with(['kategori', 'sub_kategori'])->get()
             ->map(function ($laporan) {
                 return [
                     'id' => $laporan->id,
                     'judul' => $laporan->judul,
-                    'kategori' => $laporan->kategori->nama ?? 'N/A', // Handle null case
-                    'sub_kategori' => $laporan->sub_kategori->nama ?? 'N/A', // Handle null case
+                    'kategori' => $laporan->kategori->nama ?? 'N/A',
+                    'sub_kategori' => $laporan->sub_kategori->nama ?? 'N/A',
                     'created_human' => Carbon::parse($laporan->created_at)->locale('id')->diffForHumans(),
                     'created_timestamp' => $laporan->created_at->timestamp,
                     'surat_file' => $laporan->surat_file,
@@ -30,7 +29,6 @@ class DashboardController extends Controller
                 ];
             });
 
-        // Render the dashboard with the modified data
         return Inertia::render('Dashboard', [
             'bookmarkedLaporans' => $bookmarkedLaporans,
         ]);

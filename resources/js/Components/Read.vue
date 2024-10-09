@@ -13,7 +13,7 @@
           <div>
             <div class="flex justify-end">
               <button @click="toggleBookmark(props.id)" v-tippy="{ content: 'Tandai', theme: 'dark', arrow: true }"
-                class="text-gray-800 dark:text-white hover:text-gray-700 px-6 text-xl focus:outline-none leading-none rounded">
+                class="text-gray-800 hover:text-gray-700 px-6 text-xl focus:outline-none leading-none rounded">
                 <font-awesome-icon :icon="isBookmarked(props.id) ? ['fas', 'bookmark'] : ['far', 'bookmark']" />
               </button>
             </div>
@@ -68,6 +68,7 @@ const isModalOpen = ref(false);
 
 const handleCloseModal = () => {
   isModalOpen.value = false;
+  reinitializePDF()
 };
 
 const { bookmarkedLaporans } = usePage().props;
@@ -123,7 +124,14 @@ const toggleBookmark = (laporanId) => {
   }
 };
 
-const page = ref(1)
+let pdf, pages;
+
+const page = ref(1);
 const pdfPath = ref(`/storage/${props.surat_file}`);
-const { pdf, pages } = usePDF(pdfPath)
+
+({ pdf, pages } = usePDF(pdfPath));
+
+function reinitializePDF() {
+  ({ pdf, pages } = usePDF(pdfPath));
+}
 </script>

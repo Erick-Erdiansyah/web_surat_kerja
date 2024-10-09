@@ -49,7 +49,7 @@
       <!-- Nomor Surat -->
       <div class="mb-6">
         <label class="block mb-2 uppercase font-bold text-xs text-gray-700" for="nomorSurat">Nomor Surat</label>
-        <input v-model="form.nomor_surat" type="text" id="nomorSurat"
+        <input v-model="form.nomor_surat" type="number" id="nomorSurat"
           class="border border-gray-400 p-2 w-full rounded-lg" required placeholder="Nomor Surat">
       </div>
 

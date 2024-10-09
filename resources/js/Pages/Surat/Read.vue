@@ -27,11 +27,11 @@
       <div class="bg-white dark:bg-slate-800 overflow-hidden shadow-xl sm:rounded-lg p-5">
         <div class="p-5 bg-slate-200 dark:bg-slate-700 rounded sm:rounded-lg">
           <h1 class="text-xl dark:text-white font-semibold mb-2">{{ laporan.judul }} </h1>
-          
-          <p class="dark:text-white">kategori : {{ laporan.kategori.nama}} </p>
-          
-          <p class="dark:text-white">kategori : {{ laporan.sub_kategori.nama}} </p>
-          
+
+          <p class="dark:text-white">kategori : {{ laporan.kategori.nama }} </p>
+
+          <p class="dark:text-white">kategori : {{ laporan.sub_kategori.nama }} </p>
+
           <p class="dark:text-white">deskripsi : {{ laporan.deskripsi }}</p>
         </div>
         <div class=" border-t-2 flex justify-center mt-5">
@@ -42,7 +42,7 @@
   </AppLayout>
 </template>
 <script setup>
-import { ref,watch } from 'vue'
+import { ref, watch } from 'vue'
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { VuePDF, usePDF } from '@tato30/vue-pdf'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -92,5 +92,10 @@ const toggleBookmark = (laporanId) => {
 
 const page = ref(1)
 const pdfPath = ref(`/storage/${laporan.surat_file}`);
-const { pdf, pages } = usePDF(pdfPath)
+if (pdfPath) {
+  const { pdf, pages } = usePDF(pdfPath)
+} else {
+  const pdfPath = ref(`/storage/${laporan.surat_file}`);
+  const { pdf, pages } = usePDF(pdfPath)
+}
 </script>
