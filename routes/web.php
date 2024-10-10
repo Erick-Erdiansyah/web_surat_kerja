@@ -6,8 +6,11 @@ use App\Http\Controllers\LaporanSKController;
 use App\Http\Controllers\SubKategoriController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
+use Laravel\Fortify\Fortify;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('home');
+Route::get('/login', [WelcomeController::class, 'index'])->name('login');
+Route::get('/register', [WelcomeController::class, 'index'])->name('register');
 
 Route::middleware([
     'auth:sanctum',
@@ -25,5 +28,9 @@ Route::middleware([
     Route::post('/subkategori/store', [SubKategoriController::class, 'store'])->name('subkategori.store');
     Route::post('/bookmarks', [BookmarkController::class, 'store'])->name('bookmarks.store');
     Route::delete('/bookmarks/{laporan}', [BookmarkController::class, 'destroy'])->name('bookmarks.destroy');
+    Route::get('/notifications', [LaporanSKController::class, 'notifications'])->name('notifications');
+    Route::get('/notifications', function () {
+        return inertia('Notifications');
+    })->name('notifications');
 });
 

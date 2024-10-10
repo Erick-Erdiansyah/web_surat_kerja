@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import ApplicationMark from '@/Components/ApplicationMark.vue';
 import Banner from '@/Components/Banner.vue';
@@ -28,6 +28,31 @@ const showingNavigationDropdown = ref(false);
 const isDark = useDark()
 const toggleDark = useToggle(isDark)
 const isActive = ref(isDark)
+
+const notifications = ref([]);
+const unreadCount = ref(0);
+
+const fetchNotifications = async () => {
+  try {
+    const response = await fetch('/notifications');
+    const data = await response.json();
+    notifications.value = data;
+    unreadCount.value = data.filter(notification => !notification.read_at).length;
+  } catch (error) {
+    console.error('Error fetching notifications:', error);
+  }
+};
+
+let pollingInterval;
+
+onMounted(() => {
+  fetchNotifications();
+  pollingInterval = setInterval(fetchNotifications, 10000);
+});
+
+onBeforeUnmount(() => {
+  clearInterval(pollingInterval);
+});
 
 const logout = () => {
   router.post(route('logout'));
@@ -117,12 +142,17 @@ const logout = () => {
                 </Dropdown>
               </div>
               <button @click="toggleDark()" class="px-4 py-2 dark:text-white rounded-full dark:bg-slate-800"
-                v-tippy="{ content: 'Ganti tema', theme: 'dark', arrow: true, placement: 'auto' }">
+                v-tippy="{ content: 'Ganti tema', theme: 'dark', arrow: true, placement: 'bottom' }">
                 <font-awesome-icon :icon="isActive ? ['far', 'sun'] : ['far', 'moon']" />
               </button>
-              <button class="px-4 py-2 dark:text-white rounded-full dark:bg-slate-800"
-                v-tippy="{ content: 'pemberitahuan', theme: 'dark', arrow: true, placement: 'auto' }">
+              <button @click="toggleNotifications"
+                class="relative px-4 py-2 dark:text-white rounded-full dark:bg-slate-800"
+                v-tippy="{ content: 'Pemberitahuan', theme: 'dark', arrow: true, placement: 'bottom' }">
                 <font-awesome-icon :icon="['far', 'bell']" />
+                <span v-if="unreadCount > 0"
+                  class="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold rounded-full px-1">
+                  {{ unreadCount }}
+                </span>
               </button>
             </div>
 

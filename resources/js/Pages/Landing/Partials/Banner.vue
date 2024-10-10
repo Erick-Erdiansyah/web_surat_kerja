@@ -8,19 +8,21 @@
           Elektro</h1>
         <h1 v-if="!$page.props.auth.user" class="text-7xl font-semibold text-white mt-10 px-4">Arsip Surat Kerja dan<br>
           Surat Tugas Teknik Elektro</h1>
-        <h1 v-if="$page.props.auth.user" class="text-7xl font-semibold text-white mt-4 px-4 underline">
-          <Link href="/dashboard">Beranda</Link>
+        <h1 v-if="$page.props.auth.user" class="text-7xl font-semibold text-white mt-4 px-4">
+          <Link href="/dashboard" class="hover:underline">Beranda</Link>
         </h1>
         <div class=" mt-6 sm:pb-6 lg:pb-6 max-w-3xl mx-auto sm:px-6 lg:px-6  bg-gray-600  rounded-lg opacity-70">
           <div class="h-10 mb-5">
             <input v-model="search" type="text" class="border rounded-lg w-1/3" placeholder="Cari...">
             <select id="jenis" class="border border-gray-400 w-1/4 rounded-lg ml-2">
               <option value="" disabled>Pilih jenis</option>
+              <option>Semua Surat</option>
               <option>hello</option>
               <option>world</option>
             </select>
             <select id="kategori" class="border border-gray-400 w-1/4 rounded-lg ml-2">
               <option value="" disabled>Pilih Kategori</option>
+              <option>Semua kategori</option>
               <option>hello</option>
               <option>world</option>
             </select>
@@ -29,65 +31,8 @@
             class="bg-gray-200 opacity-100 overflow-hidden max-h-[400px] overflow-y-auto shadow-xl sm:rounded-lg over">
             <table class="min-w-full divide-y divide-gray-200">
               <tbody class="bg-white divide-y divide-gray-200">
-                <tr class="hover:bg-slate-100 dark:hover:bg-slate-800 dark:bg-slate-700 relative"
-                  v-for="item in Laporans" :key="item.id" :item="item">
-                  <td class="px-4 py-2 whitespace-pre-wrap">
-                    <div class="flex items-center">
-                      <p v-show="baru(item.created_timestamp)"
-                        class="text-sm px-3 pt-1 rounded-sm text-white dark:text-black dark:bg-white bg-slate-900 w-52 flex items-center absolute top-0 left-0">
-                        Dibuat {{ item.created_human }}
-                      </p>
-                      <div class="flex items-center">
-                        <p class="text-gray-900 dark:text-white"
-                          :class="baru(item.created_timestamp) ? 'text-base pt-2 font-medium' : ''">
-                          {{ item.judul }}</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td class="w-10"></td>
-                  <td class="pr-2 whitespace-nowrap text-center text-sm font-medium items-center w-3">
-                    <Read :kategori="item.kategori.nama" :sub_kategori="item.sub_kategori.nama"
-                      :deskripsi="item.deskripsi" :surat_file="item.surat_file" />
-                  </td>
-                  <td class="pr-2 whitespace-nowrap text-center text-sm font-medium items-center w-3">
-                    <Dropdown :border="false">
-                      <!-- trigger element -->
-                      <template #trigger>
-                        <button type="button" v-tippy="{ content: 'Info lebih lanjut', theme: 'dark', arrow: true }"
-                          class="text-4xl text-gray-900 dark:text-white dark:hover:text-gray-400 hover:text-gray-700 py-2 px-4 hover:bg-gray-300 hover:rounded-lg">
-                          <font-awesome-icon :icon="['fas', 'ellipsis-vertical']" />
-                        </button>
-                      </template>
-                      <!-- contents display in dropdown -->
-                      <div class="bg-gray-200 border-none text-gray-800">
-                        <div class="px-2 py-1 text-xl hover:bg-gray-500 hover:text-white rounded-sm">
-                          <font-awesome-icon :icon="['far', 'pen-to-square']" /> ubah
-                        </div>
-                        <div class="px-2 py-1 text-xl hover:bg-gray-500 hover:text-white rounded-sm">
-                          <font-awesome-icon :icon="['far', 'trash-can']" /> hapus
-                        </div>
-                        <button v-if="$page.props.auth.user"
-                          class="px-2 py-1 text-xl hover:bg-gray-500 hover:text-white rounded-sm">
-                          <font-awesome-icon :icon="['far', 'bookmark']" /> tandai
-                        </button>
-                        <button @click="openModal" v-if="!$page.props.auth.user"
-                          class="px-2 py-1 text-xl hover:bg-gray-500 hover:text-white rounded-sm">
-                          <font-awesome-icon :icon="['far', 'bookmark']" /> tandai
-                        </button>
-                        <ConfirmationModal :show="isModalOpen" :max-width="'lg'" @close="closeModal" title="masuk">
-                          <template #content>
-                            masuk dulu mas bro
-                          </template>
-                        </ConfirmationModal>
-                        <div class="px-2 py-1 text-xl hover:bg-gray-500 hover:text-white rounded-sm">
-                          <Link :href="`http://127.0.0.1:8000/${item.surat_file}`" download>
-                          <font-awesome-icon :icon="['far', 'circle-down']" /> unduh
-                          </Link>
-                        </div>
-                      </div>
-                    </Dropdown>
-                  </td>
-                </tr>
+                <TableRow v-for="item in Laporans" :key="item.id" :item="item" :toggleBookmark="toggleBookmark"
+                  :isBookmarked="isBookmarked" :remove="remove" />
               </tbody>
             </table>
           </div>
@@ -99,20 +44,18 @@
 </template>
 
 <script setup>
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import Dropdown from 'v-dropdown';
-import Read from '@/Components/Read.vue';
-import ConfirmationModal from '@/Components/ConfirmationModal.vue';
+import { ref, watch } from 'vue';
+import { usePage, useForm, router } from '@inertiajs/vue3';
+import { throttle } from 'lodash';
 import { directive as VTippy } from 'vue-tippy'
-import { ref } from 'vue';
 import 'tippy.js/dist/tippy.css'
 import 'tippy.js/themes/light.css'
+import TableRow from '@/Pages/Surat/Partials/TableRow.vue';
 
 const imageUrl = new URL('@/assets/images/background.svg', import.meta.url);
 
 
 let props = defineProps({
-  Laporans: Object,
   filters: Object,
 })
 
@@ -124,14 +67,71 @@ const baru = (timestamp) => {
 };
 
 
-const isModalOpen = ref(false);
+const { Laporans, bookmarkedLaporans, can } = usePage().props;
 
-const openModal = () => {
-  isModalOpen.value = true;
+
+let search = ref(props.filters.search);
+
+watch(search, throttle((value) => {
+  router.get('/sk/index', { search: value }, {
+    onSuccess: (response) => {
+      // assign new value, the page not reload properly -_-
+      Laporans.data = response.props.Laporans.data;
+      Laporans.links = response.props.Laporans.links;
+    },
+    preserveState: true,
+    replace: true,
+  });
+}, 500));
+
+const bookmarks = ref(bookmarkedLaporans);
+
+watch(() => bookmarkedLaporans, (newBookmarks) => {
+  bookmarks.value = newBookmarks;
+});
+
+const form = useForm({
+  laporan_id: null,
+});
+
+const fetchItems = () => {
+  Inertia.get('/sk/index', {}, { preserveState: true });
 };
 
-const closeModal = () => {
-  isModalOpen.value = false;
+const remove = (LaporanId) => {
+  form.delete(`/sk/${LaporanId}/delete`, {
+    onFinish: () => {
+      fetchItems();
+    },
+  });
+};
+
+const isBookmarked = (laporanId) => {
+  return bookmarks.value.includes(laporanId);
+};
+
+const toggleBookmark = (laporanId) => {
+  form.laporan_id = laporanId;
+
+  if (isBookmarked(laporanId)) {
+    form.delete(`/bookmarks/${laporanId}`, {
+      onSuccess: () => {
+        bookmarks.value = bookmarks.value.filter(id => id !== laporanId);
+      },
+      onError: (errors) => {
+        console.log('Error:', errors);
+      },
+    });
+  } else {
+    form.post('/bookmarks', {
+      onSuccess: () => {
+        bookmarks.value.push(laporanId);
+      },
+      onError: (errors) => {
+        console.log('Error:', errors);
+      },
+    });
+  }
 };
 
 </script>

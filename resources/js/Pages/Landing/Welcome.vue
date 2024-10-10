@@ -1,4 +1,5 @@
 <template>
+  <Head :title="'Welcome'" />
   <div class="flex h-screen">
     <Banner :Laporans="Laporans" :filters="filters"/>
 
@@ -13,6 +14,7 @@ let props = defineProps({
   filters: Object,
 })
 
+import { Head } from '@inertiajs/vue3';
 import Banner from './Partials/Banner.vue';
 import Form from './Partials/Form.vue';
 </script>

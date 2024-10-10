@@ -68,16 +68,19 @@ const isModalOpen = ref(false);
 
 const handleCloseModal = () => {
   isModalOpen.value = false;
+  console.log('are we not ?')
   reinitializePDF()
 };
 
 const { bookmarkedLaporans } = usePage().props;
 
-if (typeof bookmarkedLaporans[0] === 'number') {
+if (Array.isArray(bookmarkedLaporans) && typeof bookmarkedLaporans[0] === 'number') {
   console.log('we should be here');
-  bookmarks = ref(bookmarkedLaporans);
+  bookmarks.value = bookmarkedLaporans;
+} else if (Array.isArray(bookmarkedLaporans)) {
+  bookmarks.value = bookmarkedLaporans.map(laporan => laporan.id);
 } else {
-  bookmarks = ref(bookmarkedLaporans.map(laporan => laporan.id));
+  bookmarks.value = [];
 }
 
 watch(() => bookmarkedLaporans, (newBookmarks) => {
