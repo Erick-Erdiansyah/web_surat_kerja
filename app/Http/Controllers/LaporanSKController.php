@@ -8,12 +8,12 @@ use App\Http\Requests\UpdateLaporanSKRequest;
 use App\Models\Jurusan;
 use App\Models\Kategori;
 use App\Models\SubKategori;
+use App\Models\User;
+use App\Notifications\LaporanSKCreated;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 use Carbon\Carbon;
-use App\Models\User;
-use App\Notifications\NewLaporan;
 use Illuminate\Support\Facades\Notification;
 
 class LaporanSKController extends Controller
@@ -101,17 +101,11 @@ class LaporanSKController extends Controller
         // Merge file path
         $validatedData['surat_file'] = $filePath;
 
-        $laporanSK = LaporanSK::create($validatedData);
+        // Create Laporan SK
+        LaporanSK::create($validatedData);
 
-        Notification::send(User::all(), new NewLaporan($laporanSK));
 
         return redirect()->route('index');
-    }
-
-    public function notifications()
-    {
-        $notifications = auth()->user()->notifications()->latest()->get();
-        return response()->json($notifications);
     }
 
     /**
