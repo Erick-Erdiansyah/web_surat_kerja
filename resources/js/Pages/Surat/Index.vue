@@ -12,7 +12,21 @@
           <font-awesome-icon :icon="['fas', 'file-circle-plus']" />
           </Link>
         </div>
-        <input v-model="search" type="text" class="border rounded-lg h-10 mt-1" placeholder="Cari...">
+        <input v-model="search" type="text" class="border rounded-lg w-1/2" placeholder="Cari...">
+        <div class="h-10 mb-5  hidden md:block ">
+          <select id="jenis" class="border border-gray-400min-w-fit rounded-lg ml-2">
+            <option value="" disabled>Pilih jenis</option>
+            <option>Semua Surat</option>
+            <option>hello</option>
+            <option>world</option>
+          </select>
+          <select id="kategori" class="border border-gray-400 min-w-fit rounded-lg ml-2">
+            <option value="" disabled>Pilih Kategori</option>
+            <option>Semua kategori</option>
+            <option>hello</option>
+            <option>world</option>
+          </select>
+        </div>
       </div>
     </template>
     <div class=" pt-36">
