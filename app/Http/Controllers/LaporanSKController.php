@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Notification;
 
 class LaporanSKController extends Controller
 {

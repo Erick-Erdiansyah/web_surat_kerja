@@ -31,7 +31,6 @@ class DashboardController extends Controller
 
         return Inertia::render('Dashboard', [
             'bookmarkedLaporans' => $bookmarkedLaporans,
-            'notif' => $user->unreadNotifications
         ]);
     }
 

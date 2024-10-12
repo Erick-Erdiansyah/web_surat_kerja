@@ -28,7 +28,7 @@ import { ref, watch } from 'vue';
 import { usePage, useForm, router } from '@inertiajs/vue3';
 import { Inertia } from '@inertiajs/inertia';
 
-const { newItems, bookmarkedLaporans, notif } = usePage().props;
+const { bookmarkedLaporans } = usePage().props;
 
 const goTo = (itemId) => {
   this.$router.push(`/sk/${itemId}/read`)

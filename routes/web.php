@@ -29,5 +29,6 @@ Route::middleware([
     Route::post('/bookmarks', [BookmarkController::class, 'store'])->name('bookmarks.store');
     Route::delete('/bookmarks/{laporan}', [BookmarkController::class, 'destroy'])->name('bookmarks.destroy');
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
+    Route::post('/notifications/{notifId}', [NotificationController::class, 'markRead'])->name('notifications.read');
 });
 

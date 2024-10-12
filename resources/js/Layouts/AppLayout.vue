@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import { ref } from 'vue';
 import { Head, Link, router } from '@inertiajs/vue3';
-import ApplicationMark from '@/Components/ApplicationMark.vue';
+import Notification from '@/Pages/Notification.vue';
 import Banner from '@/Components/Banner.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
@@ -14,7 +14,6 @@ import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 import { directive as VTippy } from 'vue-tippy'
 import 'tippy.js/dist/tippy.css'
 import 'tippy.js/themes/light.css'
-import { Inertia } from '@inertiajs/inertia';
 
 const imageUrl = new URL('@/assets/images/logo.svg', import.meta.url);
 
@@ -34,44 +33,7 @@ const isActive = ref(isDark)
 const logout = () => {
   router.post(route('logout'));
 };
-// // Notification data
-// const notifications = ref([]);
-// const unreadCount = ref(0);
-// const pollingInterval = 5000; // Poll every 5 seconds
 
-// // Function to fetch notifications
-// const fetchNotifications = async () => {
-//   const response = await Inertia.get('/notifications', { preserveScroll: true });
-//   notifications.value = response.props.notifications; // Adjust this based on your response structure
-//   unreadCount.value = notifications.value.filter(n => !n.read_at).length; // Count unread notifications
-// };
-
-// // Start polling on component mount
-// onMounted(() => {
-//   fetchNotifications(); // Initial fetch
-//   const interval = setInterval(fetchNotifications, pollingInterval);
-
-//   // Clear interval on component unmount
-//   onBeforeUnmount(() => {
-//     clearInterval(interval);
-//   });
-// });
-
-// const showNotifications = ref(false);
-
-// const toggleNotifications = () => {
-//   showNotifications.value = !showNotifications.value;
-//   if (showNotifications.value) {
-//     markAsRead(); // Optionally mark as read when opened
-//   }
-// };
-
-// const markAsRead = async () => {
-//   // Call your API to mark notifications as read
-//   await Inertia.post('/notifications/mark-read', {
-//     // You can send the IDs of notifications to mark as read
-//   });
-// };
 </script>
 
 <template>
@@ -109,6 +71,12 @@ const logout = () => {
 
             <div class="hidden sm:flex sm:items-center sm:ms-6">
               <!-- Settings Dropdown -->
+              <button @click="toggleDark()"
+              class="px-4 py-2 dark:text-white rounded-lg dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-gray-700"
+              v-tippy="{ content: 'Ganti tema', theme: 'dark', arrow: true, placement: 'bottom' }">
+              <font-awesome-icon :icon="isActive ? ['far', 'sun'] : ['far', 'moon']" />
+            </button>
+            <Notification />
               <div class="ms-3 relative">
                 <Dropdown align="right" width="48">
                   <template #trigger>
@@ -156,10 +124,6 @@ const logout = () => {
                   </template>
                 </Dropdown>
               </div>
-              <button @click="toggleDark()" class="px-4 py-2 dark:text-white rounded-full dark:bg-slate-800"
-                v-tippy="{ content: 'Ganti tema', theme: 'dark', arrow: true, placement: 'bottom' }">
-                <font-awesome-icon :icon="isActive ? ['far', 'sun'] : ['far', 'moon']" />
-              </button>
             </div>
 
             <!-- Hamburger -->

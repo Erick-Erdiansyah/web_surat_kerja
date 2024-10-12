@@ -37,7 +37,6 @@ class NewLaporan extends Notification
     public function toDatabase(object $notifiable)
     {
         return [
-            'text' => 'hello world',
             'judul' => $this->data
         ];
     }
