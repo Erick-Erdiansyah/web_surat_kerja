@@ -9,7 +9,7 @@ use App\Models\Jurusan;
 use App\Models\Kategori;
 use App\Models\SubKategori;
 use App\Models\User;
-use App\Notifications\LaporanSKCreated;
+use App\Notifications\NewLaporan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
@@ -102,8 +102,11 @@ class LaporanSKController extends Controller
         $validatedData['surat_file'] = $filePath;
 
         // Create Laporan SK
-        LaporanSK::create($validatedData);
+        $laporan = LaporanSK::create($validatedData);
 
+        $users = User::all();
+
+        $users->each->notify(new NewLaporan($laporan->judul));
 
         return redirect()->route('index');
     }

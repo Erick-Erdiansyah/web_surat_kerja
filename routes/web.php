@@ -3,6 +3,7 @@
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LaporanSKController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SubKategoriController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
@@ -27,5 +28,6 @@ Route::middleware([
     Route::post('/subkategori/store', [SubKategoriController::class, 'store'])->name('subkategori.store');
     Route::post('/bookmarks', [BookmarkController::class, 'store'])->name('bookmarks.store');
     Route::delete('/bookmarks/{laporan}', [BookmarkController::class, 'destroy'])->name('bookmarks.destroy');
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
 });
 

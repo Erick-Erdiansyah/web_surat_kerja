@@ -1,5 +1,16 @@
 # website for organizing report in Elektro polnep
 
+## custom command
+
+hapus notifikasi diatas 3 minggu
+
+```bash
+
+astek:delete-old-notifications
+```
+
+## tutorial ?
+
 sebelum menjalankan perintah dibawah pastikan php,mysql,node dan composer sudah terinstall
 jalankan perintah dibawah secara berurutan
 
