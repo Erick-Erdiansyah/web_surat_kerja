@@ -12,28 +12,29 @@
           <font-awesome-icon :icon="['fas', 'file-circle-plus']" />
           </Link>
         </div>
-        <input v-model="search" type="text" class="border rounded-lg w-1/2" placeholder="Cari...">
-        <div class="h-10 mb-5  hidden md:block ">
-          <select id="jenis" class="border border-gray-400min-w-fit rounded-lg ml-2">
-            <option value="" disabled>Pilih jenis</option>
-            <option>Semua Surat</option>
-            <option>hello</option>
-            <option>world</option>
+        <input v-model="searchs" type="text" class="border rounded-lg w-1/2" placeholder="Cari...">
+        <div class="h-10 mb-5 hidden md:block">
+          <select v-model="jenisFilter" id="jenis" class="border border-gray-400 min-w-fit rounded-lg ml-2">
+            <option value="all" :value="'all'">Semua jenis</option>
+            <option value="surat kerja">surat kerja</option>
+            <option value="surat tugas">surat tugas</option>
           </select>
-          <select id="kategori" class="border border-gray-400 min-w-fit rounded-lg ml-2">
-            <option value="" disabled>Pilih Kategori</option>
-            <option>Semua kategori</option>
-            <option>hello</option>
-            <option>world</option>
+          <select v-model="kategoriFilter" id="kategori" class="border border-gray-400 min-w-fit rounded-lg ml-2">
+            <option value="all">Semua kategori</option>
+            <option value="Pendidikan dan Pengajaran">Pendidikan dan Pengajaran</option>
+            <option value="Penelitian dan Pengembangan">Penelitian dan Pengembangan</option>
+            <option value="Pengabdian Kepada Masyarakat">Pengabdian Kepada Masyarakat</option>
           </select>
         </div>
       </div>
     </template>
-    <div class=" pt-36">
+    <div class="pt-36">
       <div class="max-w-9xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+          <!-- Table for displaying Laporans -->
           <table class="min-w-full divide-y divide-gray-200">
             <tbody class="bg-white divide-y divide-gray-200">
+              <!-- Iterate over Laporans and render each item using the TableRow component -->
               <TableRow v-for="item in Laporans.data" :key="item.id" :item="item" :toggleBookmark="toggleBookmark"
                 :isBookmarked="isBookmarked" :remove="remove" />
             </tbody>
@@ -44,6 +45,7 @@
     </div>
   </AppLayout>
 </template>
+
 <script setup>
 import { ref, watch } from 'vue';
 import { usePage, useForm, router } from '@inertiajs/vue3';
@@ -53,22 +55,27 @@ import { throttle } from 'lodash';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { Inertia } from '@inertiajs/inertia';
 import TableRow from './Partials/TableRow.vue';
-import { directive as VTippy } from 'vue-tippy'
-import 'tippy.js/dist/tippy.css'
-import 'tippy.js/themes/light.css'
+import { directive as VTippy } from 'vue-tippy';
+import 'tippy.js/dist/tippy.css';
+import 'tippy.js/themes/light.css';
 
 const { Laporans, bookmarkedLaporans, can } = usePage().props;
-
 let props = defineProps({
-  filters: Object,
-})
+  search: Object,
+  jenis: Object,
+  kategori: Object,
+});
 
-let search = ref(props.filters.search);
-
-watch(search, throttle((value) => {
-  router.get('/sk/index', { search: value }, {
+let searchs = ref(props.search.search);
+let jenisFilter = ref(props.jenis.jenis ? props.jenis.jenis : 'all');
+let kategoriFilter = ref(props.kategori.kategori ? props.kategori.kategori : 'all');
+watch([kategoriFilter, searchs, jenisFilter], throttle(() => {
+  router.get('/sk/index', {
+    kategori: kategoriFilter.value === 'all' ? 'all' : kategoriFilter.value,
+    jenis: jenisFilter.value === 'all' ? 'all' : jenisFilter.value,
+    search: searchs.value || ''
+  }, {
     onSuccess: (response) => {
-      // assign new value, the page not reload properly -_-
       Laporans.data = response.props.Laporans.data;
       Laporans.links = response.props.Laporans.links;
     },
@@ -76,6 +83,7 @@ watch(search, throttle((value) => {
     replace: true,
   });
 }, 500));
+
 
 const bookmarks = ref(bookmarkedLaporans);
 
@@ -126,5 +134,4 @@ const toggleBookmark = (laporanId) => {
     });
   }
 };
-
 </script>

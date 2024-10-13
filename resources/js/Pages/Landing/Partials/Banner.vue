@@ -11,21 +11,12 @@
         <h1 v-if="$page.props.auth.user" class="text-7xl font-semibold text-white mt-4 px-4">
           <Link href="/dashboard" class="hover:underline">Beranda</Link>
         </h1>
-        <div class=" mt-6 sm:pb-6 lg:pb-6 max-w-3xl mx-auto sm:px-6 lg:px-6  bg-gray-600  rounded-lg opacity-70">
+        <div class=" mt-6 sm:pb-6 lg:pb-6 max-w-3xl mx-auto sm:px-6 lg:px-6  bg-gray-600  rounded-lg opacity-80">
           <div class="h-10 mb-5">
-            <input v-model="search" type="text" class="border rounded-lg w-1/3" placeholder="Cari...">
-            <select id="jenis" class="border border-gray-400 w-1/4 rounded-lg ml-2">
-              <option value="" disabled>Pilih jenis</option>
-              <option>Semua Surat</option>
-              <option>hello</option>
-              <option>world</option>
-            </select>
-            <select id="kategori" class="border border-gray-400 w-1/4 rounded-lg ml-2">
-              <option value="" disabled>Pilih Kategori</option>
-              <option>Semua kategori</option>
-              <option>hello</option>
-              <option>world</option>
-            </select>
+            <input v-model="search" type="text" class="border rounded-lg w-4/5" placeholder="Cari...">
+            <PrimaryButton class="ml-2">
+              cari
+            </PrimaryButton>
           </div>
           <div
             class="bg-gray-200 opacity-100 overflow-hidden max-h-[400px] overflow-y-auto shadow-xl sm:rounded-lg over">
@@ -51,6 +42,7 @@ import { directive as VTippy } from 'vue-tippy'
 import 'tippy.js/dist/tippy.css'
 import 'tippy.js/themes/light.css'
 import TableRow from '@/Pages/Surat/Partials/TableRow.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 
 const imageUrl = new URL('@/assets/images/background.svg', import.meta.url);
 
@@ -59,30 +51,22 @@ let props = defineProps({
   filters: Object,
 })
 
-const baru = (timestamp) => {
-  const sekarang = Math.floor(Date.now() / 1000);
-  const upload = sekarang - timestamp;
-  const seminggu = 7 * 24 * 60 * 60;
-  return upload <= seminggu;
-};
-
-
 const { Laporans, bookmarkedLaporans, can } = usePage().props;
 
 
-let search = ref(props.filters.search);
+// let search = ref(props.filters.search);
 
-watch(search, throttle((value) => {
-  router.get('/sk/index', { search: value }, {
-    onSuccess: (response) => {
-      // assign new value, the page not reload properly -_-
-      Laporans.data = response.props.Laporans.data;
-      Laporans.links = response.props.Laporans.links;
-    },
-    preserveState: true,
-    replace: true,
-  });
-}, 500));
+// watch(search, throttle((value) => {
+//   router.get('/sk/index', { search: value }, {
+//     onSuccess: (response) => {
+//       // assign new value, the page not reload properly -_-
+//       Laporans.data = response.props.Laporans.data;
+//       Laporans.links = response.props.Laporans.links;
+//     },
+//     preserveState: true,
+//     replace: true,
+//   });
+// }, 500));
 
 const bookmarks = ref(bookmarkedLaporans);
 

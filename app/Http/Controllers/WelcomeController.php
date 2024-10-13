@@ -34,31 +34,35 @@ class WelcomeController extends Controller
     private function getLaporans(Request $request, $bookmarkedLaporans)
     {
         return LaporanSK::with(['kategori', 'sub_kategori'])
-        ->when($request->input('search'), function ($query, $search) {
-            $query->where('judul', 'like', "%{$search}%")
-                ->orWhereHas('kategori', function ($q) use ($search) {
-                    $q->where('nama', 'like', "%{$search}%");
-                })
-                ->orWhereHas('sub_kategori', function ($q) use ($search) {
-                    $q->where('nama', 'like', "%{$search}%");
+            ->when($request->input('search'), function ($query, $search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('judul', 'like', "%{$search}%")
+                        ->orWhere('jenis', 'like', "%{$search}%")
+                        ->orWhereHas('kategori', function ($q) use ($search) {
+                            $q->where('nama', 'like', "%{$search}%");
+                        })
+                        ->orWhereHas('sub_kategori', function ($q) use ($search) {
+                            $q->where('nama', 'like', "%{$search}%");
+                        });
                 });
-        })
-        ->get()
-        ->map(function ($laporan) use ($bookmarkedLaporans) {
-            return [
-                'id' => $laporan->id,
-                'judul' => $laporan->judul,
-                'kategori' => $laporan->kategori ?? 'N/A',
-                'sub_kategori' => $laporan->sub_kategori ?? 'N/A',
-                'isBookmarked' => $bookmarkedLaporans->contains($laporan->id),
-                'created_human' => Carbon::parse($laporan->created_at)->locale('id')->diffForHumans(),
-                'created_timestamp' => $laporan->created_at->timestamp,
-                'surat_file' => $laporan->surat_file,
-                'can' => [
-                    'update' => Auth::check() && Auth::user()->can('update', $laporan),
-                    'delete' => Auth::check() && Auth::user()->can('delete', $laporan),
-                ]
-            ];
-        });
+            })
+            ->get()
+            ->map(function ($laporan) use ($bookmarkedLaporans) {
+                return [
+                    'id' => $laporan->id,
+                    'judul' => $laporan->judul,
+                    'kategori' => $laporan->kategori ?? 'N/A',
+                    'sub_kategori' => $laporan->sub_kategori ?? 'N/A',
+                    'isBookmarked' => $bookmarkedLaporans->contains($laporan->id),
+                    'created_human' => Carbon::parse($laporan->created_at)->locale('id')->diffForHumans(),
+                    'created_timestamp' => $laporan->created_at->timestamp,
+                    'surat_file' => $laporan->surat_file,
+                    'can' => [
+                        'update' => Auth::check() && Auth::user()->can('update', $laporan),
+                        'delete' => Auth::check() && Auth::user()->can('delete', $laporan),
+                    ],
+                ];
+            });
     }
+
 }

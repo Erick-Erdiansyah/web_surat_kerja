@@ -113,7 +113,6 @@ let bookmarks = ref('');
 const { bookmarkedLaporans } = usePage().props;
 
 if (typeof bookmarkedLaporans[0] === 'number') {
-  console.log('we should be here');
   bookmarks = ref(bookmarkedLaporans);
 } else {
   bookmarks = ref(bookmarkedLaporans.map(laporan => laporan.id));

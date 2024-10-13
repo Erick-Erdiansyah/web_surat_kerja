@@ -29,14 +29,28 @@ class LaporanSKController extends Controller
         return Inertia::render('Surat/Index', [
             'Laporans' => LaporanSK::with(['kategori', 'sub_kategori'])
                 ->when(Request::input('search'), function ($query, $search) {
-                    $query->where('judul', 'like', "%{$search}%")
-                        ->orWhere("jenis", "like", "%{$search}%")
-                        ->orWhereHas('kategori', function ($q) use ($search) {
-                            $q->where('nama', 'like', "%{$search}%");
-                        })
-                        ->orWhereHas('sub_kategori', function ($q) use ($search) {
-                            $q->where('nama', 'like', "%{$search}%");
+                    $query->where(function ($query) use ($search) {
+                        $query->where('judul', 'like', "%{$search}%")
+                            ->orWhere('jenis', 'like', "%{$search}%")
+                            ->orWhereHas('kategori', function ($q) use ($search) {
+                                $q->where('nama', 'like', "%{$search}%");
+                            })
+                            ->orWhereHas('sub_kategori', function ($q) use ($search) {
+                                $q->where('nama', 'like', "%{$search}%");
+                            });
+                    });
+                })
+                ->when(Request::input('jenis'), function ($query, $jenis) {
+                    if ($jenis !== 'all' && $jenis !== '') {
+                        $query->where('jenis', 'like', "%{$jenis}%");
+                    }
+                })
+                ->when(Request::input('kategori'), function ($query, $kategori) {
+                    if ($kategori !== 'all' && $kategori !== '') {
+                        $query->whereHas('kategori', function ($q) use ($kategori) {
+                            $q->where('nama', 'like', "%{$kategori}%");
                         });
+                    }
                 })
                 ->paginate(10)
                 ->withQueryString()
@@ -53,9 +67,10 @@ class LaporanSKController extends Controller
                         'update' => Auth::user()->can('update', $laporan),
                         'delete' => Auth::user()->can('delete', $laporan),
                     ]
-
                 ]),
-            'filters' => Request::only(['search']),
+            'search' => Request::only(['search']),
+            'jenis' => Request::only(['jenis']),
+            'kategori' => Request::only(['kategori']),
             'bookmarkedLaporans' => $bookmarkedLaporans,
             'can' => [
                 'create' => Auth::user()->can('create', LaporanSK::class),

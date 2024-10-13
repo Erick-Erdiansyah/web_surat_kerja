@@ -75,7 +75,6 @@ const handleCloseModal = () => {
 const { bookmarkedLaporans } = usePage().props;
 
 if (Array.isArray(bookmarkedLaporans) && typeof bookmarkedLaporans[0] === 'number') {
-  console.log('we should be here');
   bookmarks.value = bookmarkedLaporans;
 } else if (Array.isArray(bookmarkedLaporans)) {
   bookmarks.value = bookmarkedLaporans.map(laporan => laporan.id);
