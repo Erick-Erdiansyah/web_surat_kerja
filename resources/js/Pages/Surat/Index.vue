@@ -31,17 +31,17 @@
     <div class="pt-36">
       <div class="max-w-9xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-          <!-- Table for displaying Laporans -->
+          <!-- Table for displaying laporans -->
           <table class="min-w-full divide-y divide-gray-200">
             <tbody class="bg-white divide-y divide-gray-200">
-              <!-- Iterate over Laporans and render each item using the TableRow component -->
-              <TableRow v-for="item in Laporans.data" :key="item.id" :item="item" :toggleBookmark="toggleBookmark"
+              <!-- Iterate over laporans and render each item using the TableRow component -->
+              <TableRow v-for="item in laporans.data" :key="item.id" :item="item" :toggleBookmark="toggleBookmark"
                 :isBookmarked="isBookmarked" :remove="remove" />
             </tbody>
           </table>
         </div>
       </div>
-      <Pagination :links="Laporans.links" />
+      <Pagination :links="laporans.links" />
     </div>
   </AppLayout>
 </template>
@@ -59,7 +59,7 @@ import { directive as VTippy } from 'vue-tippy';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light.css';
 
-const { Laporans, bookmarkedLaporans, can } = usePage().props;
+const { laporans, bookmarkedLaporans, can } = usePage().props;
 let props = defineProps({
   search: Object,
   jenis: Object,
@@ -76,8 +76,8 @@ watch([kategoriFilter, searchs, jenisFilter], throttle(() => {
     search: searchs.value || ''
   }, {
     onSuccess: (response) => {
-      Laporans.data = response.props.Laporans.data;
-      Laporans.links = response.props.Laporans.links;
+      laporans.data = response.props.laporans.data;
+      laporans.links = response.props.laporans.links;
     },
     preserveState: true,
     replace: true,

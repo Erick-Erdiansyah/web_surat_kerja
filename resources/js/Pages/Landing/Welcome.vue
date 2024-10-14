@@ -1,7 +1,7 @@
 <template>
   <Head :title="'Welcome'" />
   <div class="flex h-screen">
-    <Banner :Laporans="Laporans" :filters="filters"/>
+    <Banner :laporans="laporans" :filters="filters"/>
 
     <Form v-if="!$page.props.auth.user" />
   </div>
@@ -10,7 +10,7 @@
 <script setup>
 
 let props = defineProps({
-  Laporans: Object,
+  laporans: Object,
   filters: Object,
 })
 

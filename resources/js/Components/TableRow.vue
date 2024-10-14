@@ -1,5 +1,6 @@
 <template>
   <tr class="hover:bg-slate-100 dark:hover:bg-slate-800 dark:bg-slate-700 relative">
+    <Link :href="!$page.props.auth.user ? `/read/${item.id}` : `/sk/${item.id}/read`" class="block w-full h-full">
     <td class="px-4 py-2 whitespace-pre-wrap">
       <div class="flex items-center">
         <p v-show="baru(item.created_timestamp)"
@@ -13,6 +14,7 @@
         </div>
       </div>
     </td>
+    </Link>
     <td class="w-10"></td>
     <td class="pr-2 whitespace-nowrap text-center text-sm font-medium items-center w-3">
       <Read :surat_file="item.surat_file" :id="item.id" />

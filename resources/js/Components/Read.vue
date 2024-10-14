@@ -14,10 +14,6 @@
                 class="text-gray-800 hover:text-gray-700 px-6 text-xl focus:outline-none leading-none rounded">
                 <font-awesome-icon :icon="isBookmarked(props.id) ? ['fas', 'bookmark'] : ['far', 'bookmark']" />
               </button>
-              <!-- <button v-if="!$page.props.auth.user" v-tippy="{ content: 'Tandai', theme: 'dark', arrow: true }"
-                class="text-gray-800 hover:text-gray-700 px-6 text-xl focus:outline-none leading-none rounded" onclick="alert('Login dulu lah -_-')">
-                <font-awesome-icon :icon="['far', 'bookmark']" />
-              </button> -->
             </div>
             <div class="flex justify-center">
               <button @click="page = page > 1 ? page - 1 : page" class="text-gray-800 p-4 text-xl"
@@ -78,9 +74,9 @@ const openModal = () => {
 };
 
 const handleAuthBookmark = (auth) => {
-  if(auth){
+  if (auth) {
     toggleBookmark(props.id)
-  }else{
+  } else {
     alert('laert')
   }
 }

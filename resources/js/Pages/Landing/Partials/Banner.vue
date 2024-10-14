@@ -22,7 +22,7 @@
             class="bg-gray-200 opacity-100 overflow-hidden max-h-[400px] overflow-y-auto shadow-xl sm:rounded-lg over">
             <table class="min-w-full divide-y divide-gray-200">
               <tbody class="bg-white divide-y divide-gray-200">
-                <TableRow v-for="item in Laporans" :key="item.id" :item="item" :toggleBookmark="toggleBookmark"
+                <TableRow v-for="item in laporans" :key="item.id" :item="item" :toggleBookmark="toggleBookmark"
                   :isBookmarked="isBookmarked" :remove="remove" />
               </tbody>
             </table>
@@ -47,7 +47,7 @@ const imageUrl = new URL('@/assets/images/background.svg', import.meta.url);
 
 let props = defineProps({
   filters: Object,
-  Laporans: Object
+  laporans: Object
 })
 
 const { bookmarkedLaporans, can } = usePage().props;
@@ -55,12 +55,12 @@ const { bookmarkedLaporans, can } = usePage().props;
 
 let search = ref(props.filters.search);
 
-let Laporans = ref(props.Laporans);
+let laporans = ref(props.laporans);
 
 let searchs = (value) => {
   router.get('/', { search: value }, {
     onSuccess: (response) => {
-      Laporans.value = response.props.Laporans;
+      laporans.value = response.props.laporans;
     },
     preserveState: true,
     replace: true,

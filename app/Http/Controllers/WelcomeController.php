@@ -25,7 +25,7 @@ class WelcomeController extends Controller
             'canRegister' => Route::has('register'),
             'laravelVersion' => Application::VERSION,
             'phpVersion' => PHP_VERSION,
-            'Laporans' => $laporans,
+            'laporans' => $laporans,
             'filters' => $request->only(['search']),
             'bookmarkedLaporans' => $bookmarkedLaporans,
         ]);
@@ -63,6 +63,18 @@ class WelcomeController extends Controller
                     ],
                 ];
             });
+    }
+    public function show(LaporanSK $Surat)
+    {
+        $user = Auth::user();
+        $bookmarkedLaporans = $user ? $user->bookmarkedLaporans()->pluck('laporan_s_k_s.id') : collect();
+        
+        return Inertia::render('Surat/Read', [
+            'laporan' => $Surat,
+            'kategori' => $Surat->kategori ? $Surat->kategori->nama : 'N/A',
+            'sub_kategori' => $Surat->sub_kategori ? $Surat->sub_kategori->nama : 'N/A',
+            'bookmarkedLaporans' => $bookmarkedLaporans,
+        ]);
     }
 
 }

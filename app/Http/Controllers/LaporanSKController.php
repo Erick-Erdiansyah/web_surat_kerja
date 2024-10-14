@@ -27,7 +27,7 @@ class LaporanSKController extends Controller
         $bookmarkedLaporans = $user->bookmarkedLaporans()->pluck('laporan_s_k_s.id');
 
         return Inertia::render('Surat/Index', [
-            'Laporans' => LaporanSK::with(['kategori', 'sub_kategori'])
+            'laporans' => LaporanSK::with(['kategori', 'sub_kategori'])
                 ->when(Request::input('search'), function ($query, $search) {
                     $query->where(function ($query) use ($search) {
                         $query->where('judul', 'like', "%{$search}%")
