@@ -120,7 +120,7 @@ class LaporanSKController extends Controller
 
         $users = User::all();
 
-        $users->each->notify(new NewLaporan($laporan->judul));
+        $users->each->notify(new NewLaporan($laporan));
 
         return redirect()->route('index');
     }

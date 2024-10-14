@@ -8,15 +8,21 @@
           Elektro</h1>
         <h1 v-if="!$page.props.auth.user" class="text-7xl font-semibold text-white mt-10 px-4">Arsip Surat Kerja dan<br>
           Surat Tugas Teknik Elektro</h1>
-        <h1 v-if="$page.props.auth.user" class="text-7xl font-semibold text-white mt-4 px-4">
-          <Link href="/dashboard" class="hover:underline">Beranda</Link>
+        <h1 v-if="$page.props.auth.user" class="text-5xl font-semibold text-white mt-4 px-4">
+          <Link href="/dashboard" class="hover:underline">
+          <FontAwesomeIcon :icon="['fas', 'house']" /> Beranda</Link>
         </h1>
         <div class=" mt-6 sm:pb-6 lg:pb-6 max-w-3xl mx-auto sm:px-6 lg:px-6  bg-gray-600  rounded-lg opacity-80">
           <div class="h-10 mb-5">
             <input v-model="search" type="text" class="border rounded-lg w-4/5" placeholder="Cari...">
             <PrimaryButton class="ml-2" @click="searchs(search)">
               cari
-            </PrimaryButton>            
+            </PrimaryButton>
+            <button @click="toggleDark()"
+              class=" ml-2 text-base dark:text-white rounded-lg"
+              v-tippy="{ content: 'Ganti tema', theme: 'dark', arrow: true, placement: 'top' }">
+              <font-awesome-icon :icon="isActive ? ['far', 'sun'] : ['far', 'moon']" />
+            </button>
           </div>
           <div
             class="bg-gray-200 opacity-100 overflow-hidden max-h-[400px] overflow-y-auto shadow-xl sm:rounded-lg over">
@@ -41,6 +47,11 @@ import 'tippy.js/dist/tippy.css'
 import 'tippy.js/themes/light.css'
 import TableRow from '@/Components/TableRow.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { useDark, useToggle } from '@vueuse/core';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
+
 
 const imageUrl = new URL('@/assets/images/background.svg', import.meta.url);
 
@@ -116,6 +127,11 @@ const toggleBookmark = (laporanId) => {
     });
   }
 };
+
+library.add(faMoon, faSun)
+const isDark = useDark()
+const toggleDark = useToggle(isDark)
+const isActive = ref(isDark)
 
 </script>
 

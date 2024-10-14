@@ -65,6 +65,10 @@
             <font-awesome-icon :icon="['far', 'circle-down']" /> unduh
             </Link>
           </div>
+          <button @click="copyLink(item.id)" class="px-2 py-1 text-xl hover:bg-gray-500 hover:text-white rounded-sm">
+            <font-awesome-icon :icon="copied ? ['fas', 'check'] : ['far', 'share-from-square']" />
+            {{ copied ? 'tersalin' : 'bagikan' }}
+          </button>
         </div>
       </Dropdown>
     </td>
@@ -115,7 +119,6 @@ const handleAuthBookmark = (auth) => {
     openModal()
   }
 }
-
 
 let bookmarks = ref('');
 
@@ -169,6 +172,22 @@ const toggleBookmark = (laporanId) => {
         console.log('Error:', errors);
       },
     });
+  }
+};
+
+const link = ref('');
+const copied = ref(false);
+
+const copyLink = async (value) => {
+  link.value = `http://127.0.0.1:8000/read/${value}`
+  try {
+    await navigator.clipboard.writeText(link.value);
+    copied.value = true;
+    setTimeout(() => {
+      copied.value = false;
+    }, 2000);
+  } catch (err) {
+    console.error("gagal -_-: ", err);
   }
 };
 </script>

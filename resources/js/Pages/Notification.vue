@@ -14,8 +14,10 @@
     <!-- Contents display in dropdown -->
     <table class="m-2">
       <tbody>
-        <tr v-for="notification in unreadNotifications" :key="notification.id">
-          <td>Surat baru {{ notification.data.judul || 'Judul tidak tersedia' }}</td>
+        <tr v-for="notification in unreadNotifications" :key="notification.id" class="hover:bg-gray-200 rounded-full">
+          <a :href="notification.data.url">
+            <td>Surat baru {{ notification.data.judul || 'Judul tidak tersedia' }}</td>
+          </a>
           <td>
             <button class=" ml-1" @click="markAsRead(notification.id)"
               v-tippy="{ content: 'tandai sudah dibaca', theme: 'dark', arrow: true }">

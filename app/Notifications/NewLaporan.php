@@ -37,7 +37,8 @@ class NewLaporan extends Notification
     public function toDatabase(object $notifiable)
     {
         return [
-            'judul' => $this->data
+            'judul' => $this->data->judul,
+            'url' => "/sk/{$this->data->id}/read"
         ];
     }
 
