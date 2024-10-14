@@ -54,7 +54,7 @@ import Pagination from '@/Components/Pagination.vue';
 import { throttle } from 'lodash';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { Inertia } from '@inertiajs/inertia';
-import TableRow from './Partials/TableRow.vue';
+import TableRow from '../../Components/TableRow.vue';
 import { directive as VTippy } from 'vue-tippy';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light.css';

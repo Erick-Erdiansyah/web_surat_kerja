@@ -1,21 +1,23 @@
 <template>
-  <button @click="isModalOpen = true" v-tippy="{ content: 'Lihat', theme: 'dark', arrow: true }"
+  <button @click="openModal" v-tippy="{ content: 'Lihat', theme: 'dark', arrow: true }"
     class="text-gray-900 dark:text-white dark:hover:text-gray-400 hover:text-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 hover:rounded-lg py-2 px-2 text-xl focus:outline-none leading-none rounded">
     <font-awesome-icon :icon="['far', 'eye']" />
   </button>
   <DialogModal :show="isModalOpen" :closeable="true" @close="handleCloseModal">
-    <!-- <template #title>
-      Tambah sub kategori
-    </template> -->
     <template #content>
       <div>
         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
           <div>
             <div class="flex justify-end">
-              <button @click="toggleBookmark(props.id)" v-tippy="{ content: 'Tandai', theme: 'dark', arrow: true }"
+              <button @click="handleAuthBookmark($page.props.auth.user)"
+                v-tippy="{ content: 'Tandai', theme: 'dark', arrow: true }"
                 class="text-gray-800 hover:text-gray-700 px-6 text-xl focus:outline-none leading-none rounded">
                 <font-awesome-icon :icon="isBookmarked(props.id) ? ['fas', 'bookmark'] : ['far', 'bookmark']" />
               </button>
+              <!-- <button v-if="!$page.props.auth.user" v-tippy="{ content: 'Tandai', theme: 'dark', arrow: true }"
+                class="text-gray-800 hover:text-gray-700 px-6 text-xl focus:outline-none leading-none rounded" onclick="alert('Login dulu lah -_-')">
+                <font-awesome-icon :icon="['far', 'bookmark']" />
+              </button> -->
             </div>
             <div class="flex justify-center">
               <button @click="page = page > 1 ? page - 1 : page" class="text-gray-800 p-4 text-xl"
@@ -29,7 +31,7 @@
               </button>
             </div>
           </div>
-          <div class=" border-t-2 flex justify-center">
+          <div class="border-t-2 flex justify-center">
             <VuePDF :pdf="pdf" :page="page" :scale="1.25" />
           </div>
         </div>
@@ -42,6 +44,7 @@
     </template>
   </DialogModal>
 </template>
+
 
 <script setup>
 import DialogModal from '@/Components/DialogModal.vue';
@@ -63,14 +66,24 @@ let props = defineProps({
 })
 
 let bookmarks = ref('');
-
 const isModalOpen = ref(false);
 
 const handleCloseModal = () => {
   isModalOpen.value = false;
-  console.log('are we not ?')
-  reinitializePDF()
 };
+
+const openModal = () => {
+  reinitializePDF();
+  isModalOpen.value = true;
+};
+
+const handleAuthBookmark = (auth) => {
+  if(auth){
+    toggleBookmark(props.id)
+  }else{
+    alert('laert')
+  }
+}
 
 const { bookmarkedLaporans } = usePage().props;
 

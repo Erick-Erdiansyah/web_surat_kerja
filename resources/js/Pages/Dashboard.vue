@@ -23,7 +23,7 @@
 
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import TableRow from './Surat/Partials/TableRow.vue';
+import TableRow from '../Components/TableRow.vue';
 import { ref, watch } from 'vue';
 import { usePage, useForm, router } from '@inertiajs/vue3';
 import { Inertia } from '@inertiajs/inertia';

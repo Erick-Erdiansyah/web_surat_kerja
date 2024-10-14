@@ -48,15 +48,12 @@
               </template>
             </ConfirmationModal>
           </div>
-          <button v-if="$page.props.auth.user" @click="toggleBookmark(item.id)"
+          <button @click="handleAuthBookmark($page.props.auth.user)"
             class="px-2 py-1 text-xl hover:bg-gray-500 hover:text-white rounded-sm">
             <font-awesome-icon :icon="isBookmarked(item.id) ? ['fas', 'bookmark'] : ['far', 'bookmark']" /> tandai
           </button>
-          <button @click="openModal" v-if="!$page.props.auth.user"
-            class="px-2 py-1 text-xl hover:bg-gray-500 hover:text-white rounded-sm">
-            <font-awesome-icon :icon="['far', 'bookmark']" /> tandai
-          </button>
-          <ConfirmationModal v-if="!$page.props.auth.user" :show="isModalOpen" :max-width="'lg'" @close="closeModal" title="masuk">
+          <ConfirmationModal v-if="!$page.props.auth.user" :show="isModalOpen" :max-width="'lg'" @close="closeModal"
+            title="masuk">
             <template #content>
               masuk dulu mas bro
             </template>
@@ -107,6 +104,16 @@ const openModal = () => {
 const closeModal = () => {
   isModalOpen.value = false;
 };
+
+
+const handleAuthBookmark = (auth) => {
+  if (auth) {
+    toggleBookmark(item.id)
+  } else {
+    openModal()
+  }
+}
+
 
 let bookmarks = ref('');
 
