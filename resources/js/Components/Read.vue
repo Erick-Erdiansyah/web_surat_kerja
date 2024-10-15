@@ -51,6 +51,7 @@ import { ref, watch } from 'vue'
 import { directive as VTippy } from 'vue-tippy'
 import 'tippy.js/dist/tippy.css'
 import 'tippy.js/themes/light.css'
+import { Inertia } from '@inertiajs/inertia';
 
 let props = defineProps({
   id: Number,
@@ -110,7 +111,7 @@ const toggleBookmark = (laporanId) => {
     form.delete(`/bookmarks/${laporanId}`, {
       onSuccess: () => {
         bookmarks.value = bookmarks.value.filter(id => id !== laporanId);
-        router.reload({
+        Inertia.reload({
           preserveScroll: false,
           preserveState: false,
         });
@@ -123,7 +124,7 @@ const toggleBookmark = (laporanId) => {
     form.post('/bookmarks', {
       onSuccess: () => {
         bookmarks.value.push(laporanId);
-        router.reload({
+        Inertia.reload({
           preserveScroll: false,
           preserveState: false,
         });

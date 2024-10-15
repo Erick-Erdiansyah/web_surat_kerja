@@ -19,8 +19,8 @@
               cari
             </PrimaryButton>
             <button @click="toggleDark()"
-              class=" ml-2 text-base dark:text-white rounded-lg"
-              v-tippy="{ content: 'Ganti tema', theme: 'dark', arrow: true, placement: 'top' }">
+              class=" ml-2 text-base text-white rounded-lg"
+              v-tippy="{ content: 'Ganti tema tabel', theme: 'dark', arrow: true, placement: 'top' }">
               <font-awesome-icon :icon="isActive ? ['far', 'sun'] : ['far', 'moon']" />
             </button>
           </div>

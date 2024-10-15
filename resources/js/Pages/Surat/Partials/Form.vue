@@ -57,7 +57,7 @@
       <div class="mb-6">
         <label class="block mb-2 uppercase font-bold text-xs text-gray-700" for="tanggal_surat">Tanggal Surat</label>
         <input v-model="form.tanggal_surat" type="text" id="tanggal_surat"
-          class="border border-gray-400 p-2 w-full rounded-lg" required>
+          class="border border-gray-400 p-2 w-full rounded-lg" required placeholder="tanggal surat">
       </div>
 
       <!-- Judul Surat -->

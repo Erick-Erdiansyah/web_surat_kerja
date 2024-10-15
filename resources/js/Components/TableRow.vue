@@ -24,7 +24,7 @@
         <!-- trigger element -->
         <template #trigger>
           <button type="button" v-tippy="{ content: 'Info lebih lanjut', theme: 'dark', arrow: true }"
-            class="text-4xl text-gray-900 dark:text-white dark:hover:text-gray-400 hover:text-gray-800 py-2 px-4 hover:bg-gray-200 dark:hover:bg-gray-700 hover:rounded-lg">
+            class="text-2xl text-gray-900 dark:text-white dark:hover:text-gray-400 hover:text-gray-800 py-2 px-4 hover:bg-gray-200 dark:hover:bg-gray-700 hover:rounded-lg">
             <font-awesome-icon :icon="['fas', 'ellipsis-vertical']" />
           </button>
         </template>
@@ -114,7 +114,7 @@ const closeModal = () => {
 
 const handleAuthBookmark = (auth) => {
   if (auth) {
-    toggleBookmark(item.id)
+    toggleBookmark(props.item.id)
   } else {
     openModal()
   }

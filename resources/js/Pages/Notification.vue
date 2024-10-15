@@ -12,13 +12,13 @@
     </template>
 
     <!-- Contents display in dropdown -->
-    <table class="m-2">
+    <table>
       <tbody>
         <tr v-for="notification in unreadNotifications" :key="notification.id" class="hover:bg-gray-200 rounded-full">
           <a :href="notification.data.url">
-            <td>Surat baru {{ notification.data.judul || 'Judul tidak tersedia' }}</td>
+            <td class="p-1">Surat baru {{ notification.data.judul || 'Judul tidak tersedia' }}</td>
           </a>
-          <td>
+          <td class="pr-1">
             <button class=" ml-1" @click="markAsRead(notification.id)"
               v-tippy="{ content: 'tandai sudah dibaca', theme: 'dark', arrow: true }">
               <font-awesome-icon :icon="['fas', 'check']" />
