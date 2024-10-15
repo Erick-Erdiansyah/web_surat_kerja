@@ -15,6 +15,9 @@
             </tbody>
           </table>
         </div>
+        <div class="flex">
+          <h1 class="mx-auto mt-20 animate-bounce dark:text-gray-500 text-center text-9xl" v-if="noBookmark">tidak ada surat yang ditandai</h1>
+        </div>
       </div>
     </div>
 
@@ -25,14 +28,16 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import TableRow from '../Components/TableRow.vue';
 import { ref, watch } from 'vue';
-import { usePage, useForm, router } from '@inertiajs/vue3';
+import { usePage, useForm } from '@inertiajs/vue3';
 import { Inertia } from '@inertiajs/inertia';
+import _ from 'lodash';
+
 
 const { bookmarkedLaporans } = usePage().props;
 
-const goTo = (itemId) => {
-  this.$router.push(`/sk/${itemId}/read`)
-};
+const noBookmark = Array.isArray(bookmarkedLaporans)
+  ? bookmarkedLaporans.length === 0
+  : Object.keys(bookmarkedLaporans).length === 0;
 
 const bookmarks = ref(bookmarkedLaporans.map(laporan => laporan.id));
 
@@ -44,16 +49,6 @@ const form = useForm({
   laporan_id: null,
 });
 
-
-const isModalOpen = ref(false);
-
-const openModal = () => {
-  isModalOpen.value = true;
-};
-
-const closeModal = () => {
-  isModalOpen.value = false;
-};
 
 const fetchItems = () => {
   Inertia.get('/sk/index', {}, { preserveState: true });

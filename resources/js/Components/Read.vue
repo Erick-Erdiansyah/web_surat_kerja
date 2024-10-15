@@ -28,6 +28,7 @@
             </div>
           </div>
           <div class="border-t-2 flex justify-center">
+            <h1 v-if="page <= 0" class="dark:text-white text-center text-9xl">File pdf tidak ditemukan</h1>
             <VuePDF :pdf="pdf" :page="page" :scale="1.25" />
           </div>
         </div>

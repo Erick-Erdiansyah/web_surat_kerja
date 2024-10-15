@@ -25,11 +25,13 @@
         </div>
         <div class="flex justify-center">
           <div class=" bg-gray-400 opacity-80 z-50 flex bottom-0 fixed items-center rounded-md">
-            <button @click="page = page > 1 ? page - 1 : page" class="text-gray-800 dark:text-white p-4 text-xl">
+            <button @click="page = page > 1 ? page - 1 : page" class="text-gray-800 dark:text-white p-4 text-xl"
+              v-tippy="{ content: 'Halaman sebelumnya', theme: 'dark', arrow: true }">
               <font-awesome-icon :icon="['fas', 'caret-left']" />
             </button>
             <span>{{ page }} / {{ pages }}</span>
-            <button @click="page = page < pages ? page + 1 : page" class="text-gray-800 dark:text-white p-4 text-xl">
+            <button @click="page = page < pages ? page + 1 : page" class="text-gray-800 dark:text-white p-4 text-xl"
+              v-tippy="{ content: 'Halaman selanjutnya', theme: 'dark', arrow: true }">
               <font-awesome-icon :icon="['fas', 'caret-right']" />
             </button>
           </div>
@@ -47,6 +49,7 @@
             <p class="dark:text-white">deskripsi : {{ laporan.deskripsi }}</p>
           </div>
           <div class=" border-t-2 dark:border-gray-700 flex justify-center mt-5">
+            <h1 v-if="page <= 0" class="dark:text-white text-center text-9xl">File pdf tidak ditemukan</h1>
             <VuePDF :pdf="pdf" :page="page" :scale="1.25" />
           </div>
         </div>
@@ -116,6 +119,9 @@ import { Head, router, useForm, usePage } from '@inertiajs/vue3';
 import { Inertia } from '@inertiajs/inertia';
 import ConfirmationModal from '@/Components/ConfirmationModal.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import { directive as VTippy } from 'vue-tippy'
+import 'tippy.js/dist/tippy.css'
+import 'tippy.js/themes/light.css'
 
 const { laporan } = usePage().props;
 
