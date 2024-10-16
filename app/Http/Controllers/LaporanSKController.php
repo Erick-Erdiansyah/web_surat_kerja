@@ -122,6 +122,9 @@ class LaporanSKController extends Controller
 
         $users->each->notify(new NewLaporan($laporan));
 
+        session()->flash('flash.banner', 'surat baru tersimpan');
+        session()->flash('flash.bannerStyle', 'success');
+
         return redirect()->route('index');
     }
 
@@ -185,6 +188,9 @@ class LaporanSKController extends Controller
         // dd($validatedData);
 
         $Surat->update($validatedData);
+
+        session()->flash('flash.banner', 'surat berhasil diperbaharui');
+        session()->flash('flash.bannerStyle', 'success');
 
         return redirect()->route('index');
     }
