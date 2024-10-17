@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class LaporanSKController extends Controller
 {
@@ -122,10 +123,10 @@ class LaporanSKController extends Controller
 
         $users->each->notify(new NewLaporan($laporan));
 
-        session()->flash('flash.banner', 'surat baru tersimpan');
-        session()->flash('flash.bannerStyle', 'success');
+        $request->session()->flash('flash.banner', 'Yay it works! I guess');
+        $request->session()->flash('flash.bannerStyle', 'success');
 
-        return redirect()->route('index');
+        return redirect()->route('index')->banner("I haven't test it . sleepy zzzzzz");
     }
 
     /**
