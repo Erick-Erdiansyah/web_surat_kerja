@@ -58,6 +58,11 @@ php artisan migrate:fresh --seed
 
 ```bash
 
+php artisan storage:link
+```
+
+```bash
+
 php artisan serve
 ```
 
