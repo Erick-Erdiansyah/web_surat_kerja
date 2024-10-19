@@ -12,6 +12,7 @@ Route::get('/', [WelcomeController::class, 'index'])->name('home');
 Route::get('/login', [WelcomeController::class, 'index'])->name('login');
 Route::get('/register', [WelcomeController::class, 'index'])->name('register');
 Route::get('/read/{Surat}', [WelcomeController::class, 'show'])->name('welcome.read');
+Route::get('surat/download/{filename}', [LaporanSKController::class, 'downloadFile']);
 
 Route::middleware([
     'auth:sanctum',

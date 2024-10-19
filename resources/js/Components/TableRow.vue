@@ -61,9 +61,9 @@
             </template>
           </ConfirmationModal>
           <div class="px-2 py-1 text-xl hover:bg-gray-500 hover:text-white rounded-sm">
-            <Link :href="`http://127.0.0.1:8000/storage/${item.surat_file}`" download>
-            <font-awesome-icon :icon="['far', 'circle-down']" /> unduh
-            </Link>
+            <button @click="downloadFile(item.surat_file)">
+              <font-awesome-icon :icon="['far', 'circle-down']" /> unduh
+            </button>
           </div>
           <button @click="copyLink(item.id)" class="px-2 py-1 text-xl hover:bg-gray-500 hover:text-white rounded-sm">
             <font-awesome-icon :icon="copied ? ['fas', 'check'] : ['far', 'share-from-square']" />
@@ -190,4 +190,21 @@ const copyLink = async (value) => {
     console.error("gagal -_-: ", err);
   }
 };
+
+const downloadFile = (value) => {
+  let file = value.replace('surat_files/', '');
+  const filename = file;
+  axios({
+    method: 'get',
+    url: `surat/download/${filename}`,
+    responseType: 'blob', // Important for file downloads
+  }).then(response => {
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', filename);
+    document.body.appendChild(link);
+    link.click();
+  });
+} 
 </script>

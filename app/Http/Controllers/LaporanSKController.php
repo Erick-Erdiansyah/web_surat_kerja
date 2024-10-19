@@ -205,4 +205,17 @@ class LaporanSKController extends Controller
 
         return back();
     }
+
+    public function downloadFile($filename)
+    {
+        $file = public_path("storage/surat_files/$filename");
+
+        // Check if the file exists
+        if (!file_exists($file)) {
+            abort(404, 'File not found');
+        }
+
+        // Return the file download response
+        return response()->download($file);
+    }
 }

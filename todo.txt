@@ -1,6 +1,6 @@
 notifikasi ditambah link ke halaman read : done
 copy atau share url : done
-kecilin font beranda
+kecilin font beranda : done
 ganti font dalam pake ferdana,dm sans
 font buat judul {bebas neue}
 nambahin pemberitahuan kalau password kurang panjang atau salah : done
