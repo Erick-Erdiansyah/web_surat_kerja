@@ -89,11 +89,11 @@ const form = useForm({
 });
 
 const fetchItems = () => {
-  Inertia.get('/sk/index', {}, { preserveState: true });
+  Inertia.get('/surat/index', {}, { preserveState: true });
 };
 
 const remove = (LaporanId) => {
-  form.delete(`/sk/${LaporanId}/delete`, {
+  form.delete(`/surat/${LaporanId}/delete`, {
     onFinish: () => {
       fetchItems();
     },

@@ -7,7 +7,7 @@
             <tr v-for="laporan in bookmarkedLaporans" :key="laporan.id"
               class="hover:bg-slate-100 dark:hover:bg-slate-800 dark:bg-slate-700">
               <td class="px-6 py-4 whitespace-pre-wrap">
-                <a :href="`/sk/${laporan.id}/read`" class="block w-full h-full">
+                <a :href="`/surat/${laporan.id}/read`" class="block w-full h-full">
                   <div class="flex items-center">
                     <div>
                       <p class="font-medium text-gray-900 dark:text-white">{{ laporan.judul }}</p>
@@ -48,7 +48,7 @@
               </td>
 
               <td class="pr-6 whitespace-nowrap text-center text-sm font-medium items-center w-5">
-                <Link :href="`/sk/${laporan.id}/edit`"
+                <Link :href="`/surat/${laporan.id}/edit`"
                   class="text-gray-900 dark:text-white dark:hover:text-gray-400 hover:text-gray-700 y-4 px-6 text-2xl focus:outline-none leading-none rounded">
                 <font-awesome-icon :icon="['far', 'pen-to-square']" />
                 </Link>
@@ -92,11 +92,11 @@ const closeModal = () => {
 };
 
 const fetchItems = () => {
-  Inertia.get('/sk/index', {}, { preserveState: true });
+  Inertia.get('/surat/index', {}, { preserveState: true });
 };
 
 const remove = (LaporanId) => {
-  form.delete(`/sk/${LaporanId}/delete`, {
+  form.delete(`/surat/${LaporanId}/delete`, {
     onFinish: () => {
       fetchItems();
     },

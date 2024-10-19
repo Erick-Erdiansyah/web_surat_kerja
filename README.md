@@ -49,7 +49,7 @@ php artisan key:generate
 php artisan migrate --seed
 ```
 
-jika judah pernah menjalankan perintah migrate
+jika sudah pernah menjalankan perintah migrate
 
 ```bash
 

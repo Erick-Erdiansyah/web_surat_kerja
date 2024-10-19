@@ -38,7 +38,7 @@ class NewLaporan extends Notification
     {
         return [
             'judul' => $this->data->judul,
-            'url' => "/sk/{$this->data->id}/read"
+            'url' => "/surat/{$this->data->id}/read"
         ];
     }
 

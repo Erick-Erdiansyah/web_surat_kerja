@@ -4,9 +4,9 @@
       <div class="flex justify-between h-10">
         <div class="flex items-center">
           <h2 class="font-semibold text-xl text-gray-800 dark:text-white leading-tight">
-            SK Elektro
+            Index surat
           </h2>
-          <Link v-show="can.create" href="/sk/create"
+          <Link v-show="can.create" href="/surat/create"
             class="text-gray-800 dark:text-gray-200 dark:hover:text-white text-xl hover:text-gray-600 ml-3 py-4 px-4"
             v-tippy="{ content: 'Tambah surat baru', theme: 'dark', arrow: true }">
           <font-awesome-icon :icon="['fas', 'file-circle-plus']" />
@@ -70,7 +70,7 @@ let searchs = ref(props.search.search);
 let jenisFilter = ref(props.jenis.jenis ? props.jenis.jenis : 'all');
 let kategoriFilter = ref(props.kategori.kategori ? props.kategori.kategori : 'all');
 watch([kategoriFilter, searchs, jenisFilter], throttle(() => {
-  router.get('/sk/index', {
+  router.get('/surat/index', {
     kategori: kategoriFilter.value === 'all' ? 'all' : kategoriFilter.value,
     jenis: jenisFilter.value === 'all' ? 'all' : jenisFilter.value,
     search: searchs.value || ''
@@ -96,11 +96,11 @@ const form = useForm({
 });
 
 const fetchItems = () => {
-  Inertia.get('/sk/index', {}, { preserveState: true });
+  Inertia.get('/surat/index', {}, { preserveState: true });
 };
 
 const remove = (LaporanId) => {
-  form.delete(`/sk/${LaporanId}/delete`, {
+  form.delete(`/surat/${LaporanId}/delete`, {
     onFinish: () => {
       fetchItems();
     },

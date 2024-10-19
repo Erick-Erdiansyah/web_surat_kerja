@@ -163,7 +163,7 @@ const handleFileChange = (e) => {
 
 // idk what but i keep breaking the update one -_-, maybe I'll just disable the file update or something
 const submit = () => {
-  const url = isEditMode.value ? `/sk/${props.laporan.id}/update` : '/sk/store';
+  const url = isEditMode.value ? `/surat/${props.laporan.id}/update` : '/surat/store';
 
   form.transform((data) => {
     if (isEditMode.value) {

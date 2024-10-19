@@ -1,6 +1,6 @@
 <template>
   <tr class="hover:bg-slate-100 dark:hover:bg-slate-800 dark:bg-slate-700 relative">
-    <Link :href="!$page.props.auth.user ? `/read/${item.id}` : `/sk/${item.id}/read`" class="block w-full h-full">
+    <Link :href="!$page.props.auth.user ? `/read/${item.id}` : `/surat/${item.id}/read`" class="block w-full h-full">
     <td class="px-4 py-2 whitespace-pre-wrap">
       <div class="flex items-center">
         <p v-show="baru(item.created_timestamp)"
@@ -31,7 +31,7 @@
         <!-- contents display in dropdown -->
         <div class="bg-gray-200 border-none text-gray-800">
           <div v-if="item.can?.update" class="px-2 py-1 text-xl hover:bg-gray-500 hover:text-white rounded-sm">
-            <Link :href="`/sk/${item.id}/edit`">
+            <Link :href="`/surat/${item.id}/edit`">
             <font-awesome-icon :icon="['far', 'pen-to-square']" /> ubah
             </Link>
           </div>
