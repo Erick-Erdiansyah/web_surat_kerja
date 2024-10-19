@@ -1,4 +1,5 @@
 <template>
+
   <Head title="Welcome" />
   <div class="min-h-screen bg-gradient-to-b from-black to-gray-800 flex justify-center items-center">
     <div class="flex w-full justify-end pr-20">
@@ -8,7 +9,7 @@
             :class="Register ? 'bg-gray-800 text-white' : 'bg-gray-300 text-gray-800'">
             Masuk
           </button>
-          <button @click="Register = false" class="px-4 py-2 rounded-r-lg"
+          <button @click="Register = false, passwordError = false" class="px-4 py-2 rounded-r-lg"
             :class="!Register ? 'bg-gray-800 text-white' : 'bg-gray-300 text-gray-800'">
             Registrasi
           </button>
@@ -17,28 +18,34 @@
         <h2 class="text-3xl text-center mb-6">{{ Register ? 'Masuk' : 'Registrasi' }}</h2>
 
         <form @submit.prevent="submit">
-          <input v-model="form.name" v-show="!Register" type="text" id="name" placeholder="Masukkan Nama" 
-            :required="!Register" class="w-full px-4 py-2 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300" />
-          
+          <input v-model="form.name" v-show="!Register" type="text" id="name" placeholder="Masukkan Nama"
+            :required="!Register"
+            class="w-full px-4 py-2 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300" />
+
+            <div v-if="form.errors.email && Register" v-text="'email yang anda masukan salah atau belum terdaftar'" class="text-red-500 text-xs"></div>
           <input v-model="form.email" type="email" id="email" placeholder="Masukkan Email" required
             class="w-full px-4 py-2 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300" />
-
-          <input v-model="form.password" type="password" id="password" placeholder="Masukkan Kata Sandi" required
+            
+            <input v-model="form.password" type="password" id="password" placeholder="Masukkan Kata Sandi" required minlength="8"
             class="w-full px-4 py-2 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300" />
-
-          <input v-model="form.password_confirmation" v-show="!Register" type="password" id="password_confirmation"
+            <!-- Error message for password length -->
+            <div v-if="passwordError" class="text-red-500 text-xs mt-1">
+              kata sandi tidak boleh kurang dari 8 karakter
+            </div>
+            
+            <input v-model="form.password_confirmation" v-show="!Register" type="password" id="password_confirmation" minlength="8"
             :required="!Register" placeholder="Konfirmasi Kata Sandi"
             class="w-full px-4 py-2 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300" />
-
-          <div v-show="Register" class="flex justify-between items-center mb-4">
-            <a href="#" class="text-sm text-gray-500 hover:underline">Lupa Kata sandi?</a>
-          </div>
-
-          <div v-show="!Register" class="block mb-4">
-            <label class="flex items-center">
-              <Checkbox v-model:checked="form.remember" name="remember" />
-              <span class="ms-2 text-sm text-gray-600">Ingat Saya</span>
-            </label>
+            
+            <div v-show="Register" class="flex justify-between items-center mb-4">
+              <a href="#" class="text-sm text-gray-500 hover:underline">Lupa Kata sandi?</a>
+            </div>
+            
+            <div v-show="!Register" class="block mb-4">
+              <label class="flex items-center">
+                <Checkbox v-model:checked="form.remember" name="remember" />
+                <span class="ms-2 text-sm text-gray-600">Ingat Saya</span>
+              </label>
           </div>
 
           <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
@@ -57,6 +64,7 @@ import { useForm, Head } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
 const Register = ref(true);
+
 const form = useForm({
   name: '',
   email: '',
@@ -66,7 +74,16 @@ const form = useForm({
   remember: false,
 });
 
+const passwordError = ref(false);
+
 const submit = () => {
+  if (form.password.length < 8) {
+    passwordError.value = true;
+    return;
+  }
+
+  passwordError.value = false;
+
   if (Register.value) {
     form.post('/login', {
       onFinish: () => form.reset('password'),

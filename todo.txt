@@ -3,3 +3,6 @@ copy atau share url : done
 kecilin font beranda
 ganti font dalam pake ferdana,dm sans
 font buat judul {bebas neue}
+nambahin pemberitahuan kalau password kurang panjang atau salah : done
+benerin download
+nambahin pemberitahuan kalau file yang di upload kegedean : done

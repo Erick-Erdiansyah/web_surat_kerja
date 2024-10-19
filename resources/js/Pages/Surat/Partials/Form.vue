@@ -86,6 +86,7 @@
         <label class="block mb-2 uppercase font-bold text-xs text-gray-700" for="file">File</label>
         <input type="file" @change="handleFileChange" id="surat_file"
           class="border border-gray-400 p-2 w-full rounded-lg" :required="!isEditMode">
+        <p v-if="fileError" class="text-red-500 text-xs mt-1">{{ fileError }}</p>
       </div>
 
       <!-- Submit Button -->
@@ -137,9 +138,28 @@ const updateSubKCategories = () => {
   form.sub_kategori_id = null;
 };
 
+const fileError = ref(null);
+
 const handleFileChange = (e) => {
-  form.surat_file = e.target.files[0];
+  const file = e.target.files[0];
+
+  if (file) {
+    if (file.type !== 'application/pdf') {
+      fileError.value = 'File harus berekstensi PDF';
+      form.surat_file = null;
+      return;
+    }
+
+    if (file.size > 2 * 1024 * 1024) {
+      fileError.value = 'ukuran file harus kurang dari 2mb';
+      form.surat_file = null;
+      return;
+    }
+    fileError.value = null;
+    form.surat_file = file;
+  }
 };
+
 
 // idk what but i keep breaking the update one -_-, maybe I'll just disable the file update or something
 const submit = () => {
