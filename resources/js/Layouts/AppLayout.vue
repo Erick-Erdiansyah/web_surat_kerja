@@ -53,7 +53,7 @@ const logout = () => {
               <div class="shrink-0 flex items-center">
                 <Link :href="route('dashboard')">
                 <!-- <ApplicationMark class="block h-9 w-auto" /> -->
-                <img :src="imageUrl" alt="img" class="block h-16 max-w-max" />
+                <img :src="imageUrl" alt="img" class="block h-20 mt-3 max-w-max" />
                 <!-- <h1 class="dark:text-white">gambar logo logo</h1> -->
                 </Link>
               </div>
