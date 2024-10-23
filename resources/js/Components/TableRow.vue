@@ -41,7 +41,7 @@
             </button>
             <ConfirmationModal :show="isModalOpen" @close="closeModal" title="Confirm Deletion">
               <template #content>
-                Beneran mau hapus ?
+                Apakah anda yakin ingin menghapus surat ini ?
               </template>
               <template #footer>
                 <button @click="closeModal" class="mr-2 px-4 py-2 bg-gray-300 rounded">batal</button>
@@ -57,7 +57,7 @@
           <ConfirmationModal v-if="!$page.props.auth.user" :show="isModalOpen" :max-width="'lg'" @close="closeModal"
             title="masuk">
             <template #content>
-              masuk dulu mas bro
+              harap masuk terlebih dahulu
             </template>
           </ConfirmationModal>
           <div class="px-2 py-1 text-xl hover:bg-gray-500 hover:text-white rounded-sm">

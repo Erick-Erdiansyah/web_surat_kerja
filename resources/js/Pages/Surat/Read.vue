@@ -18,7 +18,7 @@
             <ConfirmationModal v-if="!$page.props.auth.user" :show="isModalOpen" :max-width="'lg'" @close="closeModal"
               title="masuk">
               <template #content>
-                masuk dulu mas bro
+                harap masuk terlebih dahulu
               </template>
             </ConfirmationModal>
           </div>
@@ -75,7 +75,7 @@
             <ConfirmationModal v-if="!$page.props.auth.user" :show="isModalOpen" :max-width="'lg'" @close="closeModal"
               title="masuk">
               <template #content>
-                masuk dulu mas bro
+                harap masuk terlebih dahulu
               </template>
             </ConfirmationModal>
           </div>

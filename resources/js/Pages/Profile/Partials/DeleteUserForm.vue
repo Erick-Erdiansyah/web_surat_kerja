@@ -44,7 +44,7 @@ const closeModal = () => {
         </template>
 
         <template #description>
-            PHapus akun Anda secara permanen.
+            Hapus akun Anda secara permanen.
         </template>
 
         <template #content>
