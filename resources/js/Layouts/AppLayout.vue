@@ -15,7 +15,8 @@ import { directive as VTippy } from 'vue-tippy'
 import 'tippy.js/dist/tippy.css'
 import 'tippy.js/themes/light.css'
 
-const imageUrl = new URL('@/assets/images/logo.svg', import.meta.url);
+const imageDark = new URL('@/assets/images/logo_hitam.svg', import.meta.url);
+const imageWhite = new URL('@/assets/images/logo_putih.svg', import.meta.url);
 
 
 library.add(faMoon, faSun)
@@ -53,7 +54,8 @@ const logout = () => {
               <div class="shrink-0 flex items-center">
                 <Link :href="route('dashboard')">
                 <!-- <ApplicationMark class="block h-9 w-auto" /> -->
-                <img :src="imageUrl" alt="img" class="block h-20 mt-3 max-w-max" />
+                <img :src="imageWhite" alt="img" class="h-20 mt-3 max-w-max hidden dark:block" />
+                <img :src="imageDark" alt="img" class="h-20 mt-3 max-w-max block dark:hidden" />
                 <!-- <h1 class="dark:text-white">gambar logo logo</h1> -->
                 </Link>
               </div>
