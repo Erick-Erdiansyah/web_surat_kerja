@@ -7,6 +7,7 @@ use App\Http\Requests\StoreSubKategoriRequest;
 use App\Http\Requests\UpdateSubKategoriRequest;
 use App\Models\Kategori;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 
 class SubKategoriController extends Controller
@@ -14,18 +15,28 @@ class SubKategoriController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $subKategori = SubKategori::with('kategori')->get();
+        if ($request->expectsJson()) {
+            return response()->json([
+                'subKategori' => $subKategori
+            ]);
+        }
         return Inertia::render('subkategori.index', compact('subKategori'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
         $kategoris = Kategori::all();
+        if ($request->expectsJson()) {
+            return response()->json([
+                'kategoris' => $kategoris
+            ]);
+        }
         return Inertia::render('subkategori.create', compact('kategoris'));
     }
 
@@ -40,6 +51,10 @@ class SubKategoriController extends Controller
         ]);
 
         SubKategori::create($request->all());
+
+        if ($request->expectsJson()) {
+            return response()->json([], 2001);
+        }
 
         return redirect()->route(route: 'sk.create')->banner('sub kategori baru berhasil ditambahkan');
     }

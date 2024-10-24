@@ -20,6 +20,18 @@ class WelcomeController extends Controller
         // Fetch laporans dari method private, kenapa ? biar nggak ngulang manggilnya
         $laporans = $this->getLaporans($request, $bookmarkedLaporans);
 
+        if ($request->expectsJson()) {
+            return response()->json([
+                'canLogin' => Route::has('login'),
+                'canRegister' => Route::has('register'),
+                'laravelVersion' => Application::VERSION,
+                'phpVersion' => PHP_VERSION,
+                'laporans' => $laporans,
+                'filters' => $request->only(['search']),
+                'bookmarkedLaporans' => $bookmarkedLaporans,
+            ]);
+        }
+
         return Inertia::render('Landing/Welcome', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
@@ -64,11 +76,20 @@ class WelcomeController extends Controller
                 ];
             });
     }
-    public function show(LaporanSK $Surat)
+    public function show(LaporanSK $Surat, Request $request)
     {
         $user = Auth::user();
         $bookmarkedLaporans = $user ? $user->bookmarkedLaporans()->pluck('laporan_s_k_s.id') : collect();
-        
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'laporan' => $Surat,
+                'kategori' => $Surat->kategori ? $Surat->kategori->nama : 'N/A',
+                'sub_kategori' => $Surat->sub_kategori ? $Surat->sub_kategori->nama : 'N/A',
+                'bookmarkedLaporans' => $bookmarkedLaporans,
+            ]);
+        }
+
         return Inertia::render('Surat/Read', [
             'laporan' => $Surat,
             'kategori' => $Surat->kategori ? $Surat->kategori->nama : 'N/A',
