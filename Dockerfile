@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
-    libzip-dev && \  # Add this line to install libzip-dev
+    libzip-dev && \
     docker-php-ext-configure gd --with-freetype --with-jpeg && \
     docker-php-ext-install gd zip pdo pdo_mysql
 
