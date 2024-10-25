@@ -7,7 +7,7 @@ use App\Http\Requests\StoreSubKategoriRequest;
 use App\Http\Requests\UpdateSubKategoriRequest;
 use App\Models\Kategori;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class SubKategoriController extends Controller

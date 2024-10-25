@@ -11,6 +11,7 @@ use App\Models\SubKategori;
 use App\Models\User;
 use App\Notifications\NewLaporan;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 use Carbon\Carbon;
@@ -21,7 +22,7 @@ class LaporanSKController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(HttpRequest $request)
     {
         $user = Auth::user();
 
@@ -139,7 +140,7 @@ class LaporanSKController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request)
+    public function create(HttpRequest $request)
     {
         $Kategories = Kategori::all();
         $SubKategories = SubKategori::all();
@@ -200,7 +201,7 @@ class LaporanSKController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(LaporanSK $Surat, Request $request)
+    public function show(LaporanSK $Surat, HttpRequest $request)
     {
         $user = Auth::user();
 
@@ -290,7 +291,7 @@ class LaporanSKController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(LaporanSK $Surat, Request $request)
+    public function destroy(LaporanSK $Surat, HttpRequest $request)
     {
         $Surat->delete();
 

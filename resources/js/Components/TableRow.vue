@@ -196,7 +196,7 @@ const downloadFile = (value) => {
   const filename = file;
   axios({
     method: 'get',
-    url: `surat/download/${filename}`,
+    url: `/surat/download/${filename}`,
     responseType: 'blob', // Important for file downloads
   }).then(response => {
     const url = window.URL.createObjectURL(new Blob([response.data]));

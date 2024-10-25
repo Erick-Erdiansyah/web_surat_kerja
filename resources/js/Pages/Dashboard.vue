@@ -2,7 +2,7 @@
   <AppLayout title="Dashboard">
     <template #header>
       <h2 class="font-semibold text-xl dark:text-white text-gray-800 leading-tight p-2">
-        Dashboard
+        Beranda
       </h2>
     </template>
     <div class="pt-36">

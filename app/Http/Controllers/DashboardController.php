@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\LaporanSK;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 class DashboardController extends Controller
 {
