@@ -2,8 +2,8 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "build": "npm install && npm run prod",
-        "dev": "npm run hot"
+        "dev": "vite",
+        "build": "vite build"
     },
     "devDependencies": {
         "@inertiajs/vue3": "^1.0.14",
