@@ -21,11 +21,65 @@ class LaporanSKController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
 
         $bookmarkedLaporans = $user->bookmarkedLaporans()->pluck('laporan_s_k_s.id');
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'laporans' => LaporanSK::with(['kategori', 'sub_kategori'])
+                    ->when(Request::input('search'), function ($query, $search) {
+                        $query->where(function ($query) use ($search) {
+                            $query->where('judul', 'like', "%{$search}%")
+                                ->orWhere('jenis', 'like', "%{$search}%")
+                                ->orWhereHas('kategori', function ($q) use ($search) {
+                                    $q->where('nama', 'like', "%{$search}%");
+                                })
+                                ->orWhereHas('sub_kategori', function ($q) use ($search) {
+                                    $q->where('nama', 'like', "%{$search}%");
+                                });
+                        });
+                    })
+                    ->when(Request::input('jenis'), function ($query, $jenis) {
+                        if ($jenis !== 'all' && $jenis !== '') {
+                            $query->where('jenis', 'like', "%{$jenis}%");
+                        }
+                    })
+                    ->when(Request::input('kategori'), function ($query, $kategori) {
+                        if ($kategori !== 'all' && $kategori !== '') {
+                            $query->whereHas('kategori', function ($q) use ($kategori) {
+                                $q->where('nama', 'like', "%{$kategori}%");
+                            });
+                        }
+                    })
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(10)
+                    ->withQueryString()
+                    ->through(fn($laporan) => [
+                        'id' => $laporan->id,
+                        'judul' => $laporan->judul,
+                        'kategori' => $laporan->kategori ? $laporan->kategori : 'N/A',
+                        'sub_kategori' => $laporan->sub_kategori ? $laporan->sub_kategori : 'N/A',
+                        'isBookmarked' => $bookmarkedLaporans->contains($laporan->id),
+                        'created_human' => Carbon::parse($laporan->created_at)->locale('id')->diffForHumans(),
+                        'created_timestamp' => $laporan->created_at->timestamp,
+                        'surat_file' => $laporan->surat_file,
+                        'can' => [
+                            'update' => Auth::user()->can('update', $laporan),
+                            'delete' => Auth::user()->can('delete', $laporan),
+                        ]
+                    ]),
+                'search' => Request::only(['search']),
+                'jenis' => Request::only(['jenis']),
+                'kategori' => Request::only(['kategori']),
+                'bookmarkedLaporans' => $bookmarkedLaporans,
+                'can' => [
+                    'create' => Auth::user()->can('create', LaporanSK::class),
+                ]
+            ]);
+        }
 
         return Inertia::render('Surat/Index', [
             'laporans' => LaporanSK::with(['kategori', 'sub_kategori'])
@@ -53,6 +107,7 @@ class LaporanSKController extends Controller
                         });
                     }
                 })
+                ->orderBy('created_at', 'desc')
                 ->paginate(10)
                 ->withQueryString()
                 ->through(fn($laporan) => [
@@ -84,11 +139,20 @@ class LaporanSKController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
         $Kategories = Kategori::all();
         $SubKategories = SubKategori::all();
         $Jurusan = Jurusan::all();
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'Kategories' => $Kategories,
+                'SubKategories' => $SubKategories,
+                'Jurusan' => $Jurusan
+            ]);
+        }
+
         return Inertia::render('Surat/Partials/Form', compact('Kategories', 'SubKategories', 'Jurusan'));
     }
 
@@ -126,17 +190,31 @@ class LaporanSKController extends Controller
         $request->session()->flash('flash.banner', 'Yay it works! I guess');
         $request->session()->flash('flash.bannerStyle', 'success');
 
+        if ($request->expectsJson()) {
+            return response()->json([], 200);
+        }
+
         return redirect()->route('index')->banner("I haven't test it . sleepy zzzzzz");
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(LaporanSK $Surat)
+    public function show(LaporanSK $Surat, Request $request)
     {
         $user = Auth::user();
 
         $bookmarkedLaporans = $user->bookmarkedLaporans()->pluck('laporan_s_k_s.id');
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'laporan' => $Surat,
+                'kategori' => $Surat->kategori ? $Surat->kategori->nama : 'N/A',
+                'sub_kategori' => $Surat->sub_kategori ? $Surat->sub_kategori->nama : 'N/A',
+                'bookmarkedLaporans' => $bookmarkedLaporans,
+            ]);
+        }
+
         return Inertia::render('Surat/Read', [
             'laporan' => $Surat,
             'kategori' => $Surat->kategori ? $Surat->kategori->nama : 'N/A',
@@ -148,8 +226,17 @@ class LaporanSKController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(LaporanSK $Surat)
+    public function edit(LaporanSK $Surat, Request $request)
     {
+        if ($request->expectsJson()) {
+            return response()->json([
+                'laporan' => $Surat,
+                'Jurusan' => Jurusan::all(),
+                'Kategories' => Kategori::all(),
+                'SubKategories' => SubKategori::all(),
+            ]);
+        }
+
         return Inertia::render('Surat/Partials/Form', [
             'laporan' => $Surat,
             'Jurusan' => Jurusan::all(),
@@ -193,15 +280,23 @@ class LaporanSKController extends Controller
         session()->flash('flash.banner', 'surat berhasil diperbaharui');
         session()->flash('flash.bannerStyle', 'success');
 
+        if ($request->expectsJson()) {
+            return response()->json([], 201);
+        }
+
         return redirect()->route('index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(LaporanSK $Surat)
+    public function destroy(LaporanSK $Surat, Request $request)
     {
         $Surat->delete();
+
+        if ($request->expectsJson()) {
+            return response()->json([], 200);
+        }
 
         return back();
     }

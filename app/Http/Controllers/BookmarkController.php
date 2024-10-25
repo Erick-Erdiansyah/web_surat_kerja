@@ -7,15 +7,22 @@ use App\Http\Requests\UpdateBookmarkRequest;
 use App\Models\Bookmark;
 use App\Models\LaporanSK;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 
 class BookmarkController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
         $bookmarkedLaporans = $user->bookmarkedLaporans()->get();
         // $bookmarkedLaporans = $user->bookmarkedLaporans()->pluck('laporan_s_k_s.id');
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'bookmarkedLaporans' => $bookmarkedLaporans,
+            ]);
+        }
 
         return Inertia::render('Bookmarks', [
             'bookmarkedLaporans' => $bookmarkedLaporans,
@@ -24,9 +31,13 @@ class BookmarkController extends Controller
 
     public function store(StoreBookmarkRequest $request)
     {
-        Bookmark::updateOrCreate( 
+        Bookmark::updateOrCreate(
             ['user_id' => Auth::id(), 'laporan_id' => $request->laporan_id]
         );
+
+        if ($request->expectsJson()) {
+            return response()->json([], 201);
+        }
 
         return back();
     }
@@ -36,6 +47,10 @@ class BookmarkController extends Controller
         Bookmark::where('user_id', Auth::id())
             ->where('laporan_id', $request->laporan_id)
             ->delete();
+
+        if ($request->expectsJson()) {
+            return response()->json([], 201);
+        }
 
         return back();
     }

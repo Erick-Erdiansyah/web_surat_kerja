@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kategori;
 use App\Http\Requests\StoreKategoriRequest;
 use App\Http\Requests\UpdateKategoriRequest;
+use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 
 class KategoriController extends Controller
@@ -12,9 +13,16 @@ class KategoriController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $kategoris = kategori::all();
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'kategoris' => $kategoris
+            ]);
+        }
+
         return Inertia::render("kategori.index", compact('kategoris'));
     }
 

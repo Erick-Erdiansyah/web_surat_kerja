@@ -62,17 +62,30 @@ class SubKategoriController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(SubKategori $subKategori)
+    public function show(SubKategori $subKategori, Request $request)
     {
+        if ($request->expectsJson()) {
+            return response()->json([
+                'subKategori' => $subKategori
+            ]);
+        }
         return Inertia::render('subkategori.show', compact('subKategori'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(SubKategori $subKategori)
+    public function edit(SubKategori $subKategori, Request $request)
     {
         $kategoris = Kategori::all();  // Correct capitalization and pluralization
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'subKategori' => $subKategori,
+                'kategoris' => $kategoris
+            ]);
+        }
+
         return Inertia::render('subkategori.edit', compact('subKategori', 'kategoris'));
     }
 
@@ -88,15 +101,23 @@ class SubKategoriController extends Controller
 
         $subKategori->update($request->all());
 
+        if ($request->expectsJson()) {
+            return response()->json([], 201);
+        }
+
         return redirect()->route('subkategori.index')->with('success', 'Item updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(SubKategori $subKategori)
+    public function destroy(SubKategori $subKategori, Request $request)
     {
         $subKategori->delete();
+
+        if ($request->expectsJson()) {
+            return response()->json([], 200);
+        }
 
         return redirect()->route('subkategori.index')->with('success', 'Item deleted successfully.');
     }

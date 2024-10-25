@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\LaporanSK;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
 
@@ -28,6 +29,12 @@ class DashboardController extends Controller
                     ],
                 ];
             });
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'bookmarkedLaporans' => $bookmarkedLaporans
+            ]);
+        }
 
         return Inertia::render('Dashboard', [
             'bookmarkedLaporans' => $bookmarkedLaporans,

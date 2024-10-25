@@ -58,6 +58,7 @@ class WelcomeController extends Controller
                         });
                 });
             })
+            ->orderBy('created_at', 'desc')
             ->get()
             ->map(function ($laporan) use ($bookmarkedLaporans) {
                 return [
