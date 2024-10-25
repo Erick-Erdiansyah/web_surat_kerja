@@ -6,10 +6,12 @@ WORKDIR /var/www
 # Install system dependencies including Git and PHP extensions
 RUN apt-get update && apt-get install -y \
     git \
+    zip \
+    unzip \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
-    unzip \
+    libzip-dev \  # Add this line to install libzip-dev
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd zip pdo pdo_mysql
 
