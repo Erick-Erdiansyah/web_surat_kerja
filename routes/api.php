@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LaporanSKController;
@@ -9,8 +10,8 @@ use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('api.home.index');
-Route::get('/login', [WelcomeController::class, 'index'])->name('api.auth.login');
-Route::get('/register', [WelcomeController::class, 'index'])->name('api.auth.register');
+// Route::get('/login', [WelcomeController::class, 'index'])->name('api.auth.login');
+// Route::get('/register', [WelcomeController::class, 'index'])->name('api.auth.register');
 Route::get('/read/{Surat}', [WelcomeController::class, 'show'])->name('api.home.read');
 Route::get('/surat/download/{filename}', [LaporanSKController::class, 'downloadFile'])->name('api.sk.download');
 
@@ -20,6 +21,7 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('api.dashboard.index');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('api.logout');
     Route::get('/surat/{Surat}/read', [LaporanSKController::class, 'show'])->name('api.sk.show');
     Route::get('/surat/{Surat}/edit', [LaporanSKController::class, 'edit'])->name('api.sk.edit');
     Route::put('/surat/{Surat}/update', [LaporanSKController::class, 'update'])->name('api.sk.update');
