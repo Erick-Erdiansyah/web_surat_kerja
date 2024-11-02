@@ -1,6 +1,10 @@
 #!/bin/bash
 # Make sure this file has executable permissions, run `chmod +x run-app.sh`
 
+
+# seed database
+php artisan migrate --force
+
 #install package
 npm install
 
@@ -9,7 +13,6 @@ npm run build
 
 # symlink
 php artisan storage:link
-
 # Clear cache
 php artisan optimize:clear
 
