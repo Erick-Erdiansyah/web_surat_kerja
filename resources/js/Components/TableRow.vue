@@ -179,7 +179,7 @@ const link = ref('');
 const copied = ref(false);
 
 const copyLink = async (value) => {
-  link.value = `http://127.0.0.1:8000/read/${value}`
+  link.value = `https://astek.up.railway.app/read/${value}`
   try {
     await navigator.clipboard.writeText(link.value);
     copied.value = true;
