@@ -72,8 +72,15 @@ let form = useForm({
   nama: '',
 });
 
-// Submit function
 let submit = () => {
-  form.post('/subkategori/store');
-}
+  form.post('/subkategori/store', {
+    onSuccess: () => {
+      handleCloseModal();
+      Inertia.reload({
+        preserveState: true,
+        replace: true
+      });
+    }
+  });
+};
 </script>

@@ -29,26 +29,26 @@ class BookmarkController extends Controller
         ]);
     }
 
-    public function store(StoreBookmarkRequest $request,HttpRequest $httpRequest)
+    public function store(StoreBookmarkRequest $request)
     {
         Bookmark::updateOrCreate(
             ['user_id' => Auth::id(), 'laporan_id' => $request->laporan_id]
         );
 
-        if ($httpRequest->expectsJson()) {
+        if ($request->expectsJson()) {
             return response()->json([], 201);
         }
 
         return back();
     }
 
-    public function destroy(UpdateBookmarkRequest $request,HttpRequest $httpRequest)
+    public function destroy(UpdateBookmarkRequest $request)
     {
         Bookmark::where('user_id', Auth::id())
             ->where('laporan_id', $request->laporan_id)
             ->delete();
 
-        if ($httpRequest->expectsJson()) {
+        if ($request->expectsJson()) {
             return response()->json([], 201);
         }
 
