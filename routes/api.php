@@ -13,6 +13,7 @@ Route::get('/', [WelcomeController::class, 'index'])->name('api.home.index');
 // Route::get('/login', [WelcomeController::class, 'index'])->name('api.auth.login');
 // Route::get('/register', [WelcomeController::class, 'index'])->name('api.auth.register');
 Route::get('/read/{Surat}', [WelcomeController::class, 'show'])->name('api.home.read');
+Route::get('/get-pdf/{filename}', [WelcomeController::class, 'getPdf'])->name('api.home.getPdf');
 Route::get('/surat/download/{filename}', [LaporanSKController::class, 'downloadFile'])->name('api.sk.download');
 
 Route::middleware([

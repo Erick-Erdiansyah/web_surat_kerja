@@ -99,4 +99,16 @@ class WelcomeController extends Controller
         ]);
     }
 
+    public function getPdf($filename)
+    {
+        $path = storage_path("app/public/surat_files/{$filename}");
+
+        if (!file_exists($path)) {
+            return response()->json(['error' => 'File not found'], 404);
+        }
+
+        return response()->file($path);
+    }
+
+
 }
