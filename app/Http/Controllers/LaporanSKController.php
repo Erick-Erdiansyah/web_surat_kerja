@@ -227,7 +227,7 @@ class LaporanSKController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(LaporanSK $Surat, Request $request)
+    public function edit(LaporanSK $Surat, HttpRequest $request)
     {
         if ($request->expectsJson()) {
             return response()->json([
